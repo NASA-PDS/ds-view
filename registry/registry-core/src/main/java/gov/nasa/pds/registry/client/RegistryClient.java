@@ -115,7 +115,7 @@ public class RegistryClient {
   public RegistryClient(String baseUrl, SecurityContext securityContext,
       String username, String password) throws RegistryClientException {
 	// fix for PDS-489 (Accessing a registry instance utilizing https fails)
-    System.setProperty("https.protocols", "TLSv1.2");
+    System.setProperty("https.protocols", "TLSv1,TLSv1.1,TLSv1.2");
     ClientConfig config = new DefaultClientConfig();
     config.getClasses().add(JacksonObjectMapperProvider.class);
     config.getClasses().add(JAXBContextResolver.class);
