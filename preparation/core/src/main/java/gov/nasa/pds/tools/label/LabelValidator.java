@@ -10,7 +10,7 @@
 //	may be required before exporting such information to foreign countries or
 //	providing access to foreign nationals.
 //
-//	$Id$
+//	$Id: LabelValidator.java 16821 2018-06-25 15:01:49Z mcayanan $
 //
 
 package gov.nasa.pds.tools.label;
@@ -347,6 +347,15 @@ public class LabelValidator {
     if (performsSchemaValidation()) {
       createParserIfNeeded(handler);
 
+      // Do we need this to clear the cache?
+      
+      if (useLabelSchema) {
+        cachedValidatorHandler = schemaFactory.newSchema().newValidatorHandler();
+      } else {
+        cachedValidatorHandler = validatingSchema.newValidatorHandler();
+      }
+      
+      
       // Capture messages in a container
       if (handler != null) {
         ErrorHandler eh = new LabelErrorHandler(handler);
@@ -354,7 +363,7 @@ public class LabelValidator {
         cachedValidatorHandler.setErrorHandler(eh);
 
       }
-
+      
       // Finally parse and validate the file
       xml = docBuilder.newDocument();
       cachedParser.setContentHandler(new DocumentCreator(xml));

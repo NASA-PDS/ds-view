@@ -55,6 +55,8 @@ public class ArrayContentValidator {
   /** The index of the array. */
   private int arrayIndex;
   
+  private int spotCheckData;
+  
   /**
    * Constructor.
    * 
@@ -113,12 +115,11 @@ public class ArrayContentValidator {
   
   private void process(Array array, ArrayObject arrayObject, int[] dimensions, 
       int[] position, int depth, int maxDepth) throws IOException {
-    NumericDataType dataType = Enum.valueOf(NumericDataType.class, 
-        array.getElementArray().getDataType());
-    for (int i = 0; i < dimensions[depth]; i++ ) {
+    for (int i = 0; i < dimensions[depth];) {
       if( depth < maxDepth ) { //max depth not reached, do another recursion
         position[depth] = i;
         process(array, arrayObject, dimensions, position, depth + 1, maxDepth);
+        i++;
       } else {
         position[depth] = i;
         int[] position_1based = new int[position.length];
@@ -127,130 +128,142 @@ public class ArrayContentValidator {
         }
         ArrayLocation location = new ArrayLocation(label, dataFile, 
             arrayIndex, position_1based);
-        Number value = null;
-        Range rangeChecker = null;
-        try {
-          switch (dataType) {
-          case SignedByte:
-            value = (byte) arrayObject.getInt(position);
-            rangeChecker = Range.between(Byte.MIN_VALUE, Byte.MAX_VALUE);
-            break;
-          case UnsignedByte:
-            value = arrayObject.getInt(position);
-            rangeChecker = Range.between(0, 255);
-            break;
-          case UnsignedLSB2:
-            value = arrayObject.getInt(position);
-            rangeChecker = Range.between(0, 65535);
-            break;
-          case SignedLSB2:
-            value = (short) arrayObject.getInt(position);
-            rangeChecker = Range.between(Short.MIN_VALUE, Short.MAX_VALUE);
-            break;
-          case UnsignedMSB2:
-            value = arrayObject.getInt(position);
-            rangeChecker = Range.between(0, 65535);
-            break;              
-          case SignedMSB2:
-            value = (short) arrayObject.getInt(position);
-            rangeChecker = Range.between(Short.MIN_VALUE, Short.MAX_VALUE);
-            break;
-          case UnsignedLSB4:
-            value = UnsignedInteger.valueOf(arrayObject.getLong(position));
-            rangeChecker = Range.between(UnsignedInteger.ZERO, 
-                UnsignedInteger.MAX_VALUE);
-            break;
-          case SignedLSB4:
-            value = arrayObject.getInt(position);
-            rangeChecker = Range.between(Integer.MIN_VALUE, Integer.MAX_VALUE);
-            break;
-          case UnsignedMSB4:
-            value = UnsignedInteger.valueOf(arrayObject.getLong(position));
-            rangeChecker = Range.between(UnsignedInteger.ZERO, 
-                UnsignedInteger.MAX_VALUE);
-            break;
-          case SignedMSB4:
-            value = arrayObject.getInt(position);
-            rangeChecker = Range.between(Integer.MIN_VALUE, Integer.MAX_VALUE);
-            break;
-          case UnsignedLSB8:
-            value = UnsignedLong.valueOf(
-                Long.toUnsignedString(arrayObject.getLong(position)));
-            rangeChecker = Range.between(UnsignedLong.ZERO, 
-                UnsignedLong.MAX_VALUE);
-            break;
-          case SignedLSB8:
-            value = arrayObject.getLong(position);
-            rangeChecker = Range.between(Long.MIN_VALUE, Long.MAX_VALUE);
-            break;
-          case UnsignedMSB8:
-            value = UnsignedLong.valueOf(
-                Long.toUnsignedString(arrayObject.getLong(position)));
-            rangeChecker = Range.between(UnsignedLong.ZERO, 
-                UnsignedLong.MAX_VALUE);
-            break;        
-          case SignedMSB8:
-            value = arrayObject.getLong(position);
-            rangeChecker = Range.between(Long.MIN_VALUE, Long.MAX_VALUE);
-            break;
-          case IEEE754LSBSingle:
-            value = (float) arrayObject.getDouble(position);
-            rangeChecker = Range.between(-Float.MAX_VALUE, Float.MAX_VALUE);
-            break;
-          case IEEE754MSBSingle:
-            value = (float) arrayObject.getDouble(position);
-            rangeChecker = Range.between(-Float.MAX_VALUE, Float.MAX_VALUE);
-            break;
-          case IEEE754LSBDouble:
-            value = arrayObject.getDouble(position);
-            rangeChecker = Range.between(-Double.MAX_VALUE, Double.MAX_VALUE);
-            break;
-          case IEEE754MSBDouble:
-            value = arrayObject.getDouble(position);
-            rangeChecker = Range.between(-Double.MAX_VALUE, Double.MAX_VALUE);
-            break;
-          }
-        } catch (Exception ee) {
-          String loc = Arrays.toString(location.getLocation());
-          if (location.getLocation().length > 1) {
-            loc = loc.replaceAll("\\[", "\\(");
-            loc = loc.replaceAll("\\]", "\\)");
-          } else {
-            loc = loc.replaceAll("\\[", "");
-            loc = loc.replaceAll("\\]", "");
-          }
-          throw new IOException("Error occurred while trying to "
-              + "read data at location " + loc + ": " + ee.getMessage());
-        }
-        boolean isSpecialConstant = false;
-        if (array.getSpecialConstants() != null) {
-          isSpecialConstant = isSpecialConstant(value, array.getSpecialConstants());
-        }
-        if (!isSpecialConstant) {
-          if (!rangeChecker.contains(value)) {
-              addArrayProblem(ExceptionType.ERROR,
-                  ProblemType.ARRAY_VALUE_OUT_OF_DATA_TYPE_RANGE,
-                  "Value is not within the valid range of the data type '"
-                      + dataType.name() + "': " + value.toString(),
-                location
-                 );
-          }
-          if (array.getObjectStatistics() != null) {
-            // At this point, it seems like it only makes sense
-            // to check that the values are within the min/max values
-            checkObjectStats(value, array.getElementArray(),
-                array.getObjectStatistics(), location);
-          }
+        validatePosition(array, arrayObject, location, position);
+        if (spotCheckData != -1) {
+          i = i + spotCheckData;
         } else {
-          addArrayProblem(ExceptionType.INFO,
-              ProblemType.ARRAY_VALUE_IS_SPECIAL_CONSTANT,
-              "Value is a special constant defined in the label: "
-                  + value.toString(),
-              location
-          );              
+          i++;
         }
       }
     }
+  }
+  
+  private void validatePosition(Array array, ArrayObject arrayObject, 
+      ArrayLocation location, int[] position) throws IOException {
+    NumericDataType dataType = Enum.valueOf(NumericDataType.class, 
+        array.getElementArray().getDataType());
+    Number value = null;
+    Range rangeChecker = null;
+    try {
+      switch (dataType) {
+      case SignedByte:
+        value = (byte) arrayObject.getInt(position);
+        rangeChecker = Range.between(Byte.MIN_VALUE, Byte.MAX_VALUE);
+        break;
+      case UnsignedByte:
+        value = arrayObject.getInt(position);
+        rangeChecker = Range.between(0, 255);
+        break;
+      case UnsignedLSB2:
+        value = arrayObject.getInt(position);
+        rangeChecker = Range.between(0, 65535);
+        break;
+      case SignedLSB2:
+        value = (short) arrayObject.getInt(position);
+        rangeChecker = Range.between(Short.MIN_VALUE, Short.MAX_VALUE);
+        break;
+      case UnsignedMSB2:
+        value = arrayObject.getInt(position);
+        rangeChecker = Range.between(0, 65535);
+        break;              
+      case SignedMSB2:
+        value = (short) arrayObject.getInt(position);
+        rangeChecker = Range.between(Short.MIN_VALUE, Short.MAX_VALUE);
+        break;
+      case UnsignedLSB4:
+        value = UnsignedInteger.valueOf(arrayObject.getLong(position));
+        rangeChecker = Range.between(UnsignedInteger.ZERO, 
+            UnsignedInteger.MAX_VALUE);
+        break;
+      case SignedLSB4:
+        value = arrayObject.getInt(position);
+        rangeChecker = Range.between(Integer.MIN_VALUE, Integer.MAX_VALUE);
+        break;
+      case UnsignedMSB4:
+        value = UnsignedInteger.valueOf(arrayObject.getLong(position));
+        rangeChecker = Range.between(UnsignedInteger.ZERO, 
+            UnsignedInteger.MAX_VALUE);
+        break;
+      case SignedMSB4:
+        value = arrayObject.getInt(position);
+        rangeChecker = Range.between(Integer.MIN_VALUE, Integer.MAX_VALUE);
+        break;
+      case UnsignedLSB8:
+        value = UnsignedLong.valueOf(
+            Long.toUnsignedString(arrayObject.getLong(position)));
+        rangeChecker = Range.between(UnsignedLong.ZERO, 
+            UnsignedLong.MAX_VALUE);
+        break;
+      case SignedLSB8:
+        value = arrayObject.getLong(position);
+        rangeChecker = Range.between(Long.MIN_VALUE, Long.MAX_VALUE);
+        break;
+      case UnsignedMSB8:
+        value = UnsignedLong.valueOf(
+            Long.toUnsignedString(arrayObject.getLong(position)));
+        rangeChecker = Range.between(UnsignedLong.ZERO, 
+            UnsignedLong.MAX_VALUE);
+        break;        
+      case SignedMSB8:
+        value = arrayObject.getLong(position);
+        rangeChecker = Range.between(Long.MIN_VALUE, Long.MAX_VALUE);
+        break;
+      case IEEE754LSBSingle:
+        value = (float) arrayObject.getDouble(position);
+        rangeChecker = Range.between(-Float.MAX_VALUE, Float.MAX_VALUE);
+        break;
+      case IEEE754MSBSingle:
+        value = (float) arrayObject.getDouble(position);
+        rangeChecker = Range.between(-Float.MAX_VALUE, Float.MAX_VALUE);
+        break;
+      case IEEE754LSBDouble:
+        value = arrayObject.getDouble(position);
+        rangeChecker = Range.between(-Double.MAX_VALUE, Double.MAX_VALUE);
+        break;
+      case IEEE754MSBDouble:
+        value = arrayObject.getDouble(position);
+        rangeChecker = Range.between(-Double.MAX_VALUE, Double.MAX_VALUE);
+        break;
+      }
+    } catch (Exception ee) {
+      String loc = Arrays.toString(location.getLocation());
+      if (location.getLocation().length > 1) {
+        loc = loc.replaceAll("\\[", "\\(");
+        loc = loc.replaceAll("\\]", "\\)");
+      } else {
+        loc = loc.replaceAll("\\[", "");
+        loc = loc.replaceAll("\\]", "");
+      }
+      throw new IOException("Error occurred while trying to "
+          + "read data at location " + loc + ": " + ee.getMessage());
+    }
+    boolean isSpecialConstant = false;
+    if (array.getSpecialConstants() != null) {
+      isSpecialConstant = isSpecialConstant(value, array.getSpecialConstants());
+    }
+    if (!isSpecialConstant) {
+      if (!rangeChecker.contains(value)) {
+          addArrayProblem(ExceptionType.ERROR,
+              ProblemType.ARRAY_VALUE_OUT_OF_DATA_TYPE_RANGE,
+              "Value is not within the valid range of the data type '"
+                  + dataType.name() + "': " + value.toString(),
+            location
+             );
+      }
+      if (array.getObjectStatistics() != null) {
+        // At this point, it seems like it only makes sense
+        // to check that the values are within the min/max values
+        checkObjectStats(value, array.getElementArray(),
+            array.getObjectStatistics(), location);
+      }
+    } else {
+      addArrayProblem(ExceptionType.INFO,
+          ProblemType.ARRAY_VALUE_IS_SPECIAL_CONSTANT,
+          "Value is a special constant defined in the label: "
+              + value.toString(),
+          location
+      );              
+    }    
   }
   
   /**
@@ -433,5 +446,9 @@ public class ArrayContentValidator {
             location.getLabel(),
             location.getArray(),
             location.getLocation()));
+  }
+  
+  public void setSpotCheckData(int value) {
+    this.spotCheckData = value;
   }
 }

@@ -120,12 +120,13 @@ public class TableDataContentValidationRule extends AbstractValidationRule {
     }
     return isApplicable;
   }
-  
+   
   @ValidationTest
   public void validateTableDataContents() throws MalformedURLException, 
   URISyntaxException {
     ObjectProvider objectAccess = null;
     objectAccess = new ObjectAccess(getTarget());
+    int spotCheckData = getContext().getSpotCheckData();
     List<FileArea> tableFileAreas = new ArrayList<FileArea>();
     try {
       tableFileAreas = getTableFileAreas(objectAccess);
@@ -226,8 +227,23 @@ public class TableDataContentValidationRule extends AbstractValidationRule {
         try {
           if (table instanceof TableBinary) {
             try {
-              while ( (record = reader.readNext()) != null ) {
+              record = reader.readNext();
+              while (record != null) {
                 fieldValueValidator.validate(record, reader.getFields(), false);
+                if (spotCheckData != -1) {
+                  try {
+                    record = reader.getRecord(reader.getCurrentRow() + spotCheckData);
+                  } catch (IllegalArgumentException iae) {
+                    record = null;
+                  } catch (IOException io) {
+                    throw new IOException("Error occurred "
+                        + "while reading table '" + tableIndex + "', "
+                        + "record '"
+                        + (reader.getCurrentRow() + spotCheckData) + "'");
+                  }
+                } else {
+                  record = reader.readNext();
+                }
               }
             } catch (BufferUnderflowException be) {
               throw new IOException(
@@ -236,9 +252,9 @@ public class TableDataContentValidationRule extends AbstractValidationRule {
                       + "', record '" + reader.getCurrentRow() + "'");
             }
           } else {
-            String line = null;       
             boolean manuallyParseRecord = false;
-            while ( (line = reader.readNextLine()) != null) {
+            String line = reader.readNextLine();
+            while (line != null) {
               if (!line.endsWith("\r\n")) {
                 addTableProblem(ExceptionType.ERROR,
                     ProblemType.MISSING_CRLF,
@@ -326,9 +342,25 @@ public class TableDataContentValidationRule extends AbstractValidationRule {
                   definedNumRecords == reader.getCurrentRow()) {
                 break;
               }
+              if (spotCheckData > 1) {
+                // If spot checking is turned on, we want to skip to
+                // the record just before the one we want to read
+                try {
+                  record = reader.getRecord(reader.getCurrentRow() + (spotCheckData - 1));
+                } catch (IllegalArgumentException iae) {
+                  line = null;
+                  continue;
+                } catch (IOException io) {
+                  throw new IOException("Error occurred "
+                      + "while reading table '" + tableIndex + "', "
+                      + "record '"
+                      + (reader.getCurrentRow() + spotCheckData) + "'");
+                }
+              }
+              line = reader.readNextLine();            
             }
             if (definedNumRecords != -1 && 
-                definedNumRecords != reader.getCurrentRow()) {
+                definedNumRecords != reader.getCurrentRow() && spotCheckData == -1) {
               String message = "Number of records read is not equal "
                 + "to the defined number of records in the label (expected "
                 + definedNumRecords + ", got " + reader.getCurrentRow() + ").";
@@ -349,7 +381,7 @@ public class TableDataContentValidationRule extends AbstractValidationRule {
               -1,
               -1);
         }
-        tableIndex++; 
+        tableIndex++;
       }
       fileAreaObserveIndex++;
     }

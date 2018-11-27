@@ -88,6 +88,11 @@ public class RuleContext extends ContextBase {
   /** The key used to indicate whether to disable data content validation. */
   public static final String CHECK_DATA_KEY = "validate.check-data";
   
+  /** The key used to indicate how many lines or records to skip during 
+   *  content validation.
+   */
+  public static final String SPOT_CHECK_DATA_KEY = "validate.spot-check";
+  
   private boolean rootTarget = false;
 
   /**
@@ -301,5 +306,13 @@ public class RuleContext extends ContextBase {
 	
 	public void setCheckData(boolean flag) {
 	  putContextValue(CHECK_DATA_KEY, flag);
+	}
+	
+	public int getSpotCheckData() {
+	  return getContextValue(SPOT_CHECK_DATA_KEY, Integer.class);
+	}
+	  
+	public void setSpotCheckData(int value) {
+	  putContextValue(SPOT_CHECK_DATA_KEY, value);
 	}
 }
