@@ -157,6 +157,7 @@ public class ArrayContentValidationRule extends AbstractValidationRule {
               if (!array.getAxisArraies().isEmpty()) {
                 ArrayContentValidator validator = new ArrayContentValidator(
                   getListener(), getTarget(), dataFile, arrayIndex);
+                validator.setSpotCheckData(getContext().getSpotCheckData());
                 validator.validate(array, ao);
               } else {
                 addArrayProblem(ExceptionType.FATAL,

@@ -286,6 +286,9 @@ public class LocationValidator {
 		this.validationRule = ruleName;
 	}
 	
+	public void setSpotCheckData(int value) {
+	  ruleContext.setSpotCheckData(value);
+	}
 	/**
 	 * Implements a simple problem handler that prints problems to the 
 	 * standout error output.
