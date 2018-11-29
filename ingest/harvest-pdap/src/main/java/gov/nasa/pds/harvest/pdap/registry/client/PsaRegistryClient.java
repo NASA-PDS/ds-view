@@ -13,6 +13,9 @@
 // $Id$
 package gov.nasa.pds.harvest.pdap.registry.client;
 
+import gov.nasa.pds.harvest.pdap.HarvesterPdap;
+import gov.nasa.pds.harvest.pdap.logging.ToolsLevel;
+import gov.nasa.pds.harvest.pdap.logging.ToolsLogRecord;
 import gov.nasa.pds.tools.LabelParserException;
 import gov.nasa.pds.tools.label.Label;
 import gov.nasa.pds.tools.label.ManualPathResolver;
@@ -25,6 +28,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.apache.oodt.cas.metadata.Metadata;
 
@@ -44,6 +48,10 @@ import uk.ac.starlink.votable.VOTableBuilder;
  *
  */
 public class PsaRegistryClient implements PdapRegistryClient {
+  /** logger object. */
+  private static Logger log = Logger.getLogger(
+      HarvesterPdap.class.getName());
+  
   private String baseUrl;
 
   private SimpleDateFormat dateFormat;
@@ -154,20 +162,31 @@ public class PsaRegistryClient implements PdapRegistryClient {
   public Label getCatalogFile(String missionName, String datasetId, 
       String filename)
   throws PdapRegistryClientException {
+    String urlString = "";
     try {
       String encodedMissionName = missionName.replaceAll("\\s", "s");
       String encodedDatasetId = datasetId.replaceAll("/", "-");
-      URL url = new URL(baseUrl + "/pdap/fileaccess?ID=/repo/" + encodedMissionName + "/"
-          + encodedDatasetId + "/CATALOG/" + filename);
+      urlString = baseUrl + "/pdap/fileaccess?ID=" + encodedMissionName + "/"
+          + encodedDatasetId + "/CATALOG/" + filename;
+      URL url = new URL(urlString);
       Label label = null;
       try {
         label = parseLabel(url);
+        log.log(new ToolsLogRecord(ToolsLevel.INFO, "Successfully parsed file: "
+            + url.toString(), datasetId));
       } catch (Exception e) {
+        log.log(new ToolsLogRecord(ToolsLevel.DEBUG, e.getMessage()));
         //Some datasets replace the '/' with a '_' in the service endpoint
         encodedDatasetId = datasetId.replaceAll("/", "_");
-        url = new URL(baseUrl + "/pdap/fileaccess?ID=/repo/" + encodedMissionName + "/"
-            + encodedDatasetId + "/CATALOG/" + filename);
+        urlString = baseUrl + "/pdap/fileaccess?ID=" + encodedMissionName + "/"
+            + encodedDatasetId + "/CATALOG/" + filename;
+        log.log(new ToolsLogRecord(ToolsLevel.DEBUG, 
+            "Attempting to get file (using '_' in the dataset ID): "
+                + urlString, datasetId));
+        url = new URL(urlString);
         label = parseLabel(url);
+        log.log(new ToolsLogRecord(ToolsLevel.INFO, "Successfully parsed file: "
+            + url.toString(), datasetId));
       }
       return label;
     } catch (Exception e) {
@@ -189,20 +208,31 @@ public class PsaRegistryClient implements PdapRegistryClient {
    */
   public Label getVoldescFile(String missionName, String datasetId) 
       throws PdapRegistryClientException {
+    String urlString = "";
     try {
       String encodedMissionName = missionName.replaceAll("\\s", "s");
       String encodedDatasetId = datasetId.replaceAll("/", "-");
-      URL url = new URL(baseUrl + "/pdap/fileaccess?ID=/repo/" + encodedMissionName + "/"
-          + encodedDatasetId + "/VOLDESC.CAT");
+      urlString = baseUrl + "/pdap/fileaccess?ID=" + encodedMissionName + "/"
+          + encodedDatasetId + "/VOLDESC.CAT";
+      URL url = new URL(urlString);
       Label label = null;
       try {
         label = parseLabel(url);
+        log.log(new ToolsLogRecord(ToolsLevel.INFO, "Successfully parsed file: "
+            + url.toString(), datasetId));
       } catch (Exception e) {
+        log.log(new ToolsLogRecord(ToolsLevel.DEBUG, e.getMessage()));
         //Some datasets replace the '/' with a '_' in the service endpoint.
         encodedDatasetId = datasetId.replaceAll("/", "_");
-        url = new URL(baseUrl + "/pdap/fileaccess?ID=/repo/" + encodedMissionName + "/"
-            + encodedDatasetId + "/VOLDESC.CAT");
+        urlString = baseUrl + "/pdap/fileaccess?ID=" + encodedMissionName + "/"
+            + encodedDatasetId + "/VOLDESC.CAT";
+        log.log(new ToolsLogRecord(ToolsLevel.DEBUG, 
+            "Attempting to get file (using '_' in the dataset ID): "
+                + urlString, datasetId));
+        url = new URL(urlString);
         label = parseLabel(url);
+        log.log(new ToolsLogRecord(ToolsLevel.INFO, "Successfully parsed file: "
+            + url.toString(), datasetId));
       }
       return label;
     } catch (Exception e) {
