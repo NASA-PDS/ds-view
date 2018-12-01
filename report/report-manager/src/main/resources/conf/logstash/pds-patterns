@@ -6,7 +6,7 @@
 PARTIAL_EMAIL %{HTTPDUSER}|%{EMAILLOCALPART}@
 
 HTTPD_ADAPTEDLOG %{IPORHOST:clientip} %{NOTSPACE:ident} %{PARTIAL_EMAIL:auth} \[%{HTTPDATE:timestamp}\] "(?:%{WORD:verb} %{NOTSPACE:request}(?: HTTP/%{NUMBER:httpversion})?|%{DATA:rawrequest})" %{NUMBER:response} (?:%{NUMBER:bytes}|-) %{QS:referrer} %{QS:agent}
-HTTPD_MISSINGAUTH %{IPORHOST:clientip} %{HTTPDUSER:ident} \[%{HTTPDATE:timestamp}\] "(?:%{WORD:verb} %{NOTSPACE:request}(?: HTTP/%{NUMBER:httpversion})?|%{DATA:rawrequest})" %{NUMBER:response} (?:%{NUMBER:bytes}|-) %{QS:referrer} %{QS:agent}
+HTTPD_MISSINGAUTH %{IPORHOST:clientip} %{HTTPDUSER:ident} (%{PARTIAL_EMAIL:auth} )?\[%{HTTPDATE:timestamp}\] "(?:%{WORD:verb} %{NOTSPACE:request}(?: HTTP/%{NUMBER:httpversion})?|%{DATA:rawrequest})" %{NUMBER:response} (?:%{NUMBER:bytes}|-) %{QS:referrer} %{QS:agent}
 
 GENERIC_SPIDER .*spider.*
 GENERIC_CRAWLER .*crawl.*
