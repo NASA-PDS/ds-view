@@ -34,7 +34,7 @@ import org.w3c.dom.Element;
 
 import gov.nasa.pds.tracking.tracking.db.Product;
 import gov.nasa.pds.tracking.tracking.db.ProductDao;
-import gov.nasa.pds.tracking.tracking.db.Reference;
+import gov.nasa.pds.tracking.tracking.db.ReferenceDao;
 
 /**
  * @author danyu dan.yu@jpl.nasa.gov
@@ -300,9 +300,9 @@ public class XMLBasedProducts {
 			         
 			         Element refElement = doc.createElement("instrument");
 			         
-			         Element instRefElement = doc.createElement(Reference.REFERENCECOLUMN);
+			         Element instRefElement = doc.createElement(ReferenceDao.REFERENCECOLUMN);
 			         instRefElement.appendChild(doc.createTextNode(p.getInstRef()));
-			         Element instTitleRefElement = doc.createElement(Reference.TITLECOLUMN);
+			         Element instTitleRefElement = doc.createElement(ReferenceDao.TITLECOLUMN);
 			         instTitleRefElement.appendChild(doc.createTextNode(p.getInstTitle()));
 			         refElement.appendChild(instRefElement);
 			         refElement.appendChild(instTitleRefElement);
@@ -311,9 +311,9 @@ public class XMLBasedProducts {
 			         
 			         refElement = doc.createElement("investigation");
 			         
-			         Element inveRefElement = doc.createElement(Reference.REFERENCECOLUMN);
+			         Element inveRefElement = doc.createElement(ReferenceDao.REFERENCECOLUMN);
 			         inveRefElement.appendChild(doc.createTextNode(p.getInveRef()));
-			         Element inveTitleRefElement = doc.createElement(Reference.TITLECOLUMN);
+			         Element inveTitleRefElement = doc.createElement(ReferenceDao.TITLECOLUMN);
 			         inveTitleRefElement.appendChild(doc.createTextNode(p.getInveTitle()));
 			         refElement.appendChild(inveRefElement);
 			         refElement.appendChild(inveTitleRefElement);
@@ -322,9 +322,9 @@ public class XMLBasedProducts {
 		            
 			         refElement = doc.createElement("node");
 			         
-			         Element nodeRefElement = doc.createElement(Reference.REFERENCECOLUMN);
+			         Element nodeRefElement = doc.createElement(ReferenceDao.REFERENCECOLUMN);
 			         nodeRefElement.appendChild(doc.createTextNode(p.getNodeRef()));
-			         Element nodeTitleRefElement = doc.createElement(Reference.TITLECOLUMN);
+			         Element nodeTitleRefElement = doc.createElement(ReferenceDao.TITLECOLUMN);
 			         nodeTitleRefElement.appendChild(doc.createTextNode(p.getNodeTitle()));
 			         refElement.appendChild(nodeRefElement);
 			         refElement.appendChild(nodeTitleRefElement);

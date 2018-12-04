@@ -127,8 +127,8 @@ public List<User> getProductRoleUsers(String log_identifer,String tableName) {
 	
 	List<User> productRoleUsers = new ArrayList<User>();
 	
-	if (tableName.equalsIgnoreCase(Reference.INST_TABLENAME) || tableName.equalsIgnoreCase(Reference.INVES_TABLENAME) 
-			||tableName.equalsIgnoreCase(Reference.NODE_TABLENAME)){
+	if (tableName.equalsIgnoreCase(ReferenceDao.INST_TABLENAME) || tableName.equalsIgnoreCase(ReferenceDao.INVES_TABLENAME) 
+			||tableName.equalsIgnoreCase(ReferenceDao.NODE_TABLENAME)){
 		User user = null;
 		
 		try {
@@ -137,19 +137,19 @@ public List<User> getProductRoleUsers(String log_identifer,String tableName) {
 	
 			statement = connect.createStatement();
 			
-			logger.debug("SELECT u." + EMAILCOLUMN + ", u." + NAMECOLUMN + ", f." + Reference.TITLECOLUMN + ", f." + Reference.REFERENCECOLUMN +
+			logger.debug("SELECT u." + EMAILCOLUMN + ", u." + NAMECOLUMN + ", f." + ReferenceDao.TITLECOLUMN + ", f." + ReferenceDao.REFERENCECOLUMN +
 											" FROM " + TABLENAME + " u, " + ROLETABLENAME + " r, " + tableName + " f, " + PRODUCTTABLENAME + " p" +
 											" where p." + ProductDao.IDENTIFIERCOLUMN + " = '" + log_identifer +
-											"' and p." + ProductDao.IDENTIFIERCOLUMN + " = f." + Reference.LOG_IDENTIFIERCOLUMN +
-											" and f." + Reference.REFERENCECOLUMN + " = r." +  RoleDao.REFERENCECOLUMN +
+											"' and p." + ProductDao.IDENTIFIERCOLUMN + " = f." + ReferenceDao.LOG_IDENTIFIERCOLUMN +
+											" and f." + ReferenceDao.REFERENCECOLUMN + " = r." +  RoleDao.REFERENCECOLUMN +
 											" and r." + RoleDao.EMAILCOLUMN + " = u." + EMAILCOLUMN +
 											" ORDER BY " + EMAILCOLUMN);
 			
-			resultSet = statement.executeQuery("SELECT u." + EMAILCOLUMN + ", u." + NAMECOLUMN + ", f." + Reference.TITLECOLUMN + ", f." + Reference.REFERENCECOLUMN +
+			resultSet = statement.executeQuery("SELECT u." + EMAILCOLUMN + ", u." + NAMECOLUMN + ", f." + ReferenceDao.TITLECOLUMN + ", f." + ReferenceDao.REFERENCECOLUMN +
 											" FROM " + TABLENAME + " u, " + ROLETABLENAME + " r, " + tableName + " f, " + PRODUCTTABLENAME + " p" +
 											" where p." + ProductDao.IDENTIFIERCOLUMN + " = '" + log_identifer +
-											"' and p." + ProductDao.IDENTIFIERCOLUMN + " = f." + Reference.LOG_IDENTIFIERCOLUMN +
-											" and f." + Reference.REFERENCECOLUMN + " = r." +  RoleDao.REFERENCECOLUMN +
+											"' and p." + ProductDao.IDENTIFIERCOLUMN + " = f." + ReferenceDao.LOG_IDENTIFIERCOLUMN +
+											" and f." + ReferenceDao.REFERENCECOLUMN + " = r." +  RoleDao.REFERENCECOLUMN +
 											" and r." + RoleDao.EMAILCOLUMN + " = u." + EMAILCOLUMN +
 											" ORDER BY " + EMAILCOLUMN);
 			
@@ -157,8 +157,8 @@ public List<User> getProductRoleUsers(String log_identifer,String tableName) {
 				user = new User();
 				user.setUserEmail(resultSet.getString(EMAILCOLUMN));
 				user.setUserName(resultSet.getString(NAMECOLUMN));
-				user.setReference(resultSet.getString(Reference.REFERENCECOLUMN));
-				user.setType(resultSet.getString(Reference.TITLECOLUMN));
+				user.setReference(resultSet.getString(ReferenceDao.REFERENCECOLUMN));
+				user.setType(resultSet.getString(ReferenceDao.TITLECOLUMN));
 				productRoleUsers.add(user);
 			}
 			

@@ -18,6 +18,7 @@ import gov.nasa.pds.tracking.tracking.db.DeliveryDao;
 import gov.nasa.pds.tracking.tracking.db.Product;
 import gov.nasa.pds.tracking.tracking.db.ProductDao;
 import gov.nasa.pds.tracking.tracking.db.Reference;
+import gov.nasa.pds.tracking.tracking.db.ReferenceDao;
 //import gov.nasa.pds.tracking.tracking.db.Releases;
 import gov.nasa.pds.tracking.tracking.db.Role;
 import gov.nasa.pds.tracking.tracking.db.RoleDao;
@@ -164,11 +165,11 @@ public class Mytest {
 
 	private void getProductReferences(String log_identifer, String tableName) {
 		
-		Reference ref;
+		ReferenceDao refD;
 		try {
-			ref = new Reference();
+			refD = new ReferenceDao();
 			
-			List<Reference> refs = ref.getProductReferences(log_identifer, tableName);
+			List<Reference> refs = refD.getProductReferences(log_identifer, tableName);
 			
 			logger.info(" ============== number of " + tableName + " for " + log_identifer + " : " + refs.size() + " =====================");
 			
@@ -281,21 +282,21 @@ public class Mytest {
 			Input: logical_identifier (required)
 			Output: logical_identifier, reference, title
 			***********************************************************/
-			test.getProductReferences("urn:nasa:pds:context_pds3:data_set:data_set.juno-j-rss-1-jugr-v1.0", Reference.INST_TABLENAME);
+			test.getProductReferences("urn:nasa:pds:context_pds3:data_set:data_set.juno-j-rss-1-jugr-v1.0", ReferenceDao.INST_TABLENAME);
 			/**********************************************************
 			 Product Investigation Reference Query – Query the investigation_reference table 
 			 for a list of investigation references for a product.
 			Input: logical_identifier (required)
 			Output: logical_identifier, reference, title
 			***********************************************************/
-			test.getProductReferences("urn:nasa:pds:context_pds3:data_set:data_set.juno-j-rss-1-jugr-v1.0", Reference.INVES_TABLENAME);
+			test.getProductReferences("urn:nasa:pds:context_pds3:data_set:data_set.juno-j-rss-1-jugr-v1.0", ReferenceDao.INVES_TABLENAME);
 			/**********************************************************
 			 Product Node Reference Query – Query the node_reference table 
 			 for a list of node references for a product.
 			Input: logical_identifier (required)
 			Output: logical_identifier, reference, title
 			***********************************************************/
-			test.getProductReferences("urn:nasa:pds:context_pds3:data_set:data_set.juno-j-rss-1-jugr-v1.0", Reference.NODE_TABLENAME);
+			test.getProductReferences("urn:nasa:pds:context_pds3:data_set:data_set.juno-j-rss-1-jugr-v1.0", ReferenceDao.NODE_TABLENAME);
 			
 			
 			
@@ -307,7 +308,7 @@ public class Mytest {
 			Input: logical_identifier (required), type (required)
 			Output: electronic_mail_address, name
 			***********************************************************/			
-			test.getProductRoleUsers("urn:nasa:pds:context_pds3:data_set:data_set.juno-j-rss-1-jugr-v1.0", Reference.INVES_TABLENAME);
+			test.getProductRoleUsers("urn:nasa:pds:context_pds3:data_set:data_set.juno-j-rss-1-jugr-v1.0", ReferenceDao.INVES_TABLENAME);
 			
 			
 			// ************************************ 9.1 Delivery Inserts/Updates **************************
@@ -664,25 +665,28 @@ public class Mytest {
 	}
 
 	private void updateReference(String logicalIdentifier, String reference, String title, String type) {
+		
+		//ReferenceDao refD;
 		Reference ref;
-		try {
-			ref = new Reference();
-			ref.updateReference(logicalIdentifier, reference, title, type);
-		} catch (ClassNotFoundException | SQLException e) {
-			
-			e.printStackTrace();
-		}
+		//refD = new ReferenceDao();
+		ref = new Reference();
+		ref.setLog_identifier(logicalIdentifier);
+		ref.setReference(reference);
+		ref.setTitle(title);
+		ref.setReferenceType(type);
 	}
 
 	private void insertReference(String logicalIdentifier, String reference, String title, String type) {
+		
+		//ReferenceDao refD;
 		Reference ref;
-		try {
-			ref = new Reference();
-			ref.insertReference(logicalIdentifier, reference, title, type);
-		} catch (ClassNotFoundException | SQLException e) {
-			
-			e.printStackTrace();
-		}
+		//refD =  new ReferenceDao();
+		ref = new Reference();
+		ref.setLog_identifier(logicalIdentifier);
+		ref.setReference(reference);
+		ref.setTitle(title);
+		ref.setReferenceType(type);
+		//int success = refD.insertReference(ref);
 		
 	}
 

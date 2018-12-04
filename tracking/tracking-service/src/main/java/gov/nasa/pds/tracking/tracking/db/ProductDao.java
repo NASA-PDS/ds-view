@@ -156,9 +156,9 @@ public class ProductDao extends DBConnector {
 										"nr.title AS node_title " +
 							"from " + TABLENAME + " p, " + 
 									DELIVERYTABLENAME + " d, " + 
-									Reference.INVES_TABLENAME + " ivr," + 
-									Reference.INST_TABLENAME + " isr," + 
-									Reference.NODE_TABLENAME + " nr " +
+									ReferenceDao.INVES_TABLENAME + " ivr," + 
+									ReferenceDao.INST_TABLENAME + " isr," + 
+									ReferenceDao.NODE_TABLENAME + " nr " +
 							"where p." + IDENTIFIERCOLUMN + " = d." + IDENTIFIERCOLUMN +
 								" and p." + VERSIONCOLUMN + " = d." + VERSIONCOLUMN + 
 								" and p." + IDENTIFIERCOLUMN + " = ivr." + IDENTIFIERCOLUMN +
@@ -169,9 +169,9 @@ public class ProductDao extends DBConnector {
 			String queryInstRefPart = "";
 			String queryInveRefPart = "";
 			if (instRef != null && !instRef.equalsIgnoreCase("null") && instRef.length() > 0)
-				queryInstRefPart = " and isr." + Reference.REFERENCECOLUMN + " = '" + instRef + "'";
+				queryInstRefPart = " and isr." + ReferenceDao.REFERENCECOLUMN + " = '" + instRef + "'";
 			if (investRef != null && !investRef.equalsIgnoreCase("null") && investRef.length() > 0)
-				queryInveRefPart = " and ivr." + Reference.REFERENCECOLUMN + " = '" + investRef + "'";
+				queryInveRefPart = " and ivr." + ReferenceDao.REFERENCECOLUMN + " = '" + investRef + "'";
 			
 			String query = defaultQueryPartOne + queryInstRefPart + queryInveRefPart + defaultQueryOrder;
 										

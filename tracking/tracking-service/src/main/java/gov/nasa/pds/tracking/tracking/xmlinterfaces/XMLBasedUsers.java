@@ -32,7 +32,7 @@ import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import gov.nasa.pds.tracking.tracking.db.Reference;
+import gov.nasa.pds.tracking.tracking.db.ReferenceDao;
 import gov.nasa.pds.tracking.tracking.db.Role;
 import gov.nasa.pds.tracking.tracking.db.RoleDao;
 import gov.nasa.pds.tracking.tracking.db.User;
@@ -242,7 +242,7 @@ public class XMLBasedUsers {
 		            refElement.appendChild(doc.createTextNode(u.getReference()));
 		            subRootElement.appendChild(refElement);
 		            
-		            Element titleElement = doc.createElement("role_" + Reference.TITLECOLUMN);
+		            Element titleElement = doc.createElement("role_" + ReferenceDao.TITLECOLUMN);
 		            titleElement.appendChild(doc.createTextNode(u.getType()));
 		            subRootElement.appendChild(titleElement);
 		            		            

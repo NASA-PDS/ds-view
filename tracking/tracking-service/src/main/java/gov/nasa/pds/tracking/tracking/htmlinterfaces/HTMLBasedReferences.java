@@ -11,6 +11,7 @@ import javax.ws.rs.Produces;
 
 import org.apache.log4j.Logger;
 import gov.nasa.pds.tracking.tracking.db.Reference;
+import gov.nasa.pds.tracking.tracking.db.ReferenceDao;
 import gov.nasa.pds.tracking.tracking.utils.HtmlConstants;
  
 @Path("html/references")
@@ -22,9 +23,9 @@ public class HTMLBasedReferences {
 	private final String PAGESTART_STRTWO = "<div>" +
 			  "<table border=\"1\" style=\"width: 90%;border-spacing: 0; font:normal; font-size: 10\" >" +
 			  "<tr align=\"center\">" +
-			  "<td width=\"40%\"><b>" + Reference.LOG_IDENTIFIERCOLUMN + "</b></td>"+
-			  "<td width=\"30%\"><b>" + Reference.REFERENCECOLUMN + "</b></td>" +
-			  "<td width=\"30%\"><b>" + Reference.TITLECOLUMN + "</b></td>" +
+			  "<td width=\"40%\"><b>" + ReferenceDao.LOG_IDENTIFIERCOLUMN + "</b></td>"+
+			  "<td width=\"30%\"><b>" + ReferenceDao.REFERENCECOLUMN + "</b></td>" +
+			  "<td width=\"30%\"><b>" + ReferenceDao.TITLECOLUMN + "</b></td>" +
 			  "</tr>";
 	
 	
@@ -36,13 +37,13 @@ public class HTMLBasedReferences {
     	sb.append(PAGESTART_STRONE);
     	
 
-		Reference ref;
+		ReferenceDao refD;
 		try {
 			//Instrument Reference
 
-			sb.append("<h3>" + Reference.INST_TABLENAME + "</h3>" + PAGESTART_STRTWO);
-			ref = new Reference();
-			List<Reference> refInsts = ref.getProductAllReferences(Reference.INST_TABLENAME);
+			sb.append("<h3>" + ReferenceDao.INST_TABLENAME + "</h3>" + PAGESTART_STRTWO);
+			refD = new ReferenceDao();
+			List<Reference> refInsts = refD.getProductAllReferences(ReferenceDao.INST_TABLENAME);
 						
 			logger.info("number of Instrument Reference: "  + refInsts.size());
 			Iterator<Reference> itr = refInsts.iterator();
@@ -63,8 +64,8 @@ public class HTMLBasedReferences {
 			
 			//investigation_reference
 
-			sb.append("<h3>" + Reference.INVES_TABLENAME + "</h3>" + PAGESTART_STRTWO);
-			List<Reference> refInves = ref.getProductAllReferences(Reference.INVES_TABLENAME);
+			sb.append("<h3>" + ReferenceDao.INVES_TABLENAME + "</h3>" + PAGESTART_STRTWO);
+			List<Reference> refInves = refD.getProductAllReferences(ReferenceDao.INVES_TABLENAME);
 			
 			logger.info("number of Investigation Reference: "  + refInves.size());
 			itr = refInves.iterator();
@@ -84,9 +85,9 @@ public class HTMLBasedReferences {
 			
 			//Node Reference
 
-			sb.append("<h3>" + Reference.NODE_TABLENAME + "</h3>" + PAGESTART_STRTWO);
-			ref = new Reference();
-			List<Reference> refNodes = ref.getProductAllReferences(Reference.NODE_TABLENAME);
+			sb.append("<h3>" + ReferenceDao.NODE_TABLENAME + "</h3>" + PAGESTART_STRTWO);
+			refD = new ReferenceDao();
+			List<Reference> refNodes = refD.getProductAllReferences(ReferenceDao.NODE_TABLENAME);
 						
 			logger.info("number of Node Reference: "  + refNodes.size());
 			itr = refNodes.iterator();
@@ -121,12 +122,12 @@ public class HTMLBasedReferences {
     	StringBuilder sb = new StringBuilder();
     	sb.append(PAGESTART_STRONE);
  
-		Reference ref;
+		ReferenceDao refD;
 		try {
 
 			sb.append("<h3>" + refType + "</h3>" + PAGESTART_STRTWO);
-			ref = new Reference();
-			List<Reference> refs = ref.getProductReferences(id, refType);;
+			refD = new ReferenceDao();
+			List<Reference> refs = refD.getProductReferences(id, refType);;
 						
 			logger.info("number of " + refType + ": "  + refs.size());
 			Iterator<Reference> itr = refs.iterator();

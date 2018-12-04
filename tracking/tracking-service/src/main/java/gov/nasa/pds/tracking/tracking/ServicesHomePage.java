@@ -4,7 +4,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
-import gov.nasa.pds.tracking.tracking.db.Reference;
+import gov.nasa.pds.tracking.tracking.db.ReferenceDao;
 import gov.nasa.pds.tracking.tracking.utils.*;
  
 @Path("/")
@@ -52,11 +52,11 @@ public class ServicesHomePage {
 	              "<li><a href=\"json/users/sean.hardman@jpl.nasa.gov\">User Role for sean.hardman@jpl.nasa.gov</a><br/></li>" +
 	              "</div>"	              +
 	              "<p></p><div>" +
-	              "<li><a href=\"json/users/urn:nasa:pds:context_pds3:data_set:data_set.jno-e-j-ss-wav-2-edr-v1.0/" + Reference.INST_TABLENAME + "\">" +
+	              "<li><a href=\"json/users/urn:nasa:pds:context_pds3:data_set:data_set.jno-e-j-ss-wav-2-edr-v1.0/" + ReferenceDao.INST_TABLENAME + "\">" +
 	              	"Product (urn:nasa:pds:context_pds3:data_set:data_set.jno-e-j-ss-wav-2-edr-v1.0) Instrument Role Query</a><br/></li>" +
-	              "<li><a href=\"json/users/urn:nasa:pds:context_pds3:data_set:data_set.jno-e-j-ss-wav-2-edr-v1.0/" + Reference.INVES_TABLENAME + "\">" + 
+	              "<li><a href=\"json/users/urn:nasa:pds:context_pds3:data_set:data_set.jno-e-j-ss-wav-2-edr-v1.0/" + ReferenceDao.INVES_TABLENAME + "\">" + 
             		"Product (urn:nasa:pds:context_pds3:data_set:data_set.jno-e-j-ss-wav-2-edr-v1.0) Investigation Role Query</a><br/></li>" +
-            	  "<li><a href=\"json/users/urn:nasa:pds:context_pds3:data_set:data_set.jno-e-j-ss-wav-2-edr-v1.0/" + Reference.NODE_TABLENAME + "\">" + 
+            	  "<li><a href=\"json/users/urn:nasa:pds:context_pds3:data_set:data_set.jno-e-j-ss-wav-2-edr-v1.0/" + ReferenceDao.NODE_TABLENAME + "\">" + 
             		"Product (urn:nasa:pds:context_pds3:data_set:data_set.jno-e-j-ss-wav-2-edr-v1.0) Node Role Query</a><br/></li>" +
 	              "</div>" +
 	              "<p></p><h2>XML</h2><div>" +
@@ -88,11 +88,11 @@ public class ServicesHomePage {
 	              "<li><a href=\"xml/users/sean.hardman@jpl.nasa.gov\">User Role for sean.hardman@jpl.nasa.gov</a><br/></li>" +
 	              "</div>"+
 	              "<p></p><div>" +
-	              "<li><a href=\"xml/users/urn:nasa:pds:context_pds3:data_set:data_set.jno-e-j-ss-wav-2-edr-v1.0/" + Reference.INST_TABLENAME + "\">" +
+	              "<li><a href=\"xml/users/urn:nasa:pds:context_pds3:data_set:data_set.jno-e-j-ss-wav-2-edr-v1.0/" + ReferenceDao.INST_TABLENAME + "\">" +
 	              	"Product (urn:nasa:pds:context_pds3:data_set:data_set.jno-e-j-ss-wav-2-edr-v1.0) Instrument Role Query </a><br/></li>" +
-	              "<li><a href=\"xml/users/urn:nasa:pds:context_pds3:data_set:data_set.jno-e-j-ss-wav-2-edr-v1.0/" + Reference.INVES_TABLENAME + "\">" + 
+	              "<li><a href=\"xml/users/urn:nasa:pds:context_pds3:data_set:data_set.jno-e-j-ss-wav-2-edr-v1.0/" + ReferenceDao.INVES_TABLENAME + "\">" + 
             		"Product (urn:nasa:pds:context_pds3:data_set:data_set.jno-e-j-ss-wav-2-edr-v1.0) Investigation Role Query</a><br/></li>" +
-            	  "<li><a href=\"xml/users/urn:nasa:pds:context_pds3:data_set:data_set.jno-e-j-ss-wav-2-edr-v1.0/" + Reference.NODE_TABLENAME + "\">" + 
+            	  "<li><a href=\"xml/users/urn:nasa:pds:context_pds3:data_set:data_set.jno-e-j-ss-wav-2-edr-v1.0/" + ReferenceDao.NODE_TABLENAME + "\">" + 
             		"Product (urn:nasa:pds:context_pds3:data_set:data_set.jno-e-j-ss-wav-2-edr-v1.0) Node Role Query</a><br/></li>" +
 	              "</div>"
               + HtmlConstants.PAGE_END;
@@ -605,6 +605,90 @@ public class ServicesHomePage {
 		          "<tr><td>Reference: </td><td><input id=\"ref\" name=\"Reference\" /></td></tr>" +
 		          "<tr><td></td><td><input type=\"submit\" value=\"Add\" /></td></tr>" +
 		          "</table>" +    
+		          "</form>" +
+		          "</div>"
+            + HtmlConstants.PAGE_END;
+    }
+    
+    @GET
+    @Path("/referenceadd")
+    @Produces("text/html")
+    public String referenceForm() {
+    	return HtmlConstants.PAGE_BEGIN +
+		          "<h1>Reference</h1>" +
+		          "<h2>Add</h2>" +
+		          "<h3>JSON</h3>" +
+		          "<div>" +
+		          "<form action=\"json/references/add\" method=\"POST\">" +
+		          "<table>" +
+		          "<tr><td>Logical Identifier: </td><td><input id=\"id\" name=\"LogicalIdentifier\" /></td></tr>" +
+		          "<tr><td>Reference: </td><td><input id=\"ref\" name=\"Reference\" /></td></tr>" +
+		          "<tr><td>Title: </td><td><input id=\"title\" name=\"Title\" /></td></tr>" +
+		          "<tr><td>Reference Type: </td><td>" +
+		          " <select name=\"ReferenceType\" />" +
+					  "<option value=\"instrument_reference\">Instrument</option>" +
+					  "<option value=\"investigation_reference\">Investigation</option>" +
+					  "<option value=\"node_reference\">Node</option>" +
+					"</select>"
+					+ "</td></tr>" +
+		          "<tr><td></td><td><input type=\"submit\" value=\"Add\" /></td></tr>" +
+		          "</table>" +    
+		          "</form>" +
+		          "</div>" +
+		          "<h3>XML</h3>" +
+		          "<div>" +
+		          "<form action=\"xml/references/add\" method=\"POST\">" +
+		          "<table>" +
+		          "<tr><td>Logical Identifier: </td><td><input id=\"id\" name=\"LogicalIdentifier\" /></td></tr>" +
+		          "<tr><td>Reference: </td><td><input id=\"ref\" name=\"Reference\" /></td></tr>" +
+		          "<tr><td>Title: </td><td><input id=\"title\" name=\"Title\" /></td></tr>" +
+		          "<tr><td>Reference Type: </td><td>" +
+		          " <select name=\"ReferenceType\" />" +
+					  "<option value=\"instrument_reference\">Instrument</option>" +
+					  "<option value=\"investigation_reference\">Investigation</option>" +
+					  "<option value=\"node_reference\">Node</option>" +
+					"</select>"
+					+ "</td></tr>" +
+		          "<tr><td></td><td><input type=\"submit\" value=\"Add\" /></td></tr>" +
+		          "</table>" +    
+		          "</form>" +
+		          "</div>" +
+		          "<p></p>" +
+		          "<h2>Update</h2>" +
+		          "<h3>JSON</h3>" +
+		          "<div>" +
+		          "<form action=\"json/references/update\" method=\"POST\">" +
+		          "<table>" +
+		          "<tr><td>Logical Identifier: </td><td><input id=\"id\" name=\"LogicalIdentifier\" /></td></tr>" +
+		          "<tr><td>Reference: </td><td><input id=\"ref\" name=\"Reference\" /></td></tr>" +
+		          "<tr><td>Title: </td><td><input id=\"title\" name=\"Title\" /></td></tr>" +
+		          "<tr><td>Reference Type: </td><td>" +
+		          " <select name=\"ReferenceType\" />" +
+					  "<option value=\"instrument_reference\">Instrument</option>" +
+					  "<option value=\"investigation_reference\">Investigation</option>" +
+					  "<option value=\"node_reference\">Node</option>" +
+					"</select>"
+					+ "</td></tr>" +
+		          "<tr><td></td><td><input type=\"submit\" value=\"Update\" /></td></tr>" +
+		          "</table>" +
+		          "</form>" +
+		          "</div>" +
+		          "<h3>XML</h3>" +
+		          "<div>" +
+		          "<form action=\"xml/references/update\" method=\"POST\">" +
+		          "<table>" +
+		          "<tr><td>Logical Identifier: </td><td><input id=\"id\" name=\"LogicalIdentifier\" /></td></tr>" +
+		          "<tr><td>Reference: </td><td><input id=\"ref\" name=\"Reference\" /></td></tr>" +
+		          "<tr><td>Title: </td><td><input id=\"title\" name=\"Title\" /></td></tr>" +
+		          "<tr><td>Reference Type: </td><td>" +
+		          " <select name=\"ReferenceType\" />" +
+					  "<option value=\"instrument_reference\">Instrument</option>" +
+					  "<option value=\"investigation_reference\">Investigation</option>" +
+					  "<option value=\"node_reference\">Node</option>" +
+					"</select>"
+					+ "</td></tr>" +
+		          "<tr><td></td><td><input type=\"submit\" value=\"Update\" /></td></tr>" +
+		          "</table>" +
 		          "</form>" +
 		          "</div>"
             + HtmlConstants.PAGE_END;

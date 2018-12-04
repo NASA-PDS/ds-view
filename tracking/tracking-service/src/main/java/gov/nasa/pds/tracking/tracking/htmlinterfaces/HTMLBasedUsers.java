@@ -11,7 +11,7 @@ import javax.ws.rs.Produces;
 
 import org.apache.log4j.Logger;
 
-import gov.nasa.pds.tracking.tracking.db.Reference;
+import gov.nasa.pds.tracking.tracking.db.ReferenceDao;
 import gov.nasa.pds.tracking.tracking.db.RoleDao;
 import gov.nasa.pds.tracking.tracking.db.User;
 import gov.nasa.pds.tracking.tracking.db.UserDao;
@@ -123,7 +123,7 @@ public class HTMLBasedUsers {
     			  "<tr align=\"center\">" +
     			  "<td width=\"20%\"><b>Email</b></td>"+
 	              "<td width=\"20%\"><b>Name</b></td>" +
-	              "<td width=\"25%\"><b>" + Reference.TITLECOLUMN + "</b></td>" +
+	              "<td width=\"25%\"><b>" + ReferenceDao.TITLECOLUMN + "</b></td>" +
 	              "<td width=\"25%\"><b>" + RoleDao.REFERENCECOLUMN + "</b></td>" +
 	              "</tr>");
 

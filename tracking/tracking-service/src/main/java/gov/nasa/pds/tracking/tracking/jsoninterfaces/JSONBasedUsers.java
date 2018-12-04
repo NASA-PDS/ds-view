@@ -22,7 +22,7 @@ import org.apache.log4j.Logger;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import gov.nasa.pds.tracking.tracking.db.Reference;
+import gov.nasa.pds.tracking.tracking.db.ReferenceDao;
 import gov.nasa.pds.tracking.tracking.db.Role;
 import gov.nasa.pds.tracking.tracking.db.RoleDao;
 import gov.nasa.pds.tracking.tracking.db.User;
@@ -141,7 +141,7 @@ public class JSONBasedUsers {
 		         jsonUser = new JSONObject();
 		         jsonUser.put(UserDao.EMAILCOLUMN, u.getUserEmail());
 		         jsonUser.put(UserDao.NAMECOLUMN, u.getUserName());
-		         jsonUser.put("role_" + Reference.TITLECOLUMN, u.getType());
+		         jsonUser.put("role_" + ReferenceDao.TITLECOLUMN, u.getType());
 		         jsonUser.put("role_" + RoleDao.REFERENCECOLUMN, u.getReference());
 
 		         jsonUsers.append("Users", jsonUser);

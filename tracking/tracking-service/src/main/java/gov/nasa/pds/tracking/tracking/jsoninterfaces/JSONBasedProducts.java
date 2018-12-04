@@ -26,7 +26,7 @@ import org.json.JSONObject;
 
 import gov.nasa.pds.tracking.tracking.db.Product;
 import gov.nasa.pds.tracking.tracking.db.ProductDao;
-import gov.nasa.pds.tracking.tracking.db.Reference;
+import gov.nasa.pds.tracking.tracking.db.ReferenceDao;
 
 /**
  * @author danyu dan.yu@jpl.nasa.gov
@@ -111,18 +111,18 @@ public class JSONBasedProducts {
 		         jsonProd.put(ProductDao.ALTERNATECOLUMN, p.getAlternate() != null ? p.getAlternate() : "");
 		         
 		         jsonRef = new JSONObject();		         
-		         jsonRef.put(Reference.REFERENCECOLUMN, p.getInstRef());
-		         jsonRef.put(Reference.TITLECOLUMN, p.getInstTitle());
+		         jsonRef.put(ReferenceDao.REFERENCECOLUMN, p.getInstRef());
+		         jsonRef.put(ReferenceDao.TITLECOLUMN, p.getInstTitle());
 		         jsonProd.append("instrument", jsonRef);
 		         
 		         jsonRef = new JSONObject();		         
-		         jsonRef.put(Reference.REFERENCECOLUMN, p.getInveRef());
-		         jsonRef.put(Reference.TITLECOLUMN, p.getInveTitle());
+		         jsonRef.put(ReferenceDao.REFERENCECOLUMN, p.getInveRef());
+		         jsonRef.put(ReferenceDao.TITLECOLUMN, p.getInveTitle());
 		         jsonProd.append("investigation", jsonRef);
 		         
 		         jsonRef = new JSONObject();		         
-		         jsonRef.put(Reference.REFERENCECOLUMN, p.getNodeRef());
-		         jsonRef.put(Reference.TITLECOLUMN, p.getNodeTitle());
+		         jsonRef.put(ReferenceDao.REFERENCECOLUMN, p.getNodeRef());
+		         jsonRef.put(ReferenceDao.TITLECOLUMN, p.getNodeTitle());
 		         jsonProd.append("node", jsonRef);
 
 		         jsonProducts.append("products", jsonProd);
