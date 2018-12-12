@@ -244,7 +244,7 @@ public class ProxyFilterProcessor implements Processor{
 		}
 		
 		// Look for proxies in the client IP (the first log detail).
-		Pattern p = Pattern.compile("([ 0-9.,]+) -.+");
+		Pattern p = Pattern.compile("([ 0-9a-f:.,]+) [^\\r\\n]+");
 		Matcher m = p.matcher(line);
 		if(!m.matches()){
 			throw new ProcessingException("Proxy filter could not find " +

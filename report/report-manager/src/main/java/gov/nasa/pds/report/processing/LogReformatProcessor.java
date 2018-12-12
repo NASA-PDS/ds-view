@@ -763,7 +763,7 @@ public abstract class LogReformatProcessor implements Processor{
 				}
 			}
 			LogDetail detail = getLogDetail(name, detailPattern, flags);
-			//log.finest("Found log detail: " + detail.toString());
+			log.fine("Found log detail: " + detail.toString());
 			detailMap.put(detail.getName(), detail);
 			
 			// Add the name of the detail to the segment list
