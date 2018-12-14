@@ -1,4 +1,4 @@
-// Copyright 2006-2017, by the California Institute of Technology.
+// Copyright 2006-2018, by the California Institute of Technology.
 // ALL RIGHTS RESERVED. United States Government Sponsorship acknowledged.
 // Any commercial use must be negotiated with the Office of Technology Transfer
 // at the California Institute of Technology.
@@ -15,6 +15,7 @@ package gov.nasa.pds.tools.validate.rule;
 
 import gov.nasa.pds.tools.label.LocationValidator;
 import gov.nasa.pds.tools.label.XMLCatalogResolver;
+import gov.nasa.pds.tools.util.LidVid;
 import gov.nasa.pds.tools.validate.ProblemListener;
 import gov.nasa.pds.tools.validate.TargetRegistrar;
 import gov.nasa.pds.tools.validate.crawler.Crawler;
@@ -92,6 +93,12 @@ public class RuleContext extends ContextBase {
    *  content validation.
    */
   public static final String SPOT_CHECK_DATA_KEY = "validate.spot-check";
+  
+  /**
+   * Key used to store a map of registered Product LIDVIDs.
+   */
+  public static final String REGISTERED_PRODUCTS_KEY = "validate.registered-products";
+  
   
   private boolean rootTarget = false;
 
@@ -314,5 +321,13 @@ public class RuleContext extends ContextBase {
 	  
 	public void setSpotCheckData(int value) {
 	  putContextValue(SPOT_CHECK_DATA_KEY, value);
+	}
+	
+	public Map<String, List<LidVid>> getRegisteredProducts() {
+	  return getContextValue(REGISTERED_PRODUCTS_KEY, Map.class);
+	}
+	
+	public void setRegisteredProducts(Map<String, List<LidVid>> products) {
+	  putContextValue(REGISTERED_PRODUCTS_KEY, products);
 	}
 }

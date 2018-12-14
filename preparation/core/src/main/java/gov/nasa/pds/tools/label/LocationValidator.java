@@ -14,6 +14,7 @@
 package gov.nasa.pds.tools.label;
 
 import gov.nasa.pds.tools.label.validate.DocumentValidator;
+import gov.nasa.pds.tools.util.LidVid;
 import gov.nasa.pds.tools.util.SettingsManager;
 import gov.nasa.pds.tools.validate.ListenerExceptionPropagator;
 import gov.nasa.pds.tools.validate.ProblemListener;
@@ -267,6 +268,11 @@ public class LocationValidator {
 	public void  setCheckData(boolean flag) {
 	  ruleContext.setCheckData(flag);
 	}
+	
+	public void setRegisteredProducts(Map<String, List<LidVid>> products) {
+	  ruleContext.setRegisteredProducts(products);
+	}
+	
 	
 	/**
 	 * Gets a singleton label validator.

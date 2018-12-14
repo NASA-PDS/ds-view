@@ -42,6 +42,8 @@ public enum ProblemType {
 
 	DUPLICATE_IDENTIFIER("error.label.duplicate_identifier"),
 	
+	CONTEXT_REFERENCE_NOT_FOUND("error.label.context_ref_not_found"),
+	
 	OUT_OF_MEMORY("error.validation.out_of_memory"),
 
 	INTERNAL_ERROR("error.vadidation.internal_error"),
@@ -196,7 +198,9 @@ public enum ProblemType {
   
   FIELD_VALUE_DATA_TYPE_MATCH("debug.table.field_value_matches_data_type"),
   
-  BIT_FIELD_MATCH("debug.table.bit_field_match");
+  BIT_FIELD_MATCH("debug.table.bit_field_match"),
+  
+  CONTEXT_REFERENCE_FOUND("info.label.context_ref_found");
   
 	private final String key;
 

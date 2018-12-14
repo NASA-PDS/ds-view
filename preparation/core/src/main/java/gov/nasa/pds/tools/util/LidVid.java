@@ -1,4 +1,4 @@
-// Copyright 2006-2014, by the California Institute of Technology.
+// Copyright 2006-2018, by the California Institute of Technology.
 // ALL RIGHTS RESERVED. United States Government Sponsorship acknowledged.
 // Any commercial use must be negotiated with the Office of Technology Transfer
 // at the California Institute of Technology.
@@ -10,8 +10,8 @@
 // may be required before exporting such information to foreign countries or
 // providing access to foreign nationals.
 //
-// $Id$
-package gov.nasa.pds.validate.util;
+// $Id: LidVid.java 10921 2012-09-10 22:11:40Z mcayanan $
+package gov.nasa.pds.tools.util;
 
 /**
  * Class that represents the lidvid of a PDS4 data product.

@@ -12,6 +12,7 @@
     <command caption="Register targets" className="gov.nasa.pds.tools.validate.rule.RegisterTargets" />
     <command caption="PDS4 label validity" className="gov.nasa.pds.tools.validate.rule.pds4.LabelValidationRule" />
     <command caption="Validate file references in label" className="gov.nasa.pds.tools.validate.rule.pds4.FileReferenceValidationRule" />
+    <command caption="Validate context product references in label" className="gov.nasa.pds.tools.validate.rule.pds4.ContextProductReferenceValidationRule"/>
     <command caption="Register file references" className="gov.nasa.pds.tools.validate.rule.pds4.RegisterTargetReferences" />
     <command caption="Register label identifiers" className="gov.nasa.pds.tools.validate.rule.pds4.RegisterLabelIdentifiers" />
     <command caption="Data Content matches table descriptions in label" className="gov.nasa.pds.tools.validate.rule.pds4.TableDataContentValidationRule" />
