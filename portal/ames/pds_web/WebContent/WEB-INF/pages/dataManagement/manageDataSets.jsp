@@ -26,9 +26,12 @@
 		<div class="contents" id="cancelContainer" style="display: none;"><input type="button" value="<s:text name="generic.button.cancel" />" onclick="cancel()" /></div>
 
 		<h2>Browser Requirements</h2>
-		<p>It would appear that Safari is the only browser left that supports Java applets which is how the Volume Validator validates your local volumes. 
-		In Safari, there is an additional level of security for Java applets. If this is the first time you are using the Validator you must allow access to your local computer as follows:</p>
+		<p>It would appear that Safari and Waterfox are the only browsers left that support Java applets which is how the Volume Validator validates your local volumes.</p>
+		
 		<blockquote>
+		<h2>Safari</h2>
+		<p>In Safari, there is an additional level of security for Java applets. If this is the first time you are using the Validator you must allow access to your local computer as follows:</p>
+		
 		<h2>Safari Version 11</h2>
 		<ol>
 			<li>Open the Safari Preferences dialog.</li>
@@ -61,8 +64,20 @@
 			<li>Click Done and then close the Preferences dialog.</li>
 			<li>Reload the page to restart the applet in unsafe mode.</li>
 		</ol>
+		
+		<h2>Waterfox</h2>
+		<p>In Waterfox, you need to make sure that <em>https://pds-gamma.jpl.nasa.gov</em> is part of the Exception Site List in the Java Control Panel.</p>
+		<ol>
+		    <li>Open the Java Control Panel.</li>
+		    <li>Go to the Security tab.</li>
+		    <li>Under <em>Exception Site List</em>, click on the <em>Edit Site List</em> button.</li>
+		    <li>A new window should pop up. Click on <em>Add</em>.</li>
+		    <li>Enter <em>https://pds-gamma.jpl.nasa.gov</em>. Click <em>OK</em> when done.</li>
+		    <li>Restart the browser.</li>
+		</ol>
+		
 		</blockquote>
-
+     
 		<div class="label">Version</div>
 		<div class="contents">
 			<s:text name="validator.versionInfo">
