@@ -611,7 +611,7 @@
    <field name="file_ref_size" type="long" indexed="true" stored="true" multiValued="true" />
    <field name="file_ref_url" type="lowercase" indexed="true" stored="true" multiValued="true" />
    <field name="instrument_description" type="text_general" indexed="false" stored="true" multiValued="true" />
-   <field name="instrument_host_id" type="string" indexed="true" stored="true" multiValued="true" />
+   <field name="instrument_host_id" type="text_general" indexed="true" stored="true" multiValued="true" />
    <field name="instrument_host_name" type="text_general" indexed="true" stored="true" multiValued="true" />
    <field name="instrument_host_serial_number" type="lowercase" indexed="false" stored="true" multiValued="true" />
    <field name="instrument_host_type" type="text_en_splitting" indexed="true" stored="true" multiValued="true" />
