@@ -8,8 +8,8 @@
 *.a
 
 # Eclipse files
-/.settings/
-/target/
+.settings/
+target/
 *.project
 *.classpath
 
