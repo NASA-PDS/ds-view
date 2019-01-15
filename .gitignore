@@ -29,6 +29,7 @@
 # other stuff
 *.xpr
 *.swp
+/bin/
 
 # Java stuff
 *.javac
