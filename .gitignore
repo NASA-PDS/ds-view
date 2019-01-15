@@ -9,7 +9,6 @@
 
 # Eclipse files
 .settings/
-target/
 *.project
 *.classpath
 
@@ -30,3 +29,7 @@ target/
 # other stuff
 *.xpr
 *.swp
+
+# Java stuff
+*.javac
+.gwt/
