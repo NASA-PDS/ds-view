@@ -295,6 +295,11 @@ public class LocationValidator {
 	public void setSpotCheckData(int value) {
 	  ruleContext.setSpotCheckData(value);
 	}
+	
+	public void setAllowUnlabeledFiles(boolean flag) {
+	  ruleContext.setAllowUnlabeledFiles(flag);
+	}
+	
 	/**
 	 * Implements a simple problem handler that prints problems to the 
 	 * standout error output.

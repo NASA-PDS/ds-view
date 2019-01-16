@@ -171,7 +171,7 @@ public final class PDS4Problems {
 
     /** Indicates a file that is not associated with any label. */
     public static final ProblemDefinition UNLABELED_FILE = new ProblemDefinition(
-    		ExceptionType.ERROR,
+    		ExceptionType.WARNING,
             ProblemType.UNLABELED_FILE,
             "File is not referenced by any label",
             Standard.PDS4_STANDARDS_REFERENCE,

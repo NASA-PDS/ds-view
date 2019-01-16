@@ -22,8 +22,6 @@ public enum ProblemType {
 
 	FILE_NAMING_PROBLEM("error.validation.file_naming_problem"),
 
-	UNLABELED_FILE("error.file.not_referenced_in_label"),
-
 	MISSING_REFERENCED_FILE("error.label.missing_file"),
 
 	INVALID_LABEL("error.validation.invalid_label"),
@@ -166,6 +164,8 @@ public enum ProblemType {
   MEMBER_NOT_FOUND("warning.integrity.member_not_found"),
   
   UNREFERENCED_MEMBER("warning.integrity.unreferenced_member"),
+  
+  UNLABELED_FILE("warning.file.not_referenced_in_label"),
   
   // Info message types
   
