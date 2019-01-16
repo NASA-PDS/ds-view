@@ -95,6 +95,11 @@ public class RuleContext extends ContextBase {
   public static final String SPOT_CHECK_DATA_KEY = "validate.spot-check";
   
   /**
+   * Key used to tell the tool to allow unlabeled files in a bundle or collection. 
+   */
+  public static final String ALLOW_UNLABELED_FILES_KEY = "validate.allow-unlabeled-files";
+  
+  /**
    * Key used to store a map of registered Product LIDVIDs.
    */
   public static final String REGISTERED_PRODUCTS_KEY = "validate.registered-products";
@@ -321,6 +326,14 @@ public class RuleContext extends ContextBase {
 	  
 	public void setSpotCheckData(int value) {
 	  putContextValue(SPOT_CHECK_DATA_KEY, value);
+	}
+	
+	public boolean getAllowUnlabeledFiles() {
+	  return getContextValue(ALLOW_UNLABELED_FILES_KEY, Boolean.class);
+	}
+	  
+	public void setAllowUnlabeledFiles(boolean flag) {
+	  putContextValue(ALLOW_UNLABELED_FILES_KEY, flag);
 	}
 	
 	public Map<String, List<LidVid>> getRegisteredProducts() {

@@ -38,7 +38,7 @@ public class FindUnreferencedFiles extends AbstractValidationRule {
   @ValidationTest
   public void findUnreferencedTargets() {
     // Only run the test if we are the root target, to avoid duplicate errors.
-    if (getContext().isRootTarget()) {
+    if (getContext().isRootTarget() && !getContext().getAllowUnlabeledFiles()) {
       for (String location : getRegistrar().getUnreferencedTargets()) {
         try {
           reportError(PDS4Problems.UNLABELED_FILE, new URL(location), -1, -1);

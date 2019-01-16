@@ -104,7 +104,8 @@ public abstract class AbstractValidationRule implements ValidationRule {
     newContext.setCheckData(context.getCheckData());
     newContext.setRegisteredProducts(context.getRegisteredProducts());
     newContext.setSpotCheckData(context.getSpotCheckData());
-
+    newContext.setAllowUnlabeledFiles(context.getAllowUnlabeledFiles());
+    
     return newContext;
 	}
 
