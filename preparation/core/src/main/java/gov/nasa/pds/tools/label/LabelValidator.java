@@ -462,8 +462,10 @@ public class LabelValidator {
 
       for (Transformer schematron : cachedSchematron) {
         DOMResult result = new DOMResult();
+        DOMSource domSource = new DOMSource(xml);
+        domSource.setSystemId(url.toString());
         // Apply the rules specified in the schematron file
-        schematron.transform(new DOMSource(xml), result);
+        schematron.transform(domSource, result);
         // Output is svrl:schematron-output document
         // Select out svrl:failed-assert nodes and put into problem container
         Document reportDoc = (Document) result.getNode();
