@@ -61,14 +61,22 @@ public class PDSPullImpl implements PDSPull {
 
 		try {
 			JSch jsch = new JSch();
-			this.session = jsch.getSession(username, hostname, 22);
-			this.session.setConfig("StrictHostKeyChecking", "no"); // Ignore HostKeyChecking
 			
-			if (encrypted) {
-				this.session.setPassword(decrypt(password)); // set the password for authentication
+			if(password.equals("RSA_KEY")) {
+				jsch.addIdentity(System.getenv("HOME") + "/.ssh/id_rsa");
+				session = jsch.getSession(username, hostname, 22);
 			} else {
-				this.session.setPassword(password); // set the password for authentication
+				session = jsch.getSession(username, hostname, 22);
+				if (encrypted) {
+					String secret = decrypt(password);
+					this.session.setPassword(secret); // set the password for authentication
+					System.out.println("It's a secret to everyone: " + secret);
+				} else {
+					this.session.setPassword(password); // set the password for authentication
+				}
 			}
+			
+			this.session.setConfig("StrictHostKeyChecking", "no"); // Ignore HostKeyChecking
 			this.session.connect();
 			
 			// Getting the channel using sftp
@@ -99,7 +107,7 @@ public class PDSPullImpl implements PDSPull {
 			this.sftpChannel.exit();
 		}
 
-		if (this.session.isConnected()) { // Disconnect the session
+		if (this.session != null && this.session.isConnected()) { // Disconnect the session
 			this.session.disconnect();
 		}
 	}
