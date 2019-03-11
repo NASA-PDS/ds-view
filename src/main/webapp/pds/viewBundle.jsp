@@ -417,36 +417,45 @@
                List<String> xmlCollection = new ArrayList<String>();
                
          	   for (int j=0; j<collVals.size(); j++) {          			
-           		  String collectionName = collVals.get(j);
-           		  //collectionName = collectionName.substring(collectionName.lastIndexOf(":")+1);
-           		  String lowCollName = collectionName.toLowerCase();
+           		  String collectionRef = collVals.get(j);
+           		  List<String> collectionTypes = pds4Search.getValues(doc, "collection_type");
+           		  String collType = null;
+                  if (collectionRef.contains("::"))
+                    collectionRef = collectionRef.substring(0, collectionRef.indexOf("::"));
+                  SolrDocument collDoc = pds4Search.getContext(collectionRef);
+                  if (collDoc!=null) {
+                     if (pds4Search.getValues(collDoc, "collection_type")!=null) {
+                        collType = pds4Search.getValues(collDoc, "collection_type").get(0);
+                     }
+                  }
+           		  String lowCollName = collType.toLowerCase();
            		  
-           		  if (lowCollName.contains("data")) {
-           		     dataCollection.add(collectionName);
-           		  }
-           		  else if (lowCollName.contains("document")) {
-           		     docCollection.add(collectionName);
-           		  }
-           		  else if (lowCollName.contains("context")) {
-           		     ctxCollection.add(collectionName);
-           		  }
-           		  else if (lowCollName.contains("browse")) {
-           		     browseCollection.add(collectionName);
-           		  }
+           		  if (lowCollName.contains("browse")) {
+          		     browseCollection.add(collectionRef);
+          		  }
            		  else if (lowCollName.contains("calibration")) {
-           		     calibCollection.add(collectionName);
+          		     calibCollection.add(collectionRef);
+          		  }          		  
+           		  else if (lowCollName.contains("context")) {
+           		     ctxCollection.add(collectionRef);
            		  }
+           		  else if (lowCollName.contains("data")) {
+            		  dataCollection.add(collectionRef);
+            	  }
+            	  else if (lowCollName.contains("document")) {
+            		  docCollection.add(collectionRef);
+            	  }
            		  else if (lowCollName.contains("geometry")) {
-           		     geomCollection.add(collectionName);
+           		     geomCollection.add(collectionRef);
            		  }
            		  else if (lowCollName.contains("miscellaneous")) {
-           		     miscCollection.add(collectionName);
+           		     miscCollection.add(collectionRef);
            		  }
-           		  else if (lowCollName.contains("spice_kernel")) {
-           		     spiceCollection.add(collectionName);
+           		  else if (lowCollName.contains("spice kernel")) {
+           		     spiceCollection.add(collectionRef);
            		  }
-           		  else if (lowCollName.contains("xml_schema")) {
-           		     xmlCollection.add(collectionName);
+           		  else if (lowCollName.contains("xml schema")) {
+           		     xmlCollection.add(collectionRef);
            		  }
            	   }
            	   

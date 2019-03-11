@@ -23,6 +23,9 @@
   </properties>
   <body>
     <release version="2.13.0" date="2019-03-29" description="This release of the Data Set View is a component of the integrated release 9.1.0 of the PDS4 System. This is an operational release of the system components to date.">
+	  <action dev="hyunlee" type="fix" issue="PDS-738">
+	     Updated to leverage the collection_type metadata instead of using LID to determine type of COLLECTION.
+      </action>
     </release>
       
     <release version="2.12.0" date="2018-09-28" description="This release of Data Set View is a component of the integrated release 9.0.0 of the PDS4 System. This is an operational release of the system components to date.">
