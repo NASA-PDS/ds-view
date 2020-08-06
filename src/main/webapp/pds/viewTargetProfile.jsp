@@ -9,7 +9,7 @@
    <title>PDS: Target Information</title>
    <META  NAME="keywords"  CONTENT="Planetary Data System">
    <META  NAME="description" CONTENT="This website serves as a mechanism for searching the PDS planetary archives.">
-   <link href="/ds-view/pds/css/pds_style.css" rel="stylesheet" type="text/css">
+   <c:import url="/includes.html" context="/include" />
    <%@ page language="java" session="true" isThreadSafe="true" info="PDS Search" 
             isErrorPage="false" contentType="text/html; charset=ISO-8859-1" 
             import="gov.nasa.pds.dsview.registry.PDS3Search, gov.nasa.pds.dsview.registry.Constants, 
@@ -24,8 +24,14 @@
 
 <body class="menu_data menu_item_data_keyword_search ">
 
-<c:import url="/header.html" context="/include" />
-<c:import url="/main_menu.html" context="/include" />
+<div id="header-container">
+   <c:import url="/header_logo.html" context="/include" />
+   <div id="menu-container">
+      <c:import url="/main_menu.html" context="/include" />
+      <c:import url="/datasearch_menu.html" context="/include" />
+   </div>
+   <c:import url="/header_links.html" context="/include" />
+</div>
 <c:import url="/datasearch_menu.html" context="/include" />
 
 <!-- Main content -->

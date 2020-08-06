@@ -7,7 +7,7 @@
 <HEAD><TITLE>PDS: Data Set Power Search</TITLE>
 <META content="Planetary Data System" name=keywords>
 <META content="This website serves as a mechanism for searching the PDS planetary archives." name=description>
-<link href="/ds-view/pds/css/pds_style.css" rel="stylesheet" type="text/css">
+<c:import url="/includes.html" context="/include" />
 <%@ page language="java" session="true" isThreadSafe="true" info="PDS Search" isErrorPage="false"
 contentType="text/html; charset=ISO-8859-1" import="javax.servlet.http.*, java.io.*, java.sql.*, java.util.*" %>
 
@@ -99,8 +99,14 @@ function changeSearchSpec()
 
 <body class="home menu_home menu_item_ ">
 
-<c:import url="/header.html" context="/include" />
-<c:import url="/main_menu.html" context="/include" />
+<div id="header-container">
+   <c:import url="/header_logo.html" context="/include" />
+   <div id="menu-container">
+      <c:import url="/main_menu.html" context="/include" />
+      <c:import url="/datasearch_menu.html" context="/include" />
+   </div>
+   <c:import url="/header_links.html" context="/include" />
+</div>
 <c:import url="/datasearch_menu.html" context="/include" />
 
 <!-- Main content -->
