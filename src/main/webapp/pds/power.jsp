@@ -107,11 +107,10 @@ function changeSearchSpec()
    </div>
    <c:import url="/header_links.html" context="/include" />
 </div>
-<c:import url="/datasearch_menu.html" context="/include" />
 
 <!-- Main content -->
 <div id="content">
-   <div style="border-top: 1px solid_white;">
+   <div style="border-top: 1px solid white;">
 
 <%-- Save the request URI in the user's session so we know to take him back here from the results page --%>
 <% request.getSession(true).setAttribute("requestURI", request.getRequestURI()); %>

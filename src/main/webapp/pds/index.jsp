@@ -24,7 +24,6 @@ String contextPath = request.getContextPath() + "/";
    </div>
    <c:import url="/header_links.html" context="/include" />
 </div>
-<c:import url="/datasearch_menu.html" context="/include" />
 
    <!-- Main content -->
    <div id="content">
