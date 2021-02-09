@@ -286,9 +286,9 @@
                           out.println(val + "<br>");
                     }
                   else if (tmpValue.equals("investigation_name")) {
-                       String missionRef = "";
-                       if (pds4Search.getValues(doc, "investigation_ref")!=null) {
-                          missionRef = pds4Search.getValues(doc, "investigation_ref").get(0);
+                       List<String> missionRefs = pds4Search.getValues(doc, "investigation_ref");
+                       if (missionRefs!=null) {
+                          String missionRef = missionRefs.get(j);
                           if (missionRef.contains("::"))
                              missionRef = missionRef.substring(0, missionRef.indexOf("::"));
 
