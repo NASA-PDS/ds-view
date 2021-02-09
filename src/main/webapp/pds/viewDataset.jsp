@@ -173,6 +173,10 @@ else {
                         <td>Citation</td>
                         <td><%=pds3Search.getValues(doc,"citation_description").get(0)%></td>
                      </tr>
+					 <tr bgcolor="#E7EEF9">
+						 <td>Data Object Identifier (DOI) </td>
+						 <td><%=pds3Search.getValues(doc,"citation_doi").get(0)%></td>
+					 </tr>
 
                      <tr bgcolor="#E7EEF9">
                         <td>Data Set Abstract</td>

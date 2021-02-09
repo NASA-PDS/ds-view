@@ -207,6 +207,7 @@ public class Constants {
     public static final Map<String, String> bundleCitationPds4ToRegistry =
       new LinkedHashMap<String, String>();
       static {
+		  bundleCitationPds4ToRegistry.put("DATA OBJECT IDENTIFIER (DOI)", "citation_doi");
           bundleCitationPds4ToRegistry.put("AUTHOR LIST", "citation_author_list");
 	      bundleCitationPds4ToRegistry.put("EDITOR LIST", "citation_editor_list");
 	      bundleCitationPds4ToRegistry.put("PUBLICATION YEAR", "citation_publication_year");
