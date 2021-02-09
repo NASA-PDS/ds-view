@@ -230,6 +230,10 @@
                   if (values.size()>1) 
                 	out.println("<br>");
          	   } // end for
+             }
+             else {
+             	if (key.equals("DATA OBJECT IDENTIFIER (DOI)"))
+             		out.println("<a href=\"https://pds.nasa.gov/datastandards/citing/doi\">https://pds.nasa.gov/datastandards/citing/doi</a>");
              } // end if (values!=null)
              %>
              </td>
