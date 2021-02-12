@@ -18,11 +18,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">  
   <modelVersion>4.0.0</modelVersion>
-  <parent>
+  <!--parent>
     <groupId>gov.nasa.pds.2010</groupId>
     <artifactId>portal</artifactId>
     <version>0.0.0</version>
-  </parent>
+  </parent-->
 
   <groupId>gov.nasa.pds.2010.portal</groupId>
   <artifactId>ds-view</artifactId>
@@ -151,6 +151,14 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.8</source>
+          <target>1.8</target>
+        </configuration>
+      </plugin>
       <!-- 
         Configuration for deploying to a local Tomcat server. Provide the 
         username and password for the Manager interface in your settings.xml.
@@ -165,8 +173,7 @@
     </plugins>
   </build>
 
-  <repositories>
-    <!-- Hosts the PDS and OODT artifacts. -->
+  <!--repositories>
     <repository>
       <id>pds-repo</id>
       <name>PDS Maven Repository</name>
@@ -180,7 +187,7 @@
         <enabled>false</enabled>
       </snapshots>
     </repository>
-  </repositories>
+  </repositories-->
 
   <dependencies>
     <dependency>
@@ -192,7 +199,7 @@
     <dependency>
       <groupId>gov.nasa.pds.2010.registry</groupId>
       <artifactId>registry-core</artifactId>
-      <version>${registry-version}</version>
+      <version>1.16.0</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
