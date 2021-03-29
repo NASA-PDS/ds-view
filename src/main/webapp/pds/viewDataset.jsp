@@ -175,7 +175,8 @@ else {
                      </tr>
 					 <tr bgcolor="#E7EEF9">
 						 <td>Data Object Identifier (DOI) </td>
-						 <td><%=pds3Search.getValues(doc,"citation_doi").get(0)%></td>
+						 <td><a href="https://pds.nasa.gov/datastandards/citing/doi">https://pds.nasa.gov/datastandards/citing/doi</a></td>
+<%--						 <td><%=pds3Search.getValues(doc,"citation_doi").get(0)%></td>--%>
 					 </tr>
 
                      <tr bgcolor="#E7EEF9">
