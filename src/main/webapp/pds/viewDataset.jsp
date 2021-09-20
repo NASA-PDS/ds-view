@@ -175,8 +175,15 @@ else {
                      </tr>
 					 <tr bgcolor="#E7EEF9">
 						 <td>Data Object Identifier (DOI) </td>
-						 <td><a href="https://pds.nasa.gov/datastandards/citing/doi">https://pds.nasa.gov/datastandards/citing/doi</a></td>
-<%--						 <td><%=pds3Search.getValues(doc,"citation_doi").get(0)%></td>--%>
+						 <td>
+							 <%
+								 List<String> doi = pds3Search.getValues(doc, "citation_doi");
+								 if (doi!=null)
+									 out.println("<a href=\"https://doi.org/" + doi.get(0) + "\">" + doi.get(0) + "</a>");
+								 else
+									 out.println("Unknown. Please contact the <a href=\"https://pds.nasa.gov/?feedback=true\">PDS Operator</a> for assistance.");
+							 %>
+						 </td>
 					 </tr>
 
                      <tr bgcolor="#E7EEF9">

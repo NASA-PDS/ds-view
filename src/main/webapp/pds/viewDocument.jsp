@@ -216,6 +216,12 @@
 
      <% 
             List<String> values = pds4Search.getValues(doc, tmpValue);
+         if (key.equals("DATA OBJECT IDENTIFIER (DOI)")) {
+             if (values!=null)
+                 out.println("<a href=\"https://doi.org/" + values.get(0) + "\">" + values.get(0) + "</a>");
+             else
+                 out.println("Unknown. Please contact the <a href=\"https://pds.nasa.gov/?feedback=true\">PDS Operator</a> for assistance.");
+        } else {
             if (values!=null) {
                for (int j=0; j<values.size(); j++) {
 
@@ -224,11 +230,8 @@
                   if (values.size()>1)
                     out.println("<br>");
                } // end for
-             }
-             else {
-                if (key.equals("DATA OBJECT IDENTIFIER (DOI)"))
-                    out.println("<a href=\"https://pds.nasa.gov/datastandards/citing/doi\">https://pds.nasa.gov/datastandards/citing/doi</a>");
              } // end if (values!=null)
+        } // end else of if (key.equals("DATA OBJECT IDENTIFIER (DOI)"))
              %>
              </td>
              </TR>
