@@ -174,7 +174,7 @@ else {
                         <td><%=pds3Search.getValues(doc,"citation_description").get(0)%></td>
                      </tr>
 					 <tr bgcolor="#E7EEF9">
-						 <td>Data Object Identifier (DOI) </td>
+						 <td>Digital Object Identifier (DOI) </td>
 						 <td>
 							 <%
 								 List<String> doi = pds3Search.getValues(doc, "citation_doi");

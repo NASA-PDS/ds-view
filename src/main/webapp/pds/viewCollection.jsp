@@ -216,7 +216,7 @@
 
 		 <% 
             List<String> values = pds4Search.getValues(doc, tmpValue);
-             if (key.equals("DATA OBJECT IDENTIFIER (DOI)")) {
+             if (tmpValue.equals("citation_doi")) {
                  if (values!=null) {
                      out.println("<a href=\"https://doi.org/" + values.get(0) + "\">" + values.get(0) + "</a>");
                  } else {
