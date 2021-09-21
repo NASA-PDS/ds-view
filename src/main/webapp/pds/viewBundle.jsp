@@ -634,7 +634,7 @@
            		if (spiceCollection.size()>0) {
            		%>
            		<TR>
-                  <td bgcolor="#F0EFEF" width=215 valign=top>SPICE KERNAL COLLECTION</td>
+                  <td bgcolor="#F0EFEF" width=215 valign=top>SPICE KERNEL COLLECTION</td> 
                   <td bgcolor="#F0EFEF" valign=top>
 
 		          <%
