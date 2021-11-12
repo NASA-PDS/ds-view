@@ -58,14 +58,18 @@ if ((hostId == null) || (hostId == "")) {
 <%
 }
 else {
-   String hostLid = hostId.toLowerCase();   
+   String hostLid = hostId;
    PDS3Search pds3Search = new PDS3Search(searchUrl);
-   //String hostLid = "urn:nasa:pds:context_pds3:instrument_host:instrument_host." + hostId.toLowerCase();
    
    try {
       SolrDocument hostObj = pds3Search.getInstHost(hostLid);
-   
-   if (hostObj==null)  { 
+
+   // If null the first time, try with lowercase hostId
+   if (hostObj==null)  {
+      hostObj = pds3Search.getInstHost(hostLid.toLowerCase());
+
+      // check if null again
+      if (hostObj==null)  {
 %>
             <tr valign="TOP">
                <td bgcolor="#F0EFEF" width=200 valign=top>
@@ -73,7 +77,8 @@ else {
                </td> 
             </tr>
 <% 
-   } 
+      }
+   }
    else { 
       for (java.util.Map.Entry<String, String> entry: Constants.instHostPds3ToRegistry.entrySet()) {
          String key = entry.getKey();
