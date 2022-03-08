@@ -177,11 +177,9 @@ else {
 						 <td>Digital Object Identifier (DOI) </td>
 						 <td>
 							 <%
-								 List<String> doi = pds3Search.getValues(doc, "citation_doi");
-								 if (doi!=null)
-									 out.println("<a href=\"https://doi.org/" + doi.get(0) + "\">" + doi.get(0) + "</a>");
-								 else
-									 out.println("Unknown. Please contact the <a href=\"https://pds.nasa.gov/?feedback=true\">PDS Operator</a> for assistance.");
+								 String doiHtml = pds3Search.getDoi(dsid);
+								 if (doiHtml != null) out.println(doiHtml);
+								 else out.println("Unable to retrieve DOI information. Please contact the <a href=\"https://pds.nasa.gov/?feedback=true\">PDS Help Deskr</a> for assistance.");
 							 %>
 						 </td>
 					 </tr>

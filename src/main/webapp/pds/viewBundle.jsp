@@ -201,7 +201,7 @@
       if (collVals!=null && collVals.size()>0) {
          anyCollectionValue = true;
       }
-      
+
       if (anyCitationValue) {
          %>
          <tr>
@@ -211,6 +211,17 @@
          <tr bgcolor="#efefef">
             <td colspan=2><b>Citation</b></td>
          </tr>
+		 <tr>
+			 <td bgcolor="#F0EFEF" width=215 valign=top>DIGITAL OBJECT IDENTIFIER (DOI)</td>
+			 <td bgcolor="#F0EFEF" valign=top>
+				 <%
+					 String lidvid = pds4Search.getValues(doc, "identifier").get(0);
+					 String doiHtml = pds4Search.getDoi(lidvid);
+					 if (doiHtml != null) out.println(doiHtml);
+					 else out.println("Unable to retrieve DOI information. Please contact the <a href=\"https://pds.nasa.gov/?feedback=true\">PDS Help Deskr</a> for assistance.");
+				 %>
+			 </td>
+		 </tr>
          <%
          for (java.util.Map.Entry<String, String> entry: Constants.bundleCitationPds4ToRegistry.entrySet()) {
             String key = entry.getKey();
@@ -222,12 +233,6 @@
 
 		 <% 
             List<String> values = pds4Search.getValues(doc, tmpValue);
-			 if (tmpValue.equals("citation_doi")) {
-				 if (values!=null)
-					 out.println("<a href=\"https://doi.org/" + values.get(0) + "\">" + values.get(0) + "</a>");
-				 else
-					 out.println("Unknown. Please contact the <a href=\"https://pds.nasa.gov/?feedback=true\">PDS Operator</a> for assistance.");
-			 } else {
             if (values!=null) {
          	   for (int j=0; j<values.size(); j++) {          			
            		  
@@ -237,7 +242,6 @@
                 	out.println("<br>");
          	   } // end for
              } // end if (values!=null)
-			} // end else of if (key.equals("DATA OBJECT IDENTIFIER (DOI)"))
              %>
              </td>
              </TR>

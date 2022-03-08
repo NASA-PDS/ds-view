@@ -23,8 +23,14 @@ import org.apache.solr.common.params.ModifiableSolrParams;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.client.solrj.SolrRequest.METHOD.*;
+import org.codehaus.jettison.json.JSONArray;
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
 
-import java.net.MalformedURLException;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.*;
 import java.util.List;
 import java.util.Iterator;
 import java.util.ArrayList;
@@ -278,12 +284,49 @@ public class PDS4Search {
 				results.add(dateValue);
 				System.out.println("date = " + obj.toString() + "  string date = " + dateValue);
 			}
-			else 
-				results.add((String)obj);
+			else {
+				results.add((String) obj);
+				System.out.println("k = " + key + "\tv = " + (String) obj);
+			}
 		}
 		return results;		
 	}
-	
+
+	public String getDoi(String identifier) throws IOException, JSONException {
+		String host = InetAddress.getLocalHost().getCanonicalHostName();
+		URL url = new URL("https://" + host + "/api/doi/0.2/dois?ids=*" + URLEncoder.encode(identifier) + "*");
+		System.out.println("DOI Service request = " + url);
+		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+		conn.setRequestMethod("GET");
+		conn.setConnectTimeout(5000);
+		conn.setReadTimeout(5000);
+
+		int responseCode = conn.getResponseCode();
+		if (responseCode == 200) {
+			BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+			String line;
+			StringBuffer response = new StringBuffer();
+			while ((line = br.readLine()) != null) {
+				response.append(line);
+			}
+			br.close();
+
+			JSONArray jsonArray = new JSONArray(response.toString());
+			System.out.println("DOI Service response = " + jsonArray.toString(2));
+			if (jsonArray.length() == 0) {
+				return null;
+			} else if (jsonArray.length() == 1) {
+				JSONObject jsonResponse = jsonArray.getJSONObject(0);
+				String doi = jsonResponse.getString("doi");
+				return "<a href=\"https://doi.org/" + doi + "\">" + doi + "</a>";
+			} else {
+				return "Multiple results found. Use <a href=\"https://" + host + "/tools/doi/\">DOI Search</a> or contaact the <a href=\"https://pds.nasa.gov/?feedback=true\">PDS Help Deskr</a> for assistance.";
+			}
+		} else {
+			return null;
+		}
+	}
+
 	/**
 	 * Command line invocation.
 	 * 
