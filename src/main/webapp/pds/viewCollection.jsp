@@ -210,13 +210,21 @@
              <td bgcolor="#F0EFEF" valign=top>
                  <%
                      String lid = pds4Search.getValues(doc, "identifier").get(0);
-                     String doiHtml = pds4Search.getDoi(lid);
-                     if (doiHtml!=null) out.println(doiHtml);
+                     String vid = pds4Search.getValues(doc, "version_id").get(0);
+                     String doiHtml = pds4Search.getDoi(lid, vid);
+                     if (doiHtml != null) {
+                         if (doiHtml.equals("No DOI found.")) {
+                             String bundleLid = collectionLid.substring(0, collectionLid.lastIndexOf(':'));
+                             String bundleDoiHtml = pds4Search.getDoi(bundleLid, null);
+                             if (bundleDoiHtml != null) out.println(bundleDoiHtml + " (from parent bundle)");
+                             else out.println("Unable to retrieve DOI information. Please contact the <a href=\"https://pds.nasa.gov/?feedback=true\">PDS Help Desk</a> for assistance.");
+                         }
+                         else {
+                             out.println(doiHtml);
+                         }
+                     }
                      else {
-                         String bundleLid = collectionLid.substring(0, collectionLid.lastIndexOf(':'));
-                         String bundleDoiHtml = pds4Search.getDoi(bundleLid);
-                         if (bundleDoiHtml != null) out.println(bundleDoiHtml + " (from parent bundle)");
-                         else out.println("Unable to retrieve DOI information. Please contact the <a href=\"https://pds.nasa.gov/?feedback=true\">PDS Help Deskr</a> for assistance.");
+                         out.println("Unable to retrieve DOI information. Please contact the <a href=\"https://pds.nasa.gov/?feedback=true\">PDS Help Desk</a> for assistance.");
                      }
                  %>
              </td>

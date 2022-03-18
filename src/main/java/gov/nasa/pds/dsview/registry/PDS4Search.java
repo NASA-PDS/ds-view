@@ -292,10 +292,8 @@ public class PDS4Search {
 		return results;		
 	}
 
-	public String getDoi(String identifier) throws IOException, JSONException {
-		String host = InetAddress.getLocalHost().getCanonicalHostName();
-		URL url = new URL("https://" + host + "/api/doi/0.2/dois?ids=*" + URLEncoder.encode(identifier) + "*");
-		System.out.println("DOI Service request = " + url);
+	public JSONArray getDoiResponse(URL url) throws IOException, JSONException {
+		System.out.println("getDoiResponse(" + url + ")");
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 		conn.setRequestMethod("GET");
 		conn.setConnectTimeout(5000);
@@ -311,19 +309,47 @@ public class PDS4Search {
 			}
 			br.close();
 
-			JSONArray jsonArray = new JSONArray(response.toString());
-			System.out.println("DOI Service response = " + jsonArray.toString(2));
-			if (jsonArray.length() == 0) {
-				return null;
-			} else if (jsonArray.length() == 1) {
-				JSONObject jsonResponse = jsonArray.getJSONObject(0);
+			JSONArray jsonResponse = new JSONArray(response.toString());
+			System.out.println("getDoiResponse=" + jsonResponse.toString(2));
+			return jsonResponse;
+		}
+		else {
+			System.out.println("getDoiResponse's responseCode != 200");
+			return null;
+		}
+	}
+
+	public String getDoi(String lid, String vid) throws IOException, JSONException {
+		System.out.println("\ngetDOI(" + lid + ", " + vid + ")");
+		String identifier = lid + "::";
+		Boolean withVid = Boolean.FALSE;
+
+		if (vid != null) {
+			identifier += vid;
+			withVid = Boolean.TRUE;
+		}
+		else {
+			identifier += "*";
+		}
+		
+		URL url = new URL("http://localhost:8082/PDS_APIs/pds_doi_api/0.2/dois?ids=" + URLEncoder.encode(identifier));
+		JSONArray doiResponse = getDoiResponse(url);
+
+		if (doiResponse == null) {
+			return null;
+		} else {
+			if (doiResponse.length() == 0) {
+				if (withVid) return getDoi(lid, null);
+				else return "No DOI found.";
+			}
+			else if (doiResponse.length() == 1) {
+				JSONObject jsonResponse = doiResponse.getJSONObject(0);
 				String doi = jsonResponse.getString("doi");
 				return "<a href=\"https://doi.org/" + doi + "\">" + doi + "</a>";
-			} else {
-				return "Multiple results found. Use <a href=\"https://" + host + "/tools/doi/\">DOI Search</a> or contaact the <a href=\"https://pds.nasa.gov/?feedback=true\">PDS Help Deskr</a> for assistance.";
 			}
-		} else {
-			return null;
+			else {
+				return "Multiple DOIs found. Use <a href=\"/tools/doi/#/search/" + identifier + "\">DOI Search</a> to select the most appropriate.";
+			}
 		}
 	}
 

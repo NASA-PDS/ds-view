@@ -392,9 +392,7 @@ public class PDS3Search {
 	}
 
 	public String getDoi(String identifier) throws IOException, JSONException {
-		String host = InetAddress.getLocalHost().getCanonicalHostName();
-
-		URL url = new URL("https://" + host + "/api/doi/0.2/dois?ids=*" + URLEncoder.encode(identifier) + "*");
+		URL url = new URL("http://localhost:8082/PDS_APIs/pds_doi_api/0.2/dois?ids=" + URLEncoder.encode(identifier));
 		System.out.println("DOI Service request = " + url);
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 		conn.setRequestMethod("GET");
@@ -420,7 +418,7 @@ public class PDS3Search {
 				String doi = jsonResponse.getString("doi");
 				return "<a href=\"https://doi.org/" + doi + "\">" + doi + "</a>";
 			} else {
-				return "Multiple results found. Use <a href=\"https://" + host + "/tools/doi/\">DOI Search</a> or contaact the <a href=\"https://pds.nasa.gov/?feedback=true\">PDS Help Deskr</a> for assistance.";
+				return "Multiple DOIs found. Use <a href=\"/tools/doi/#/search/" + identifier + "\">DOI Search</a> to select the most appropriate.";
 			}
 		} else {
 			return null;

@@ -179,7 +179,7 @@ else {
 							 <%
 								 String doiHtml = pds3Search.getDoi(dsid);
 								 if (doiHtml != null) out.println(doiHtml);
-								 else out.println("Unable to retrieve DOI information. Please contact the <a href=\"https://pds.nasa.gov/?feedback=true\">PDS Help Deskr</a> for assistance.");
+								 else out.println("Unable to retrieve DOI information. Please contact the <a href=\"https://pds.nasa.gov/?feedback=true\">PDS Help Desk</a> for assistance.");
 							 %>
 						 </td>
 					 </tr>

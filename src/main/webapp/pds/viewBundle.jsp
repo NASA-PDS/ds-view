@@ -215,10 +215,11 @@
 			 <td bgcolor="#F0EFEF" width=215 valign=top>DIGITAL OBJECT IDENTIFIER (DOI)</td>
 			 <td bgcolor="#F0EFEF" valign=top>
 				 <%
-					 String lidvid = pds4Search.getValues(doc, "identifier").get(0);
-					 String doiHtml = pds4Search.getDoi(lidvid);
+					 String lid = pds4Search.getValues(doc, "identifier").get(0);
+					 String vid = pds4Search.getValues(doc, "version_id").get(0);
+					 String doiHtml = pds4Search.getDoi(lid, vid);
 					 if (doiHtml != null) out.println(doiHtml);
-					 else out.println("Unable to retrieve DOI information. Please contact the <a href=\"https://pds.nasa.gov/?feedback=true\">PDS Help Deskr</a> for assistance.");
+					 else out.println("Unable to retrieve DOI information. Please contact the <a href=\"https://pds.nasa.gov/?feedback=true\">PDS Help Desk</a> for assistance.");
 				 %>
 			 </td>
 		 </tr>
