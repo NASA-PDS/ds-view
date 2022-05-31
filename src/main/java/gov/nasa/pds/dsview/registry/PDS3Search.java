@@ -380,7 +380,11 @@ public class PDS3Search {
 				DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSS'Z'");
 				df.setTimeZone(TimeZone.getTimeZone("GMT"));
 				String dateValue = df.format(obj);
-				results.add(dateValue);
+				if (dateValue.equals("3000-01-01T12:00:00.000Z")) {
+					results.add("N/A (ongoing)");
+				} else {
+					results.add(dateValue);
+				}
 				System.out.println("key = " + key + "   date = " + obj.toString() + "  string date = " + dateValue);
 			}
 			else {
@@ -393,6 +397,8 @@ public class PDS3Search {
 
 	public String getDoi(String identifier) throws IOException, JSONException {
 		URL url = new URL("http://localhost:8082/PDS_APIs/pds_doi_api/0.2/dois?ids=" + URLEncoder.encode(identifier));
+		// for gamma, comment above (localhost) and uncomment below (pds.nasa.gov) so that data engineers can see actual DOIs instead of test data
+//		URL url = new URL("https://pds.nasa.gov/api/doi/0.2/dois?ids=" + URLEncoder.encode(identifier));
 		System.out.println("DOI Service request = " + url);
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 		conn.setRequestMethod("GET");
