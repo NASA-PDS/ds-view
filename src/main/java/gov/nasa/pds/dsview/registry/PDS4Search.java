@@ -276,7 +276,6 @@ public class PDS4Search {
 		
 		List<String> results = new ArrayList<String>();
 		for (Object obj: values) {
-			//System.out.println("obj = " + (String)obj);
 			if (obj instanceof java.util.Date) {
 				DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSS'Z'");
 				df.setTimeZone(TimeZone.getTimeZone("GMT"));
