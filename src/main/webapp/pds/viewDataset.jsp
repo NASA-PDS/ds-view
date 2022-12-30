@@ -139,6 +139,8 @@ else {
    else { 
       //adding target type value so that we know where to link the user 
       //for target information  ArrayList targetType = new ArrayList(); ?????
+      
+      String doc_dsid = pds3Search.getValues(doc, "data_set_id").get(0);
 %>
    <table align="center" padding="18px" width="760" border="0" cellspacing="0" cellpadding="10">
       <tr>
@@ -259,7 +261,7 @@ else {
 
                      <tr bgcolor="#E7EEF9">
                         <td>Data Set Information</td>
-                        <td><a href="/ds-view/pds/viewProfile.jsp?dsid=<%=dsid%>" target="_blank"><%=dsid%></a></td>
+                        <td><a href="/ds-view/pds/viewProfile.jsp?dsid=<%=doc_dsid%>" target="_blank"><%=doc_dsid%></a></td>
                      </tr>
 
                      <tr bgcolor="#E7EEF9">
