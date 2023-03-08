@@ -179,9 +179,19 @@ else {
 						 <td>Digital Object Identifier (DOI) </td>
 						 <td>
 							 <%
-								 String doiHtml = pds3Search.getDoi(dsid);
-								 if (doiHtml != null) out.println(doiHtml);
-								 else out.println("Unable to retrieve DOI information. Please contact the <a href=\"https://pds.nasa.gov/?feedback=true\">PDS Help Desk</a> for assistance.");
+                                 // use DOI search first, then check Solr if DOI search yields no results
+                                 String doiHtml = pds3Search.getDoi(dsid);
+								 if (doiHtml != null && doiHtml != "No DOI found.") out.println(doiHtml);
+								 else {
+                                    List<String> values = pds3Search.getValues(doc, "citation_doi");
+                                    if (values != null) {
+                                      String value = values.get(0);
+                                      out.println("<a href=\"https://doi.org/" + value + "\">" + value + "</a>");
+                                    } else {
+                                      if (doiHtml == "No DOI found.") out.println(doiHtml);
+                                      else out.println("Unable to retrieve DOI information. Please contact the <a href=\"https://pds.nasa.gov/?feedback=true\">PDS Help Desk</a> for assistance.");
+                                    }
+                                 }
 							 %>
 						 </td>
 					 </tr>

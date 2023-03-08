@@ -205,30 +205,6 @@
          <tr bgcolor="#efefef">
             <td colspan=2><b>Citation</b></td>
          </tr>
-         <tr>
-             <td bgcolor="#F0EFEF" width=215 valign=top>DIGITAL OBJECT IDENTIFIER (DOI)</td>
-             <td bgcolor="#F0EFEF" valign=top>
-                 <%
-                     String lid = pds4Search.getValues(doc, "identifier").get(0);
-                     String vid = pds4Search.getValues(doc, "version_id").get(0);
-                     String doiHtml = pds4Search.getDoi(lid, vid);
-                     if (doiHtml != null) {
-                         if (doiHtml.equals("No DOI found.")) {
-                             String bundleLid = collectionLid.substring(0, collectionLid.lastIndexOf(':'));
-                             String bundleDoiHtml = pds4Search.getDoi(bundleLid, null);
-                             if (bundleDoiHtml != null) out.println(bundleDoiHtml + " (from parent bundle)");
-                             else out.println("Unable to retrieve DOI information. Please contact the <a href=\"https://pds.nasa.gov/?feedback=true\">PDS Help Desk</a> for assistance.");
-                         }
-                         else {
-                             out.println(doiHtml);
-                         }
-                     }
-                     else {
-                         out.println("Unable to retrieve DOI information. Please contact the <a href=\"https://pds.nasa.gov/?feedback=true\">PDS Help Desk</a> for assistance.");
-                     }
-                 %>
-             </td>
-         </tr>
          <%
          for (java.util.Map.Entry<String, String> entry: Constants.bundleCitationPds4ToRegistry.entrySet()) {
             String key = entry.getKey();
@@ -238,17 +214,46 @@
                   <td bgcolor="#F0EFEF" width=215 valign=top><%=key%></td> 
                   <td bgcolor="#F0EFEF" valign=top>
 
-		 <% 
-            List<String> values = pds4Search.getValues(doc, tmpValue);
-            if (values!=null) {
-               for (int j=0; j<values.size(); j++) {
+		 <%
+             if (key.equals("DIGITAL OBJECT IDENTIFIER (DOI)")) {
+                 // use DOI search first, then check Solr if DOI search yields no results
+                 String lid = pds4Search.getValues(doc, "identifier").get(0);
+                 String vid = pds4Search.getValues(doc, "version_id").get(0);
+                 String doiHtml = pds4Search.getDoi(lid, vid);
+                 if (doiHtml != null && doiHtml != "No DOI found.") out.println(doiHtml);
+                 else {
+                   List<String> values = pds4Search.getValues(doc, "citation_doi");
+                   if (values != null) {
+                     String value = values.get(0);
+                     out.println("<a href=\"https://doi.org/" + value + "\">" + value + "</a>");
+                   } else { // check parent bundle
+                       String bundleLid = collectionLid.substring(0, collectionLid.lastIndexOf(':'));
+                       String bundleDoiHtml = pds4Search.getDoi(bundleLid, null);
+                       if (bundleDoiHtml != null && bundleDoiHtml != "No DOI found.") out.println(bundleDoiHtml + " (from parent bundle)");
+                       else {
+                         SolrDocument bundleDoc = pds4Search.getContext(bundleLid);
+                         String bundleValue = pds4Search.getValues(bundleDoc, tmpValue).get(0);
+                         if (bundleValue != null) out.println("<a href=\"https://doi.org/" + bundleValue + "\">" + bundleValue + "</a> (from parent bundle)");
+                         else {
+                           if (bundleDoiHtml == "No DOI found.") out.println(bundleDoiHtml + " (from parent bundle)");
+                           else out.println("Unable to retrieve DOI information. Please contact the <a href=\"https://pds.nasa.gov/?feedback=true\">PDS Help Desk</a> for assistance.");
+                         }
+                       } // end if nothing from DOI search of parent bundle
+                   } // end if (values != null)
+                 } // end if nothing from DOI search
+             } else {
+                 List<String> values = pds4Search.getValues(doc, tmpValue);
+                 if (values != null) {
+                     for (int j = 0; j < values.size(); j++) {
 
-                    out.println(values.get(j) + "<br>");
+                         out.println(values.get(j) + "<br>");
 
-                  if (values.size()>1)
-                    out.println("<br>");
-               } // end for
-             } // end if (values!=null)
+                         if (values.size() > 1) {
+                             out.println("<br>");
+                         }
+                     } // end for
+                 } // end if (values!=null)
+             } // end if (key.equals("DOI"))
              %>
              </td>
              </TR>
