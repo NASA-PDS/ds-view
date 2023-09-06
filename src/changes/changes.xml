@@ -22,6 +22,12 @@
     <author email="Sean.Hardman@jpl.nasa.gov">Sean Hardman</author>
   </properties>
   <body>
+    <release version="2.13.0" date="2023-08-31">
+      <action dev="csuh" type="update" issue="https://jpl.slack.com/archives/C02PRDJ3PKL/p1693357977450539">
+        Updated for log4j v1.2.14 vulnerability.
+      </action>
+    </release>
+
     <release version="2.13.0" date="2023-03-07" description="">
       <action dev="csuh" type="update" issue="NASA-PDS/portal-tasks#49">
         Updated to reincorporate use of Solr information if DOI service yields no results.
