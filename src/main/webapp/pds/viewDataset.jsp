@@ -364,6 +364,7 @@ else {
 	} // if matching product is found in the registry
 	
 	} catch (Exception e) {
+		e.printStackTrace();
     }
    
 } // if dsid is specified  

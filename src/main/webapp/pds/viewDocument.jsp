@@ -69,7 +69,7 @@
                Collection<Object> values = doc.getFieldValues("identifier");
                //out.println("vales.size() = " + values.size());
                for (Object value: values) {
-                  String val = (String) value;
+                  String val = value.toString();
                   //out.println("val = " + val);
             %>
             <TR>
@@ -82,7 +82,7 @@
             }
          } // end else
       } catch (Exception e) {
-  
+    	  e.printStackTrace();
       %>
         <TR>
          <td bgcolor="#F0EFEF" width=200 valign=top> 
@@ -417,7 +417,7 @@
                  
       } // end else  
       } catch (Exception e) {
-  
+    	  e.printStackTrace();
       %>
         <TR>
          <td bgcolor="#F0EFEF" width=200 valign=top> 

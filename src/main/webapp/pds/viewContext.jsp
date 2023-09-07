@@ -349,6 +349,7 @@ else {
       } // end if target
    } // if extObj !=null
    } catch (Exception e) {
+	   e.printStackTrace();
          %>
         <TR>
          <td bgcolor="#F0EFEF" width=200 valign=top>

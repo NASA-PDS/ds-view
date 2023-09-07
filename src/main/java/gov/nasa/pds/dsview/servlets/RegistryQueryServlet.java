@@ -17,8 +17,6 @@
 
 package gov.nasa.pds.dsview.servlets;
 
-import java.util.*;
-import java.text.*;
 import java.io.*;
 import java.net.URLEncoder;
 import javax.servlet.*;
@@ -28,6 +26,8 @@ import javax.servlet.http.*;
 import gov.nasa.pds.dsview.registry.GetSearchParams;
 
 public class RegistryQueryServlet extends HttpServlet {
+
+	private static final long serialVersionUID = 4153494340424955796L;
 
 	public void doGet(HttpServletRequest req, HttpServletResponse res) 
 			throws ServletException, IOException {

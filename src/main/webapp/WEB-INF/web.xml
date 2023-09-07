@@ -26,6 +26,12 @@
       <param-value>http://localhost:8983/solr/data</param-value>
   </context-param>
 
+  <!-- DOI Service base URL -->
+  <context-param>
+      <param-name>doi.url</param-name>
+      <param-value>https://pds.nasa.gov/api/doi/0.2/dois</param-value>
+  </context-param>
+
   <!--
     The switcher servlet takes requests for certain resource classes and
     forwards them to specific web resources.  The resource class
