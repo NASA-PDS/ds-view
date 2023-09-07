@@ -22,9 +22,12 @@
     <author email="Sean.Hardman@jpl.nasa.gov">Sean Hardman</author>
   </properties>
   <body>
-    <release version="2.13.0" date="2023-08-31">
+    <release version="2.14.0-SNAPSHOT" date="2023-09-07">
+      <action dev="jpadams" type="update" issue="Solr">
+        Upgraded Solr from 3.6.0 to 8.3.1 and update Solr URL.
+      </action>
       <action dev="csuh" type="update" issue="https://jpl.slack.com/archives/C02PRDJ3PKL/p1693357977450539">
-        Updated for log4j v1.2.14 vulnerability.
+        Upgraded slf4j-log4j12 1.5.8 to 2.0.9 for log4j v1.2.14 vulnerability.
       </action>
     </release>
 
