@@ -14,15 +14,14 @@
 
 package gov.nasa.pds.dsview.registry;
 
-import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.SolrServerException;
-import org.apache.solr.client.solrj.impl.CommonsHttpSolrServer;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.client.solrj.response.FacetField;
 import org.apache.solr.common.params.ModifiableSolrParams;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.client.solrj.SolrRequest.METHOD.*;
+import org.apache.solr.client.solrj.impl.HttpSolrClient;
 
 import java.net.MalformedURLException;
 import java.util.List;
@@ -62,7 +61,7 @@ public class GetSearchParams {
 	public void getParams() {
 		String facetName = null;
 		try {			
-			SolrServer solr = new CommonsHttpSolrServer(solrServerUrl);
+			HttpSolrClient solr = new HttpSolrClient.Builder(solrServerUrl).build();
 	
 			ModifiableSolrParams params = new ModifiableSolrParams();
 			QueryResponse qr = new QueryResponse();
@@ -368,7 +367,7 @@ public class GetSearchParams {
 	
     public void getParams(String queryStr) {    	
 		try {			
-			SolrServer solr = new CommonsHttpSolrServer(solrServerUrl);	
+			HttpSolrClient solr = new HttpSolrClient.Builder(solrServerUrl).build();	
 			ModifiableSolrParams params = new ModifiableSolrParams();
 			QueryResponse qr = new QueryResponse();
 					
@@ -458,7 +457,7 @@ public class GetSearchParams {
     
     public void getSearchResult(String queryStr) {
     	try {			
-			SolrServer solr = new CommonsHttpSolrServer(solrServerUrl);	
+    		HttpSolrClient solr = new HttpSolrClient.Builder(solrServerUrl).build();	
 			ModifiableSolrParams params = new ModifiableSolrParams();
 			QueryResponse qr = new QueryResponse();
 					

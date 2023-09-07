@@ -14,15 +14,12 @@
 
 package gov.nasa.pds.dsview.registry;
 
-import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.SolrServerException;
-import org.apache.solr.client.solrj.impl.CommonsHttpSolrServer;
+import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.apache.solr.client.solrj.response.QueryResponse;
-import org.apache.solr.client.solrj.response.FacetField;
 import org.apache.solr.common.params.ModifiableSolrParams;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
-import org.apache.solr.client.solrj.SolrRequest.METHOD.*;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
@@ -61,16 +58,15 @@ public class PDS4Search {
 		this.solrServerUrl = url;
 	}
 
-	public SolrDocumentList getCollections() throws MalformedURLException,
-			SolrServerException {
-		SolrServer solr = new CommonsHttpSolrServer(solrServerUrl);
+	public SolrDocumentList getCollections() throws SolrServerException, IOException {
+		HttpSolrClient solr = new HttpSolrClient.Builder(solrServerUrl).build();
 
 		ModifiableSolrParams params = new ModifiableSolrParams();
 
-		params.add("q", "");
+		params.add("q", "*");
 		params.set("wt", "xml");
 		//params.set("fq", "facet_object_type:\"1,product_collection\"");
-		params.set("fq", "facet_type:\"1,product_collection\"");
+		params.set("fq", "facet_type:\"1,collection\"");
 		
 		System.out.println("params = " + params.toString());
 		QueryResponse response = solr.query(params,
@@ -97,15 +93,15 @@ public class PDS4Search {
 		return solrResults;
 	}
 
-	public SolrDocumentList getBundles() throws MalformedURLException, SolrServerException {
-		SolrServer solr = new CommonsHttpSolrServer(solrServerUrl);
+	public SolrDocumentList getBundles() throws SolrServerException, IOException {
+		HttpSolrClient solr = new HttpSolrClient.Builder(solrServerUrl).build();
 
 		ModifiableSolrParams params = new ModifiableSolrParams();
 
-		params.add("q", "");
+		params.add("q", "*");
 		params.set("wt", "xml");
 		//params.set("fq", "facet_object_type:\"1,product_bundle\"");
-		params.set("fq", "facet_type:\"1,product_bundle\"");
+		params.set("fq", "facet_type:\"1,bundle\"");
 		//params.set("start", start);
 		
 		System.out.println("params = " + params.toString());
@@ -113,6 +109,8 @@ public class PDS4Search {
 				org.apache.solr.client.solrj.SolrRequest.METHOD.GET);
 
 		SolrDocumentList solrResults = response.getResults();
+		System.out.println("numFound = " + solrResults.getNumFound());
+		
 		Iterator<SolrDocument> itr = solrResults.iterator();
 		int idx = 0;
 		while (itr.hasNext()) {
@@ -128,16 +126,15 @@ public class PDS4Search {
 		return solrResults;
 	}
 
-	public SolrDocumentList getObservationals(int start) throws MalformedURLException,
-	SolrServerException {
-		SolrServer solr = new CommonsHttpSolrServer(solrServerUrl);
+	public SolrDocumentList getObservationals(int start) throws SolrServerException, IOException {
+		HttpSolrClient solr = new HttpSolrClient.Builder(solrServerUrl).build();
 		
 		ModifiableSolrParams params = new ModifiableSolrParams();
 
-		params.add("q", "");
+		params.add("q", "*");
 		params.set("wt", "xml");
 		//params.set("fq", "facet_object_type:\"1,product_observational\"");
-		params.set("fq", "facet_type:\"1,product_observational\"");
+		params.set("fq", "facet_type:\"1,observational\"");
 		params.set("start", start);
 
 		System.out.println("params = " + params.toString());
@@ -165,16 +162,16 @@ public class PDS4Search {
 		return solrResults;
 	}
 
-	public SolrDocumentList getDocuments() throws MalformedURLException,
-			SolrServerException {
-		SolrServer solr = new CommonsHttpSolrServer(solrServerUrl);
+	public SolrDocumentList getDocuments() throws SolrServerException, IOException {
+//		SolrServer solr = new CommonsHttpSolrServer(solrServerUrl);
+		HttpSolrClient solr = new HttpSolrClient.Builder(solrServerUrl).build();
 
 		ModifiableSolrParams params = new ModifiableSolrParams();
 
 		params.add("q", "");
 		params.set("wt", "xml");
 		//params.set("fq", "facet_object_type:\"1,product_document\"");
-		params.set("fq", "facet_type:\"1,product_document\"");
+		params.set("fq", "facet_type:\"1,document\"");
 		
 		System.out.println("params = " + params.toString());
 		QueryResponse response = solr.query(params,
@@ -201,8 +198,8 @@ public class PDS4Search {
 		return solrResults;
 	}
 	
-	public SolrDocument getContext(String identifier) throws MalformedURLException, SolrServerException {
-		SolrServer solr = new CommonsHttpSolrServer(solrServerUrl);
+	public SolrDocument getContext(String identifier) throws SolrServerException, IOException {
+		HttpSolrClient solr = new HttpSolrClient.Builder(solrServerUrl).build();
 		ModifiableSolrParams params = new ModifiableSolrParams();
 
 		params.add("q", "identifier:"+identifier);
@@ -372,11 +369,11 @@ public class PDS4Search {
 				pds4Search = new PDS4Search(argv[0]);
 			else
 				pds4Search = new PDS4Search(
-						"http://pdsbeta.jpl.nasa.gov/tools/search-service/pds/");
+						"http://localhost:8983/solr/data");
 
 			pds4Search.getCollections();
 			pds4Search.getBundles();
-			pds4Search.getContext("urn:nasa:pds:context:investigation:investigation.PHOENIX");
+//			pds4Search.getContext("urn:nasa:pds:context:investigation:investigation.PHOENIX");
 
 			// sparms.getSearchResult("mission:cassini-huygens and target:Callisto");
 		} catch (Exception ex) {

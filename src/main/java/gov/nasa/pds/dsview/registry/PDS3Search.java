@@ -14,15 +14,12 @@
 
 package gov.nasa.pds.dsview.registry;
 
-import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.SolrServerException;
-import org.apache.solr.client.solrj.impl.CommonsHttpSolrServer;
+import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.apache.solr.client.solrj.response.QueryResponse;
-import org.apache.solr.client.solrj.response.FacetField;
 import org.apache.solr.common.params.ModifiableSolrParams;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
-import org.apache.solr.client.solrj.SolrRequest.METHOD.*;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
@@ -58,9 +55,8 @@ public class PDS3Search {
 		this.solrServerUrl = url;
 	}
 
-	public SolrDocumentList getDataSetList() throws MalformedURLException,
-			SolrServerException {
-		SolrServer solr = new CommonsHttpSolrServer(solrServerUrl);
+	public SolrDocumentList getDataSetList() throws SolrServerException, IOException {
+		HttpSolrClient solr = new HttpSolrClient.Builder(solrServerUrl).build();
 
 		ModifiableSolrParams params = new ModifiableSolrParams();
 
@@ -97,9 +93,9 @@ public class PDS3Search {
 		return solrResults;
 	}
 	
-	public SolrDocument getDataSet(String identifier) throws MalformedURLException, SolrServerException {
-		SolrServer solr = new CommonsHttpSolrServer(solrServerUrl);
-
+	public SolrDocument getDataSet(String identifier) throws SolrServerException, IOException {
+		HttpSolrClient solr = new HttpSolrClient.Builder(solrServerUrl).build();
+		
 		ModifiableSolrParams params = new ModifiableSolrParams();
 
 		params.add("q", "pds_model_version:pds3 AND data_set_id:\""+identifier+"\"");
@@ -146,8 +142,8 @@ public class PDS3Search {
 		return doc;
 	}
 	
-	public SolrDocument getMission(String identifier) throws MalformedURLException, SolrServerException {
-		SolrServer solr = new CommonsHttpSolrServer(solrServerUrl);
+	public SolrDocument getMission(String identifier) throws SolrServerException, IOException {
+		HttpSolrClient solr = new HttpSolrClient.Builder(solrServerUrl).build();
 
 		ModifiableSolrParams params = new ModifiableSolrParams();
 
@@ -184,8 +180,8 @@ public class PDS3Search {
 		return doc;
 	}
 
-	public SolrDocument getInstHost(String identifier) throws MalformedURLException, SolrServerException {
-		SolrServer solr = new CommonsHttpSolrServer(solrServerUrl);
+	public SolrDocument getInstHost(String identifier) throws SolrServerException, IOException {
+		HttpSolrClient solr = new HttpSolrClient.Builder(solrServerUrl).build();
 
 		ModifiableSolrParams params = new ModifiableSolrParams();
 
@@ -223,8 +219,8 @@ public class PDS3Search {
 		return doc;
 	}
 	
-	public List<SolrDocument> getInst(String identifier) throws MalformedURLException, SolrServerException {
-		SolrServer solr = new CommonsHttpSolrServer(solrServerUrl);
+	public List<SolrDocument> getInst(String identifier) throws SolrServerException, IOException {
+		HttpSolrClient solr = new HttpSolrClient.Builder(solrServerUrl).build();
 
 		ModifiableSolrParams params = new ModifiableSolrParams();
 
@@ -259,8 +255,8 @@ public class PDS3Search {
 		return instDocs;
 	}
 	
-	public SolrDocument getInst(String instId, String instHostId) throws MalformedURLException, SolrServerException {
-		SolrServer solr = new CommonsHttpSolrServer(solrServerUrl);
+	public SolrDocument getInst(String instId, String instHostId) throws SolrServerException, IOException {
+		HttpSolrClient solr = new HttpSolrClient.Builder(solrServerUrl).build();
 
 		ModifiableSolrParams params = new ModifiableSolrParams();
 
@@ -293,8 +289,8 @@ public class PDS3Search {
 		return doc;
 	}
 	
-	public SolrDocument getTarget(String identifier) throws MalformedURLException, SolrServerException {
-		SolrServer solr = new CommonsHttpSolrServer(solrServerUrl);
+	public SolrDocument getTarget(String identifier) throws SolrServerException, IOException {
+		HttpSolrClient solr = new HttpSolrClient.Builder(solrServerUrl).build();
 
 		ModifiableSolrParams params = new ModifiableSolrParams();
 
@@ -330,8 +326,8 @@ public class PDS3Search {
 		return doc;
 	}
 	
-	public SolrDocument getResource(String identifier) throws MalformedURLException, SolrServerException {
-		SolrServer solr = new CommonsHttpSolrServer(solrServerUrl);
+	public SolrDocument getResource(String identifier) throws SolrServerException, IOException {
+		HttpSolrClient solr = new HttpSolrClient.Builder(solrServerUrl).build();
 
 		ModifiableSolrParams params = new ModifiableSolrParams();
 
