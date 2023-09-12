@@ -40,68 +40,10 @@
       <td>
          <table width="760" border="0" cellspacing="3" cellpadding="2">
             <tr valign="TOP">
-               <td valign="TOP" colspan="2" class="pageTitle">
-                  <b>Person Information</b><br/>
-               </td>
-            </tr>
-
-<%
-String pdsUserId=request.getParameter("PDS_USER_ID");
-if ((pdsUserId == null) || (pdsUserId == "")) {
-%>
-            <tr valign="TOP">
                <td bgcolor="#F0EFEF" width=200 valign=top>
-                  Please specify a valid <b>PDS_USER_ID</b>.
+                  This service has been deprecated. Submit feedback if you would like more information.
                </td>
-            </tr>
-<%
-}
-else {
-   gov.nasa.pds.dsview.registry.SearchRegistry searchRegistry = new gov.nasa.pds.dsview.registry.SearchRegistry(registryUrl);
-   String personLid = "urn:nasa:pds:context_pds3:personnel:personnel." + pdsUserId.toLowerCase();
-   ExtrinsicObject personObj = searchRegistry.getExtrinsic(personLid);
-  
-   if (personObj==null) { 
-   %>
-            <tr valign="TOP">
-               <td bgcolor="#F0EFEF" width=200 valign=top>
-                  Information not found for PDS_USER_ID <b><%=pdsUserId%></b>. Please verify the value.
-               </td>
-            </tr>
-   <%
-   } 
-   else { 
-      //out.println("personObj guid = " + personObj.getGuid());
-      for (java.util.Map.Entry<String, String> entry: Constants.personPds3ToRegistry.entrySet()) {
-         String key = entry.getKey();
-		 String tmpValue = entry.getValue();
-         %>
-            <TR>
-               <td bgcolor="#F0EFEF" width=200 valign=top><%=key%></td> 
-               <td bgcolor="#F0EFEF" valign=top>
-         <% 
-         //String tmpValue = displayedValueNames[i];
-         List<String> slotValues = searchRegistry.getSlotValues(personObj, tmpValue);
-         if (slotValues!=null) {
-            for (int j=0; j<slotValues.size(); j++) {
-               out.println(slotValues.get(j).toUpperCase() + "<br>");
-                         	   
-               if (slotValues.size()>1) 
-                  out.println("<br>");
-            } // end for
-         } // end if (slotValues!=null
-         else {
-            if (tmpValue.equals("pds_user_id")) 
-               out.println(pdsUserId + "<br>");
-         }
-         %>
-               </td>
-            </TR>
-<%         
-      } // for loop
-   } // end else personObj!=null
-} // if PDS_USER_ID is specified
-%>        
+            </tr> 
          </table>
       </td>
    </tr>

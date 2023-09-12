@@ -275,7 +275,6 @@ else {
                    if (instHostValues != null) {
                     String instHostLid = instHostValues.get(0);
                
-                    //ExtrinsicObject instHostObj = searchRegistry.getExtrinsic(instHostLid);
                     SolrDocument instHostObj = pds4Search.getContext(instHostLid); 
                     if (instHostObj!=null) {
                        List<String> instHostIdValues = pds4Search.getValues(instHostObj, "instrument_host_name");

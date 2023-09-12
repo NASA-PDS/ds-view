@@ -12,8 +12,7 @@
    <c:import url="/includes.html" context="/include" />
    <%@ page language="java" session="true" isThreadSafe="true" info="PDS Search" 
             isErrorPage="false" contentType="text/html; charset=ISO-8859-1" 
-            import="gov.nasa.pds.dsview.registry.PDS3Search, gov.nasa.pds.dsview.registry.Constants, 
-            gov.nasa.pds.dsview.registry.SearchRegistry, gov.nasa.pds.registry.model.ExtrinsicObject,
+            import="gov.nasa.pds.dsview.registry.PDS3Search, gov.nasa.pds.dsview.registry.Constants,
                     org.apache.solr.common.SolrDocument,  
                     java.util.*, java.net.*, java.io.*, java.lang.*"
    %>

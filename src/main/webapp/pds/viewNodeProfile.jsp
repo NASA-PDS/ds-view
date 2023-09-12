@@ -41,67 +41,10 @@
       <td>
          <table width="760" border="0" cellspacing="3" cellpadding="2">
             <tr valign="TOP">
-               <td valign="TOP" colspan="2" class="pageTitle">
-                  <b>Node Information</b><br/>
-               </td>
-            </tr>
-
-<%
-String nodeId = request.getParameter("NODE_ID");
-if ((nodeId == null) || (nodeId == "")) {
-%>
-            <tr valign="TOP">
                <td bgcolor="#F0EFEF" width=200 valign=top>
-                  Please specify a valid <b>NODE_ID</b>.
+                  This service has been deprecated. Submit feedback if you would like more information.
                </td>
             </tr>
-<%
-}
-else {
-   gov.nasa.pds.dsview.registry.SearchRegistry searchRegistry = new gov.nasa.pds.dsview.registry.SearchRegistry(registryUrl);
-   String nodeLid = "urn:nasa:pds:context_pds3:node:node." + nodeId.toLowerCase();
-   ExtrinsicObject nodeObj = searchRegistry.getExtrinsic(nodeLid);
-   
-   if (nodeObj==null) { 
-   %>
-            <tr valign="TOP">
-               <td bgcolor="#F0EFEF" width=200 valign=top>
-                  Information not found for NODE_ID <b><%=nodeId%></b>. Please verify the value.
-               </td>
-            </tr>
-  <% 
-   }
-   else {
-      //out.println("nodeObj guid = " + nodeObj.getGuid());   
-      for (java.util.Map.Entry<String, String> entry: Constants.nodePds3ToRegistry.entrySet()) {
-         String key = entry.getKey();
-		 String tmpValue = entry.getValue(); 
-         %>
-            <TR>
-               <td bgcolor="#F0EFEF" width=200 valign=top><%=key%></td> 
-               <td bgcolor="#F0EFEF" valign=top>
-         <% 
-         List<String> slotValues = searchRegistry.getSlotValues(nodeObj, tmpValue);
-         if (slotValues!=null) {
-            for (int j=0; j<slotValues.size(); j++) {
-               out.println(slotValues.get(j).toUpperCase() + "<br>");
-                         	   
-               if (slotValues.size()>1) 
-                  out.println("<br>");
-            } // end for
-         } // end if (slotValues!=null)
-         else {
-            if (tmpValue.equals("node_id")) 
-               out.println(nodeId + "<br>");
-         }
-         %>
-               </td>
-            </TR>
-         <%  
-      } // for loop 
-   } // if nodeObj!=null
-}  // if node id was specified
-%>        
          </table>
       </td>
    </tr>
