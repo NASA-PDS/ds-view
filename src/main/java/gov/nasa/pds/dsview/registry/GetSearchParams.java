@@ -14,22 +14,15 @@
 
 package gov.nasa.pds.dsview.registry;
 
-import org.apache.solr.client.solrj.SolrServerException;
-import org.apache.solr.client.solrj.response.QueryResponse;
-import org.apache.solr.client.solrj.response.FacetField;
-import org.apache.solr.common.params.ModifiableSolrParams;
-import org.apache.solr.common.SolrDocument;
-import org.apache.solr.common.SolrDocumentList;
-import org.apache.solr.client.solrj.SolrRequest.METHOD.*;
-import org.apache.solr.client.solrj.impl.HttpSolrClient;
-
-import java.net.MalformedURLException;
-import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
-
-import gov.nasa.pds.dsview.registry.SearchRegistry;
-import gov.nasa.pds.registry.model.ExtrinsicObject;
+import java.util.List;
+import org.apache.solr.client.solrj.impl.HttpSolrClient;
+import org.apache.solr.client.solrj.response.FacetField;
+import org.apache.solr.client.solrj.response.QueryResponse;
+import org.apache.solr.common.SolrDocument;
+import org.apache.solr.common.SolrDocumentList;
+import org.apache.solr.common.params.ModifiableSolrParams;
 
 /** 
  * This class is used by the PDS data set view web interface to retrieve
