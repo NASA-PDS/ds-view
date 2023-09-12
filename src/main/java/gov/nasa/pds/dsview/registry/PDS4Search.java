@@ -14,32 +14,31 @@
 
 package gov.nasa.pds.dsview.registry;
 
-import org.apache.solr.client.solrj.SolrServerException;
-import org.apache.solr.client.solrj.impl.HttpSolrClient;
-import org.apache.solr.client.solrj.response.QueryResponse;
-import org.apache.solr.common.params.ModifiableSolrParams;
-import org.apache.solr.common.SolrDocument;
-import org.apache.solr.common.SolrDocumentList;
-import org.codehaus.jettison.json.JSONArray;
-import org.codehaus.jettison.json.JSONException;
-import org.codehaus.jettison.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.List;
-import java.util.Iterator;
-import java.util.ArrayList;
-
-import java.util.Map;
-import java.util.Collection;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.TimeZone;
 import java.util.logging.Logger;
+import org.apache.solr.client.solrj.SolrServerException;
+import org.apache.solr.client.solrj.impl.HttpSolrClient;
+import org.apache.solr.client.solrj.response.QueryResponse;
+import org.apache.solr.common.SolrDocument;
+import org.apache.solr.common.SolrDocumentList;
+import org.apache.solr.common.params.ModifiableSolrParams;
+import org.codehaus.jettison.json.JSONArray;
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
 
 /**
  * This class is used by the PDS data set view web interface to retrieve values
@@ -258,6 +257,57 @@ public class PDS4Search {
 		}
 		return results;		
 	}
+
+    public Map<String, String> getResourceLinks(List<String> resourceRefList)
+        throws SolrServerException, IOException {
+      HttpSolrClient solr = new HttpSolrClient.Builder(solrServerUrl).build();
+      ModifiableSolrParams params = new ModifiableSolrParams();
+
+      log.info("getResourceLinks");
+      Map<String, String> resourceMap = new HashMap<String, String>();
+      for (String resourceRef : resourceRefList) {
+        params.add("q", "identifier:" + cleanIdentifier(resourceRef));
+        params.set("indent", "on");
+        params.set("wt", "xml");
+
+        log.info("params = " + params.toString());
+        QueryResponse response =
+            solr.query(params, org.apache.solr.client.solrj.SolrRequest.METHOD.GET);
+
+        SolrDocumentList solrResults = response.getResults();
+        log.info("numFound = " + solrResults.getNumFound());
+
+        Iterator<SolrDocument> itr = solrResults.iterator();
+        SolrDocument doc = null;
+        int idx = 0;
+        while (itr.hasNext()) {
+          doc = itr.next();
+          log.info("*****************  idx = " + (idx++));
+          // log.info(doc.toString());
+
+          String resourceName = "";
+          String resourceURL = "";
+          for (Map.Entry<String, Object> entry : doc.entrySet()) {
+            if (entry.getKey().equals("resource_name")) {
+              resourceName = getValue(entry);
+            } else if (entry.getKey().equals("resLocation")) {
+              resourceURL = getValue(entry);
+            }
+          }
+          log.info("resname = " + resourceName + "       reslink = " + resourceURL);
+          resourceMap.put(resourceName, resourceURL);
+        }
+      }
+      return resourceMap;
+    }
+
+    private String getValue(Map.Entry<String, Object> entry) {
+      if (entry.getValue() instanceof List<?>) {
+        return ((List<?>) entry.getValue()).get(0).toString();
+      }
+
+      return entry.getValue().toString();
+    }
 
 	public JSONArray getDoiResponse(URL url) throws IOException, JSONException {
 		log.info("getDoiResponse(" + url + ")");

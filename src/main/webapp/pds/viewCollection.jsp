@@ -8,7 +8,7 @@
    <title>PDS: Collection Information</title>
       <META  NAME="keywords"  CONTENT="Planetary Data System">
       <META  NAME="description" CONTENT="This website serves as a mechanism for displaying the volume information in PDS planetary archives.">
-      <c:import url="/includes.html" context="/include" />
+      <%-- <c:import url="/includes.html" context="/include" /> --%>
       
       <%@ page language="java" session="true" isThreadSafe="true" info="PDS Search" isErrorPage="false" 
                contentType="text/html; charset=ISO-8859-1" 
@@ -24,14 +24,14 @@
 
 <body class="menu_data menu_item_data_keyword_search ">
 
-<div id="header-container">
+<%-- <div id="header-container">
    <c:import url="/header_logo.html" context="/include" />
    <div id="menu-container">
       <c:import url="/main_menu.html" context="/include" />
       <c:import url="/datasearch_menu.html" context="/include" />
    </div>
    <c:import url="/header_links.html" context="/include" />
-</div>
+</div> --%>
    
 <!-- Main content -->
 <div id="content">
@@ -131,32 +131,16 @@
          else if (key.equals("NAME"))
             out.println(pds4Search.getValues(doc, "title").get(0));
          //else if (key.equals("RESOURCES")) {
-         else if (tmpValue.equals("resource_ref")) {
-            String resname = "";
-            String reslink = "";
-            List<String> resnames = pds4Search.getValues(doc, "resource_name");
-            if (resnames!=null) {
-               if (resnames.size()==1) {
-                  resname = pds4Search.getValues(doc, "resource_name").get(0);
-                  if (pds4Search.getValues(doc, "resource_url")!=null)
-                     reslink = pds4Search.getValues(doc, "resource_url").get(0);
-               %>
-               <a href="<%=reslink%>" target="_new"><%=resname%></a><br>
-               <%    
-               } // end if
-               else if (resnames.size()>1) {
-                  List<String> reslinks = pds4Search.getValues(doc, "resource_url");
-                  for (int i=0; i<resnames.size(); i++) {
-                     resname = resnames.get(i);
-                     reslink = reslinks.get(i);
-                     %>
-                     <a href="<%=reslink%>" target="_new"><%=resname%></a><br>
-                     <%
-                  } // end for
-               }
-            } // end if (resnames!=null)
-         }
-         else {
+         else if (tmpValue.equals("resource_ref")) {            
+            List<String> resourceRefs = pds4Search.getValues(doc, "resource_ref");
+            Map<String, String> resourceMap = pds4Search.getResourceLinks(resourceRefs);
+            for (String resname : resourceMap.keySet()) {
+              String reslink = resourceMap.get(resname);
+              %>
+              <a href="<%=reslink%>" target="_new"><%=resname%></a><br>
+              <%
+            }
+         } else {
             //out.println("tmpValue = " + tmpValue + "<br>");
             List<String> values = pds4Search.getValues(doc, tmpValue);
             if (values!=null) {
@@ -447,7 +431,7 @@
 </div>
 </div>
 
-<c:import url="/footer.html" context="/include" />
+<%-- <c:import url="/footer.html" context="/include" /> --%>
 
 </BODY>
 </HTML>

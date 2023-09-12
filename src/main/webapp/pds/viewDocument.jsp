@@ -132,29 +132,14 @@
             out.println(pds4Search.getValues(doc, "title").get(0));
          //else if (key.equals("RESOURCES")) {
          else if (tmpValue.equals("resource_ref")) {
-            String resname = "";
-            String reslink = "";
-            List<String> resnames = pds4Search.getValues(doc, "resource_name");
-            if (resnames!=null) {
-               if (resnames.size()==1) {
-                  resname = pds4Search.getValues(doc, "resource_name").get(0);
-                  if (pds4Search.getValues(doc, "resource_url")!=null)
-                     reslink = pds4Search.getValues(doc, "resource_url").get(0);
-               %>
-               <a href="<%=reslink%>" target="_new"><%=resname%></a><br>
-               <%    
-               } // end if
-               else if (resnames.size()>1) {
-                  List<String> reslinks = pds4Search.getValues(doc, "resource_url");
-                  for (int i=0; i<resnames.size(); i++) {
-                     resname = resnames.get(i);
-                     reslink = reslinks.get(i);
-                     %>
-                     <a href="<%=reslink%>" target="_new"><%=resname%></a><br>
-                     <%
-                  } // end for
-               }
-            } // end if (resnames!=null)
+           List<String> resourceRefs = pds4Search.getValues(doc, "resource_ref");
+           Map<String, String> resourceMap = pds4Search.getResourceLinks(resourceRefs);
+           for (String resname : resourceMap.keySet()) {
+             String reslink = resourceMap.get(resname);
+             %>
+             <a href="<%=reslink%>" target="_new"><%=resname%></a><br>
+             <%
+           }
          }
          else {
             //out.println("tmpValue = " + tmpValue + "<br>");
