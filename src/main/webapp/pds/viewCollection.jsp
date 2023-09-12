@@ -8,7 +8,7 @@
    <title>PDS: Collection Information</title>
       <META  NAME="keywords"  CONTENT="Planetary Data System">
       <META  NAME="description" CONTENT="This website serves as a mechanism for displaying the volume information in PDS planetary archives.">
-      <%-- <c:import url="/includes.html" context="/include" /> --%>
+      <c:import url="/includes.html" context="/include" />
       
       <%@ page language="java" session="true" isThreadSafe="true" info="PDS Search" isErrorPage="false" 
                contentType="text/html; charset=ISO-8859-1" 
@@ -24,14 +24,14 @@
 
 <body class="menu_data menu_item_data_keyword_search ">
 
-<%-- <div id="header-container">
+<div id="header-container">
    <c:import url="/header_logo.html" context="/include" />
    <div id="menu-container">
       <c:import url="/main_menu.html" context="/include" />
       <c:import url="/datasearch_menu.html" context="/include" />
    </div>
    <c:import url="/header_links.html" context="/include" />
-</div> --%>
+</div>
    
 <!-- Main content -->
 <div id="content">
@@ -216,8 +216,8 @@
                        if (bundleDoiHtml != null && bundleDoiHtml != "No DOI found.") out.println(bundleDoiHtml + " (from parent bundle)");
                        else {
                          SolrDocument bundleDoc = pds4Search.getContext(bundleLid);
-                         String bundleValue = pds4Search.getValues(bundleDoc, tmpValue).get(0);
-                         if (bundleValue != null) out.println("<a href=\"https://doi.org/" + bundleValue + "\">" + bundleValue + "</a> (from parent bundle)");
+                         List<String> bundleValue = pds4Search.getValues(bundleDoc, tmpValue);
+                         if (bundleValue != null) out.println("<a href=\"https://doi.org/" + bundleValue.get(0) + "\">" + bundleValue.get(0) + "</a> (from parent bundle)");
                          else {
                            if (bundleDoiHtml == "No DOI found.") out.println(bundleDoiHtml + " (from parent bundle)");
                            else out.println("Unable to retrieve DOI information. Please contact the <a href=\"https://pds.nasa.gov/?feedback=true\">PDS Help Desk</a> for assistance.");
@@ -431,7 +431,7 @@
 </div>
 </div>
 
-<%-- <c:import url="/footer.html" context="/include" /> --%>
+<c:import url="/footer.html" context="/include" />
 
 </BODY>
 </HTML>
