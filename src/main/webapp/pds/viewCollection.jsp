@@ -119,7 +119,7 @@
                   <td bgcolor="#F0EFEF" width=215 valign=top><%=key%></td> 
                   <td bgcolor="#F0EFEF" valign=top>
 
-		 <% 
+		 <%
          //out.println("key = " + key);
 		 if (key.equals("IDENTIFIER")) {
 		    String lidvid = pds4Search.getValues(doc, "identifier").get(0);
@@ -133,13 +133,15 @@
          //else if (key.equals("RESOURCES")) {
          else if (tmpValue.equals("resource_ref")) {            
             List<String> resourceRefs = pds4Search.getValues(doc, "resource_ref");
-            Map<String, String> resourceMap = pds4Search.getResourceLinks(resourceRefs);
-            for (String resname : resourceMap.keySet()) {
-              String reslink = resourceMap.get(resname);
-              %>
-              <a href="<%=reslink%>" target="_new"><%=resname%></a><br>
-              <%
-            }
+            if (resourceRefs!=null) {
+                Map<String, String> resourceMap = pds4Search.getResourceLinks(resourceRefs);
+                for (String resname : resourceMap.keySet()) {
+                  String reslink = resourceMap.get(resname);
+                  %>
+                  <a href="<%=reslink%>" target="_new"><%=resname%></a><br>
+                  <%
+                }
+            } // end if (resourceRefs != null)
          } else {
             //out.println("tmpValue = " + tmpValue + "<br>");
             List<String> values = pds4Search.getValues(doc, tmpValue);

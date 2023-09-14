@@ -133,13 +133,15 @@
          //else if (key.equals("SEARCH/ACCESS DATA")) {
          else if (tmpValue.equals("resource_ref")) {
            List<String> resourceRefs = pds4Search.getValues(doc, "resource_ref");
-           Map<String, String> resourceMap = pds4Search.getResourceLinks(resourceRefs);
-           for (String resname : resourceMap.keySet()) {
-             String reslink = resourceMap.get(resname);
-             %>
-             <a href="<%=reslink%>" target="_new"><%=resname%></a><br>
-             <%
-           }
+           if (resourceRefs!=null) {
+               Map<String, String> resourceMap = pds4Search.getResourceLinks(resourceRefs);
+               for (String resname : resourceMap.keySet()) {
+                 String reslink = resourceMap.get(resname);
+                 %>
+                 <a href="<%=reslink%>" target="_new"><%=resname%></a><br>
+                 <%
+               }
+            } // end if (resourceRefs != null)
          }
 		 else {
             //out.println("tmpValue = " + tmpValue + "<br>");
