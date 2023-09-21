@@ -251,7 +251,7 @@ public class PDS4Search {
 				log.info("date = " + obj.toString() + "  string date = " + dateValue);
 			}
 			else {
-				results.add(obj.toString());
+              results.add(obj.toString());
 				log.info("k = " + key + "\tv = " + obj.toString());
 			}
 		}
@@ -265,6 +265,11 @@ public class PDS4Search {
 
       log.info("getResourceLinks");
       Map<String, String> resourceMap = new HashMap<String, String>();
+
+      if (resourceRefList == null) {
+        return resourceMap;
+      }
+
       for (String resourceRef : resourceRefList) {
         params.add("q", "identifier:" + cleanIdentifier(resourceRef));
         params.set("indent", "on");
