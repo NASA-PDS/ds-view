@@ -18,11 +18,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">  
   <modelVersion>4.0.0</modelVersion>
-  <!--parent>
-    <groupId>gov.nasa.pds.2010</groupId>
-    <artifactId>portal</artifactId>
-    <version>0.0.0</version>
-  </parent-->
+  <parent>
+    <groupId>gov.nasa</groupId>
+    <artifactId>pds</artifactId>
+    <version>1.13.0</version>
+  </parent>
 
   <groupId>gov.nasa.pds.2010.portal</groupId>
   <artifactId>ds-view</artifactId>
@@ -33,13 +33,12 @@
   <description>
     The Data Set View component is a web application that serves as the browse interface for context products.
   </description>
-  <url>https://pds-cm.jpl.nasa.gov/pds4/portal/ds-view/</url>
+  <url>https://nasa-pds.github.io/ds-view/</url>
 
   <licenses>
     <license>
-      <name>California Institute of Technology</name>
-      <url>file:///${basedir}/LICENSE.txt</url>
-      <distribution>repo</distribution>
+      <name>The Apache License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
     </license>
   </licenses>
   
