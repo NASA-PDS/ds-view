@@ -45,4 +45,6 @@ pom.xml.versionsBackup
 .gwt/
 target/
 
-registry-data
+# Project-specifics
+portal-legacy-main/
+search-ui.war
