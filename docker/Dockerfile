@@ -51,23 +51,23 @@ FROM tomcat:8.5.93
 # Assets
 # ------
 #
-# The ds-view.war is built localy, but you'll need to copy over `search-ui.war` from a built repo
+# The ds-view.war is built locally, but you'll need to copy over `search-ui.war` from a built repo
 # clone for now. Officially we should pull it from the binaries attached to a release, maybe even
 # make a build-time `ARG` to specify it.
 
-COPY ./target/ds-view.war /usr/local/ds-view/ds-view.war
-COPY ./search-ui.war /usr/local/search-ui/search-ui.war
+COPY ../target/ds-view.war /usr/local/ds-view/ds-view.war
+COPY ../search-ui.war /usr/local/search-ui/search-ui.war
 
 # A couple of these context configurations are turned "off" (by renaming `.xml` → `.off`) until we
 # can devote more time to figuring them out
 
-COPY ./etc/*.xml conf/Catalina/localhost/
+COPY ../etc/*.xml conf/Catalina/localhost/
 
 # The rest of these assets should be downloaded from https://github.com/NASA-PDS/portal-legacy; see
 # the `README.md` for more details.
 
-COPY ./portal-legacy-main/include/ /data/www/pds/htdocs/include/
-COPY ./portal-legacy-main/css/ /data/www/pds/htdocs/css/
-COPY ./portal-legacy-main/js/ /data/www/pds/htdocs/js/
-COPY ./portal-legacy-main/images/ /data/www/pds/htdocs/images/
-COPY ./portal-legacy-main/scripts/ /data/www/pds/htdocs/scripts/
+COPY ../portal-legacy-main/include/ /data/www/pds/htdocs/include/
+COPY ../portal-legacy-main/css/ /data/www/pds/htdocs/css/
+COPY ../portal-legacy-main/js/ /data/www/pds/htdocs/js/
+COPY ../portal-legacy-main/images/ /data/www/pds/htdocs/images/
+COPY ../portal-legacy-main/scripts/ /data/www/pds/htdocs/scripts/
