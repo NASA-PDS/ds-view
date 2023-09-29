@@ -1,5 +1,13 @@
 # Changelog
 
+## [«unknown»](https://github.com/NASA-PDS/ds-view/tree/«unknown») (2023-09-29)
+
+[Full Changelog](https://github.com/NASA-PDS/ds-view/compare/v2.14.0...«unknown»)
+
+**Other closed issues:**
+
+- Update organization of Docker info [\#4](https://github.com/NASA-PDS/ds-view/issues/4)
+
 ## [v2.14.0](https://github.com/NASA-PDS/ds-view/tree/v2.14.0) (2023-09-22)
 
 [Full Changelog](https://github.com/NASA-PDS/ds-view/compare/2d81da52f6c9093e043202a898640c1d1a9c1e4c...v2.14.0)
