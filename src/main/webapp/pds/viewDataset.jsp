@@ -157,7 +157,9 @@ else {
 	                       <%
 	                       if (pds3Search.getValues(doc, "data_set_terse_description")!=null) {
 	                          out.println(pds3Search.getValues(doc, "data_set_terse_description").get(0));
-	                       }%>
+                           } else {
+                                out.println("Data Set Information");
+                           }%>
 	                    </td>
 	                 </tr>
 	                 <tr>
@@ -365,6 +367,21 @@ else {
 	
 	} catch (Exception e) {
 		e.printStackTrace();
+
+        %>
+            <table align="center" width="760" border="0" cellspacing="3" cellpadding="10">
+                <tr valign="TOP">
+                    <td valign="TOP" colspan="2" class="pageTitle">
+                        <b>Data Set Information</b><br/>
+                    </td>
+                </tr>
+                <tr valign="TOP">
+                    <td bgcolor="#F0EFEF" width=200 valign=top>
+                        <b>No Search Service found: <%=searchUrl%></b> to retrieve the Data Set Information.
+                    </td>
+                </tr>
+            </table>
+        <%
     }
    
 } // if dsid is specified  
