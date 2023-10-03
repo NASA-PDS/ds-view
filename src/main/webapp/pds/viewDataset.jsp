@@ -157,7 +157,9 @@ else {
 	                       <%
 	                       if (pds3Search.getValues(doc, "data_set_terse_description")!=null) {
 	                          out.println(pds3Search.getValues(doc, "data_set_terse_description").get(0));
-                           } else {
+                           } else if {
+	                          out.println(pds3Search.getValues(doc, "abstract_text").get(0));
+			   } else {
                                 out.println("Data Set Information");
                            }%>
 	                    </td>
