@@ -270,8 +270,6 @@
             if (values!=null) {
                for (int j=0; j<values.size(); j++) {
                     String val = values.get(j);
-                    out.println("FOOBAR");
-                  //out.println("j = " + j + "    val = " + val + "   tmpValue = " + tmpValue);
                   if (tmpValue.equals("target_name")) {
                        if (pds4Search.getValues(doc, "target_ref")!=null) {
                        int i=0;
