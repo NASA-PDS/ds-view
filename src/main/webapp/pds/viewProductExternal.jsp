@@ -42,7 +42,7 @@
           <table border="0" cellpadding="10" cellspacing="0">
              <tr>
                 <td class="pageTitle">	                    
-                   <i>NOTE: This product has not been refereed by the PDS, and is not a member of the PDS archives.</i>
+                   <i>NOTE: This Product External has not been peer reviewed, and is thereby not a formal member of the PDS archives.</i><br /><br />
                 </td>
              </tr>
              <tr>
