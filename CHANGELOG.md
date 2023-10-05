@@ -1,5 +1,13 @@
 # Changelog
 
+## [«unknown»](https://github.com/NASA-PDS/ds-view/tree/«unknown») (2023-10-05)
+
+[Full Changelog](https://github.com/NASA-PDS/ds-view/compare/v2.14.1...«unknown»)
+
+**Improvements:**
+
+- Upgrade to latest Solr 9.3.x [\#8](https://github.com/NASA-PDS/ds-view/issues/8)
+
 ## [v2.14.1](https://github.com/NASA-PDS/ds-view/tree/v2.14.1) (2023-10-03)
 
 [Full Changelog](https://github.com/NASA-PDS/ds-view/compare/v2.14.0...v2.14.1)
