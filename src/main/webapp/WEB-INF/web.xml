@@ -23,7 +23,7 @@
   <!-- Search Service base URL -->
   <context-param>
       <param-name>search.url</param-name>
-      <param-value>http://localhost:8983/solr/data</param-value>
+      <param-value>http://localhost:8080/search-service</param-value>
   </context-param>
 
   <!-- DOI Service base URL -->

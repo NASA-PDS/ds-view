@@ -202,7 +202,7 @@ public class PDS4Search {
 		HttpSolrClient solr = new HttpSolrClient.Builder(solrServerUrl).build();
 		ModifiableSolrParams params = new ModifiableSolrParams();
 
-		params.add("q", "identifier:" + cleanIdentifier(identifier));
+        params.add("q", "identifier:" + cleanIdentifier(identifier));
 		params.set("indent", "on");
 		params.set("wt", "xml");
 
@@ -271,7 +271,8 @@ public class PDS4Search {
       }
 
       for (String resourceRef : resourceRefList) {
-        params.add("q", "identifier:" + cleanIdentifier(resourceRef));
+        params.clear();
+        params.add("q", "identifier:" + cleanIdentifier(getLID(resourceRef)));
         params.set("indent", "on");
         params.set("wt", "xml");
 
@@ -288,7 +289,6 @@ public class PDS4Search {
         while (itr.hasNext()) {
           doc = itr.next();
           log.info("*****************  idx = " + (idx++));
-          // log.info(doc.toString());
 
           String resourceName = "";
           String resourceURL = "";
@@ -375,10 +375,18 @@ public class PDS4Search {
 			}
 		}
 	}
-	
-	private String cleanIdentifier(String identifier) {
-		return identifier.replace(":", "\\:").replace("\\\\", "\\");
-	}
+
+    private String cleanIdentifier(String identifier) {
+      return identifier.replace(":", "\\:").replace("\\\\", "\\");
+    }
+
+    private String getLID(String identifier) {
+      if (identifier.contains("::")) {
+        return identifier.substring(0, identifier.indexOf("::"));
+      }
+
+      return identifier;
+    }
 
 	/**
 	 * Command line invocation.
