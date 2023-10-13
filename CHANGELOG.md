@@ -1,5 +1,13 @@
 # Changelog
 
+## [«unknown»](https://github.com/NASA-PDS/ds-view/tree/«unknown») (2023-10-13)
+
+[Full Changelog](https://github.com/NASA-PDS/ds-view/compare/v2.14.2...«unknown»)
+
+**Improvements:**
+
+- Upgrade Dataset View and dependencies to support Harvest/Registry upgrades [\#3](https://github.com/NASA-PDS/ds-view/issues/3)
+
 ## [v2.14.2](https://github.com/NASA-PDS/ds-view/tree/v2.14.2) (2023-10-06)
 
 [Full Changelog](https://github.com/NASA-PDS/ds-view/compare/v2.16.0...v2.14.2)
