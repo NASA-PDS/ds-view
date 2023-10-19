@@ -61,7 +61,9 @@ public class PDS4Search {
 	}
 
 	public SolrDocumentList getCollections() throws SolrServerException, IOException {
-		HttpSolrClient solr = new HttpSolrClient.Builder(solrServerUrl).build();
+	  HttpSolrClient solr = null;
+	  try {
+		solr = new HttpSolrClient.Builder(solrServerUrl).build();
 
 		ModifiableSolrParams params = new ModifiableSolrParams();
 
@@ -92,11 +94,17 @@ public class PDS4Search {
 						+ "       Value = " + entry.getValue());
 			}
 		}
-		return solrResults;
+
+        return solrResults;
+      } finally {
+        solr.close();
+      }
 	}
 
 	public SolrDocumentList getBundles() throws SolrServerException, IOException {
-		HttpSolrClient solr = new HttpSolrClient.Builder(solrServerUrl).build();
+      HttpSolrClient solr = null;
+      try {
+        solr = new HttpSolrClient.Builder(solrServerUrl).build();
 
 		ModifiableSolrParams params = new ModifiableSolrParams();
 
@@ -125,11 +133,16 @@ public class PDS4Search {
 						+ "       Value = " + entry.getValue());
 			}
 		}
-		return solrResults;
+        return solrResults;
+      } finally {
+        solr.close();
+      }
 	}
 
 	public SolrDocumentList getObservationals(int start) throws SolrServerException, IOException {
-		HttpSolrClient solr = new HttpSolrClient.Builder(solrServerUrl).build();
+      HttpSolrClient solr = null;
+      try {
+        solr = new HttpSolrClient.Builder(solrServerUrl).build();
 		
 		ModifiableSolrParams params = new ModifiableSolrParams();
 
@@ -161,11 +174,16 @@ public class PDS4Search {
 						+ "       Value = " + entry.getValue());
 			}
 		}
-		return solrResults;
+        return solrResults;
+      } finally {
+        solr.close();
+      }
 	}
 
 	public SolrDocumentList getDocuments() throws SolrServerException, IOException {
-		HttpSolrClient solr = new HttpSolrClient.Builder(solrServerUrl).build();
+      HttpSolrClient solr = null;
+      try {
+        solr = new HttpSolrClient.Builder(solrServerUrl).build();
 
 		ModifiableSolrParams params = new ModifiableSolrParams();
 
@@ -195,11 +213,16 @@ public class PDS4Search {
 						+ "       Value = " + entry.getValue());
 			}
 		}
-		return solrResults;
+        return solrResults;
+      } finally {
+        solr.close();
+      }
 	}
 	
 	public SolrDocument getContext(String identifier) throws SolrServerException, IOException {
-		HttpSolrClient solr = new HttpSolrClient.Builder(solrServerUrl).build();
+      HttpSolrClient solr = null;
+      try {
+        solr = new HttpSolrClient.Builder(solrServerUrl).build();
 		ModifiableSolrParams params = new ModifiableSolrParams();
 
         params.add("q", "identifier:" + cleanIdentifier(identifier));
@@ -227,6 +250,9 @@ public class PDS4Search {
 			}
 		}
 		return doc;
+      } finally {
+        solr.close();
+      }
 	}
 
 	public List<String> getValues(SolrDocument doc, String key) {
@@ -260,50 +286,55 @@ public class PDS4Search {
 
     public Map<String, String> getResourceLinks(List<String> resourceRefList)
         throws SolrServerException, IOException {
-      HttpSolrClient solr = new HttpSolrClient.Builder(solrServerUrl).build();
-      ModifiableSolrParams params = new ModifiableSolrParams();
+      HttpSolrClient solr = null;
+      try {
+        solr = new HttpSolrClient.Builder(solrServerUrl).build();
+        ModifiableSolrParams params = new ModifiableSolrParams();
 
-      log.info("getResourceLinks");
-      Map<String, String> resourceMap = new HashMap<String, String>();
+        log.info("getResourceLinks");
+        Map<String, String> resourceMap = new HashMap<String, String>();
 
-      if (resourceRefList == null) {
-        return resourceMap;
-      }
-
-      for (String resourceRef : resourceRefList) {
-        params.clear();
-        params.add("q", "identifier:" + cleanIdentifier(getLID(resourceRef)));
-        params.set("indent", "on");
-        params.set("wt", "xml");
-
-        log.info("params = " + params.toString());
-        QueryResponse response =
-            solr.query(params, org.apache.solr.client.solrj.SolrRequest.METHOD.GET);
-
-        SolrDocumentList solrResults = response.getResults();
-        log.info("numFound = " + solrResults.getNumFound());
-
-        Iterator<SolrDocument> itr = solrResults.iterator();
-        SolrDocument doc = null;
-        int idx = 0;
-        while (itr.hasNext()) {
-          doc = itr.next();
-          log.info("*****************  idx = " + (idx++));
-
-          String resourceName = "";
-          String resourceURL = "";
-          for (Map.Entry<String, Object> entry : doc.entrySet()) {
-            if (entry.getKey().equals("resource_name")) {
-              resourceName = getValue(entry);
-            } else if (entry.getKey().equals("resLocation")) {
-              resourceURL = getValue(entry);
-            }
-          }
-          log.info("resname = " + resourceName + "       reslink = " + resourceURL);
-          resourceMap.put(resourceName, resourceURL);
+        if (resourceRefList == null) {
+          return resourceMap;
         }
+
+        for (String resourceRef : resourceRefList) {
+          params.clear();
+          params.add("q", "identifier:" + cleanIdentifier(getLID(resourceRef)));
+          params.set("indent", "on");
+          params.set("wt", "xml");
+
+          log.info("params = " + params.toString());
+          QueryResponse response =
+              solr.query(params, org.apache.solr.client.solrj.SolrRequest.METHOD.GET);
+
+          SolrDocumentList solrResults = response.getResults();
+          log.info("numFound = " + solrResults.getNumFound());
+
+          Iterator<SolrDocument> itr = solrResults.iterator();
+          SolrDocument doc = null;
+          int idx = 0;
+          while (itr.hasNext()) {
+            doc = itr.next();
+            log.info("*****************  idx = " + (idx++));
+
+            String resourceName = "";
+            String resourceURL = "";
+            for (Map.Entry<String, Object> entry : doc.entrySet()) {
+              if (entry.getKey().equals("resource_name")) {
+                resourceName = getValue(entry);
+              } else if (entry.getKey().equals("resLocation")) {
+                resourceURL = getValue(entry);
+              }
+            }
+            log.info("resname = " + resourceName + "       reslink = " + resourceURL);
+            resourceMap.put(resourceName, resourceURL);
+          }
+        }
+        return resourceMap;
+      } finally {
+        solr.close();
       }
-      return resourceMap;
     }
 
     private String getValue(Map.Entry<String, Object> entry) {
@@ -339,6 +370,7 @@ public class PDS4Search {
 			log.info("getDoiResponse's responseCode != 200");
 			return null;
 		}
+
 	}
 
 	public String getDoi(String lid, String vid) throws IOException, JSONException {
