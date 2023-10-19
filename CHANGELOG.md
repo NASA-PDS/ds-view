@@ -1,8 +1,28 @@
 # Changelog
 
-## [«unknown»](https://github.com/NASA-PDS/ds-view/tree/«unknown») (2023-10-13)
+## [«unknown»](https://github.com/NASA-PDS/ds-view/tree/«unknown») (2023-10-19)
 
-[Full Changelog](https://github.com/NASA-PDS/ds-view/compare/v2.14.2...«unknown»)
+[Full Changelog](https://github.com/NASA-PDS/ds-view/compare/v2.14.4...«unknown»)
+
+**Defects:**
+
+- Memory leak in Solr connections leading to Tomcat crash [\#14](https://github.com/NASA-PDS/ds-view/issues/14) [[s.critical](https://github.com/NASA-PDS/ds-view/labels/s.critical)]
+
+## [v2.14.4](https://github.com/NASA-PDS/ds-view/tree/v2.14.4) (2023-10-19)
+
+[Full Changelog](https://github.com/NASA-PDS/ds-view/compare/v2.14.3...v2.14.4)
+
+**Defects:**
+
+- v2.14.2 does not work for resource links [\#12](https://github.com/NASA-PDS/ds-view/issues/12) [[s.high](https://github.com/NASA-PDS/ds-view/labels/s.high)]
+
+**Other closed issues:**
+
+- Add missing commit history from enterprise github [\#2](https://github.com/NASA-PDS/ds-view/issues/2)
+
+## [v2.14.3](https://github.com/NASA-PDS/ds-view/tree/v2.14.3) (2023-10-13)
+
+[Full Changelog](https://github.com/NASA-PDS/ds-view/compare/v2.14.2...v2.14.3)
 
 **Improvements:**
 
