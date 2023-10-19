@@ -14,29 +14,30 @@
 
 package gov.nasa.pds.dsview.registry;
 
-import org.apache.solr.client.solrj.SolrServerException;
-import org.apache.solr.client.solrj.impl.HttpSolrClient;
-import org.apache.solr.client.solrj.response.QueryResponse;
-import org.apache.solr.common.params.ModifiableSolrParams;
-import org.apache.solr.common.SolrDocument;
-import org.apache.solr.common.SolrDocumentList;
-import org.codehaus.jettison.json.JSONArray;
-import org.codehaus.jettison.json.JSONException;
-import org.codehaus.jettison.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.*;
-import java.util.List;
-import java.util.Iterator;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.Collection;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.TimeZone;
 import java.util.logging.Logger;
+import org.apache.solr.client.solrj.SolrServerException;
+import org.apache.solr.client.solrj.impl.HttpSolrClient;
+import org.apache.solr.client.solrj.response.QueryResponse;
+import org.apache.solr.common.SolrDocument;
+import org.apache.solr.common.SolrDocumentList;
+import org.apache.solr.common.params.ModifiableSolrParams;
+import org.codehaus.jettison.json.JSONArray;
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
 
 /**
  * This class is used by the PDS data set view web interface to retrieve values
@@ -47,18 +48,20 @@ import java.util.logging.Logger;
 public class PDS3Search {
 
 	private static Logger log = Logger.getLogger(PDS3Search.class.getName());
-	static String solrServerUrl = "http://pdsdev.jpl.nasa.gov:8080/search-service/";
-
+    static String solrServerUrl = "http://pdsdev.jpl.nasa.gov:8080/search-service/";
 	public static final String DOI_SERVER_URL = "https://pds.nasa.gov/api/doi/0.2/dois";
 	/**
 	 * Constructor.
 	 */
 	public PDS3Search(String url) {
-		this.solrServerUrl = url;
+      solrServerUrl = url;
 	}
 
 	public SolrDocumentList getDataSetList() throws SolrServerException, IOException {
-		HttpSolrClient solr = new HttpSolrClient.Builder(solrServerUrl).build();
+	  HttpSolrClient solr = null;
+	  
+	  try {
+        solr = new HttpSolrClient.Builder(solrServerUrl).build();
 
 		ModifiableSolrParams params = new ModifiableSolrParams();
 
@@ -93,10 +96,16 @@ public class PDS3Search {
 			}
 		}
 		return solrResults;
+      } finally {
+        solr.close();
+      }
 	}
 	
 	public SolrDocument getDataSet(String identifier) throws SolrServerException, IOException {
-		HttpSolrClient solr = new HttpSolrClient.Builder(solrServerUrl).build();
+	    HttpSolrClient solr = null;
+	      
+	      try {
+	        solr = new HttpSolrClient.Builder(solrServerUrl).build();
 		
 		ModifiableSolrParams params = new ModifiableSolrParams();
 
@@ -142,10 +151,16 @@ public class PDS3Search {
 			doc = dsDocs.get(returnIdx);
 		}
 		return doc;
+      } finally {
+        solr.close();
+      }
 	}
 	
 	public SolrDocument getMission(String identifier) throws SolrServerException, IOException {
-		HttpSolrClient solr = new HttpSolrClient.Builder(solrServerUrl).build();
+	    HttpSolrClient solr = null;
+	      
+	      try {
+	        solr = new HttpSolrClient.Builder(solrServerUrl).build();
 
 		ModifiableSolrParams params = new ModifiableSolrParams();
 
@@ -177,13 +192,18 @@ public class PDS3Search {
 			}
 			instDocs.add(doc);
 		}		
-		//if (idx>1)
-		//	doc = instDocs.get(0);
 		return doc;
+
+      } finally {
+        solr.close();
+      }
 	}
 
 	public SolrDocument getInstHost(String identifier) throws SolrServerException, IOException {
-		HttpSolrClient solr = new HttpSolrClient.Builder(solrServerUrl).build();
+      HttpSolrClient solr = null;
+	      
+      try {
+        solr = new HttpSolrClient.Builder(solrServerUrl).build();
 
 		ModifiableSolrParams params = new ModifiableSolrParams();
 
@@ -216,13 +236,18 @@ public class PDS3Search {
 			}
 			instDocs.add(doc);
 		}
-		//if (idx>1)
-		//	doc = instDocs.get(0);
-		return doc;
+        return doc;
+
+      } finally {
+        solr.close();
+      }
 	}
 	
 	public List<SolrDocument> getInst(String identifier) throws SolrServerException, IOException {
-		HttpSolrClient solr = new HttpSolrClient.Builder(solrServerUrl).build();
+      HttpSolrClient solr = null;
+	      
+      try {
+        solr = new HttpSolrClient.Builder(solrServerUrl).build();
 
 		ModifiableSolrParams params = new ModifiableSolrParams();
 
@@ -255,10 +280,17 @@ public class PDS3Search {
 			instDocs.add(doc);
 		}
 		return instDocs;
+
+      } finally {
+        solr.close();
+      }
 	}
 	
 	public SolrDocument getInst(String instId, String instHostId) throws SolrServerException, IOException {
-		HttpSolrClient solr = new HttpSolrClient.Builder(solrServerUrl).build();
+      HttpSolrClient solr = null;
+	      
+      try {
+        solr = new HttpSolrClient.Builder(solrServerUrl).build();
 
 		ModifiableSolrParams params = new ModifiableSolrParams();
 
@@ -289,10 +321,17 @@ public class PDS3Search {
 			}
 		}
 		return doc;
+
+      } finally {
+        solr.close();
+      }
 	}
 	
 	public SolrDocument getTarget(String identifier) throws SolrServerException, IOException {
-		HttpSolrClient solr = new HttpSolrClient.Builder(solrServerUrl).build();
+      HttpSolrClient solr = null;
+	      
+      try {
+        solr = new HttpSolrClient.Builder(solrServerUrl).build();
 
 		ModifiableSolrParams params = new ModifiableSolrParams();
 
@@ -326,10 +365,17 @@ public class PDS3Search {
 		if (idx>1)
 			doc = instDocs.get(0);
 		return doc;
+
+      } finally {
+        solr.close();
+      }
 	}
 	
 	public SolrDocument getResource(String identifier) throws SolrServerException, IOException {
-		HttpSolrClient solr = new HttpSolrClient.Builder(solrServerUrl).build();
+      HttpSolrClient solr = null;
+	      
+      try {
+        solr = new HttpSolrClient.Builder(solrServerUrl).build();
 
 		ModifiableSolrParams params = new ModifiableSolrParams();
 
@@ -360,20 +406,21 @@ public class PDS3Search {
 			}
 		}
 		return doc;
+
+      } finally {
+        solr.close();
+      }
 	}
 	
 	public List<String> getValues(SolrDocument doc, String key) {
 		Collection<Object> values = doc.getFieldValues(key);
 		
 		if (values==null || values.size()==0) {
-			//log.info("key = " + key + "   values = " + values);
 			return null;
 		}
 		
 		List<String> results = new ArrayList<String>();
 		for (Object obj: values) {
-			
-			//log.info("------------values = " + values.toString());
 			if (obj instanceof java.util.Date) {
 				DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSS'Z'");
 				df.setTimeZone(TimeZone.getTimeZone("GMT"));
