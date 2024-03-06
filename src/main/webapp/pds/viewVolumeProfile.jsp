@@ -16,10 +16,6 @@
                import="gov.nasa.pds.dsview.registry.Constants, 
                        java.util.*, java.net.*, java.io.*, java.lang.*"
       %>
-
-      <SCRIPT LANGUAGE="JavaScript">
-         <%@ include file="/pds/utils.js"%>
-      </SCRIPT>
 </head>
 
 <body class="menu_data menu_item_data_keyword_search ">
