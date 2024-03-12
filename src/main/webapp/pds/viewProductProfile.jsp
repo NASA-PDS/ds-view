@@ -13,10 +13,6 @@
    <%@ page language="java" session="true" isThreadSafe="true" info="PDS Search" 
             isErrorPage="false" contentType="text/html; charset=ISO-8859-1"
             import="gov.nasa.pds.registry.model.*, java.util.*, java.net.*, java.io.*,java.lang.*"%>
-
-   <SCRIPT LANGUAGE="JavaScript">
-      <%@ include file="/pds/utils.js"%>
-   </SCRIPT>
 </head>
 
 <%!
