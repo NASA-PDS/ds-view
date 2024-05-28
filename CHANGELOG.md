@@ -1,5 +1,13 @@
 # Changelog
 
+## [«unknown»](https://github.com/NASA-PDS/ds-view/tree/«unknown») (2024-05-28)
+
+[Full Changelog](https://github.com/NASA-PDS/ds-view/compare/v2.17.0...«unknown»)
+
+**Other closed issues:**
+
+- Cut down on logging output [\#23](https://github.com/NASA-PDS/ds-view/issues/23)
+
 ## [v2.17.0](https://github.com/NASA-PDS/ds-view/tree/v2.17.0) (2023-10-25)
 
 [Full Changelog](https://github.com/NASA-PDS/ds-view/compare/v2.14.4...v2.17.0)
