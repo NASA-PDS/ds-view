@@ -9,17 +9,6 @@
     <param-value>http://pds.jpl.nasa.gov/</param-value>
   </context-param>
 
-  <!-- Registry Service base URL -->
-  <context-param>
-      <param-name>registry.url</param-name>
-      <param-value>http://localhost:8080/registry-pds3</param-value>
-  </context-param>
-  
-  <context-param>
-      <param-name>proxy.registry.url</param-name>
-      <param-value>http://localhost:8080/registry-ads</param-value>
-  </context-param>
-
   <!-- Search Service base URL -->
   <context-param>
       <param-name>search.url</param-name>

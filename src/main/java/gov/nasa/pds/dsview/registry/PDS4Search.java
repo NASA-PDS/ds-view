@@ -31,7 +31,7 @@ import java.util.Map;
 import java.util.TimeZone;
 import java.util.logging.Logger;
 import org.apache.solr.client.solrj.SolrServerException;
-import org.apache.solr.client.solrj.impl.HttpSolrClient;
+import org.apache.solr.client.solrj.impl.Http2SolrClient;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
@@ -61,9 +61,9 @@ public class PDS4Search {
 	}
 
 	public SolrDocumentList getCollections() throws SolrServerException, IOException {
-	  HttpSolrClient solr = null;
+      Http2SolrClient solr = null;
 	  try {
-		solr = new HttpSolrClient.Builder(solrServerUrl).build();
+        solr = new Http2SolrClient.Builder(solrServerUrl).build();
 
 		ModifiableSolrParams params = new ModifiableSolrParams();
 
@@ -80,17 +80,17 @@ public class PDS4Search {
 			return null;
 		
 		SolrDocumentList solrResults = response.getResults();
-		log.info("numFound = " + solrResults.getNumFound());
+        log.fine("numFound = " + solrResults.getNumFound());
 		
 		Iterator<SolrDocument> itr = solrResults.iterator();
 		int idx = 0;
 		while (itr.hasNext()) {
 			SolrDocument doc = itr.next();
-			log.info("*****************  idx = " + (idx++));
+            log.fine("*****************  idx = " + (idx++));
 			// log.info(doc.toString());
 
 			for (Map.Entry<String, Object> entry : doc.entrySet()) {
-				log.info("Key = " + entry.getKey()
+              log.fine("Key = " + entry.getKey()
 						+ "       Value = " + entry.getValue());
 			}
 		}
@@ -102,9 +102,9 @@ public class PDS4Search {
 	}
 
 	public SolrDocumentList getBundles() throws SolrServerException, IOException {
-      HttpSolrClient solr = null;
+      Http2SolrClient solr = null;
       try {
-        solr = new HttpSolrClient.Builder(solrServerUrl).build();
+        solr = new Http2SolrClient.Builder(solrServerUrl).build();
 
 		ModifiableSolrParams params = new ModifiableSolrParams();
 
@@ -125,11 +125,11 @@ public class PDS4Search {
 		int idx = 0;
 		while (itr.hasNext()) {
 			SolrDocument doc = itr.next();
-			log.info("*****************  idx = " + (idx++));
+            log.fine("*****************  idx = " + (idx++));
 			// log.info(doc.toString());
 
 			for (Map.Entry<String, Object> entry : doc.entrySet()) {
-				log.info("Key = " + entry.getKey()
+              log.fine("Key = " + entry.getKey()
 						+ "       Value = " + entry.getValue());
 			}
 		}
@@ -140,9 +140,9 @@ public class PDS4Search {
 	}
 
 	public SolrDocumentList getObservationals(int start) throws SolrServerException, IOException {
-      HttpSolrClient solr = null;
+      Http2SolrClient solr = null;
       try {
-        solr = new HttpSolrClient.Builder(solrServerUrl).build();
+        solr = new Http2SolrClient.Builder(solrServerUrl).build();
 		
 		ModifiableSolrParams params = new ModifiableSolrParams();
 
@@ -160,17 +160,17 @@ public class PDS4Search {
 			return null;
 
 		SolrDocumentList solrResults = response.getResults();
-		log.info("numFound = " + solrResults.getNumFound());
+        log.fine("numFound = " + solrResults.getNumFound());
 
 		Iterator<SolrDocument> itr = solrResults.iterator();
 		int idx = 0;
 		while (itr.hasNext()) {
 			SolrDocument doc = itr.next();
-			log.info("*****************  idx = " + (idx++));
+            log.fine("*****************  idx = " + (idx++));
 			// log.info(doc.toString());
 
 			for (Map.Entry<String, Object> entry : doc.entrySet()) {
-				log.info("Key = " + entry.getKey()
+              log.fine("Key = " + entry.getKey()
 						+ "       Value = " + entry.getValue());
 			}
 		}
@@ -181,9 +181,9 @@ public class PDS4Search {
 	}
 
 	public SolrDocumentList getDocuments() throws SolrServerException, IOException {
-      HttpSolrClient solr = null;
+      Http2SolrClient solr = null;
       try {
-        solr = new HttpSolrClient.Builder(solrServerUrl).build();
+        solr = new Http2SolrClient.Builder(solrServerUrl).build();
 
 		ModifiableSolrParams params = new ModifiableSolrParams();
 
@@ -199,17 +199,17 @@ public class PDS4Search {
 			return null;
 		
 		SolrDocumentList solrResults = response.getResults();
-		log.info("numFound = " + solrResults.getNumFound());
+        log.fine("numFound = " + solrResults.getNumFound());
 		
 		Iterator<SolrDocument> itr = solrResults.iterator();
 		int idx = 0;
 		while (itr.hasNext()) {
 			SolrDocument doc = itr.next();
-			log.info("*****************  idx = " + (idx++));
+            log.fine("*****************  idx = " + (idx++));
 			// log.info(doc.toString());
 
 			for (Map.Entry<String, Object> entry : doc.entrySet()) {
-				log.info("Key = " + entry.getKey()
+              log.fine("Key = " + entry.getKey()
 						+ "       Value = " + entry.getValue());
 			}
 		}
@@ -220,32 +220,34 @@ public class PDS4Search {
 	}
 	
 	public SolrDocument getContext(String identifier) throws SolrServerException, IOException {
-      HttpSolrClient solr = null;
+      Http2SolrClient solr = null;
       try {
-        solr = new HttpSolrClient.Builder(solrServerUrl).build();
-		ModifiableSolrParams params = new ModifiableSolrParams();
+        solr = new Http2SolrClient.Builder(solrServerUrl).build();
+        
+        ModifiableSolrParams params = new ModifiableSolrParams();
 
 		params.add("q", "identifier:" + cleanIdentifier(identifier));
 		params.set("indent", "on");
 		params.set("wt", "xml");
+        params.set("qt", "archive-filter");
 
 		log.info("params = " + params.toString());
-		QueryResponse response = solr.query(params,
-				org.apache.solr.client.solrj.SolrRequest.METHOD.GET);
+        QueryResponse response =
+            solr.query(params, org.apache.solr.client.solrj.SolrRequest.METHOD.GET);
 
 		SolrDocumentList solrResults = response.getResults();
-		log.info("numFound = " + solrResults.getNumFound());
+        log.fine("numFound = " + solrResults.getNumFound());
 		
 		Iterator<SolrDocument> itr = solrResults.iterator();
 		SolrDocument doc = null;
 		int idx = 0;
 		while (itr.hasNext()) {
 			doc = itr.next();
-			log.info("*****************  idx = " + (idx++));
+            log.fine("*****************  idx = " + (idx++));
 			// log.info(doc.toString());
 
 			for (Map.Entry<String, Object> entry : doc.entrySet()) {
-				log.info("Key = " + entry.getKey()
+              log.fine("Key = " + entry.getKey()
 						+ "       Value = " + entry.getValue());
 			}
 		}
@@ -274,11 +276,11 @@ public class PDS4Search {
 				} else {
 					results.add(dateValue);
 				}
-				log.info("date = " + obj.toString() + "  string date = " + dateValue);
+                log.fine("date = " + obj.toString() + "  string date = " + dateValue);
 			}
 			else {
               results.add(obj.toString());
-				log.info("k = " + key + "\tv = " + obj.toString());
+              log.fine("k = " + key + "\tv = " + obj.toString());
 			}
 		}
 		return results;		
@@ -286,12 +288,11 @@ public class PDS4Search {
 
     public Map<String, String> getResourceLinks(List<String> resourceRefList)
         throws SolrServerException, IOException {
-      HttpSolrClient solr = null;
+      Http2SolrClient solr = null;
       try {
-        solr = new HttpSolrClient.Builder(solrServerUrl).build();
+        solr = new Http2SolrClient.Builder(solrServerUrl).build();
         ModifiableSolrParams params = new ModifiableSolrParams();
 
-        log.info("getResourceLinks");
         Map<String, String> resourceMap = new HashMap<String, String>();
 
         if (resourceRefList == null) {
@@ -308,14 +309,14 @@ public class PDS4Search {
               solr.query(params, org.apache.solr.client.solrj.SolrRequest.METHOD.GET);
 
           SolrDocumentList solrResults = response.getResults();
-          log.info("numFound = " + solrResults.getNumFound());
+          log.fine("numFound = " + solrResults.getNumFound());
 
           Iterator<SolrDocument> itr = solrResults.iterator();
           SolrDocument doc = null;
           int idx = 0;
           while (itr.hasNext()) {
             doc = itr.next();
-            log.info("*****************  idx = " + (idx++));
+            log.fine("*****************  idx = " + (idx++));
             // log.info(doc.toString());
 
             String resourceName = "";
@@ -327,7 +328,7 @@ public class PDS4Search {
                 resourceURL = getValue(entry);
               }
             }
-            log.info("resname = " + resourceName + "       reslink = " + resourceURL);
+            log.fine("resname = " + resourceName + "       reslink = " + resourceURL);
             resourceMap.put(resourceName, resourceURL);
           }
         }
@@ -346,7 +347,7 @@ public class PDS4Search {
     }
 
 	public JSONArray getDoiResponse(URL url) throws IOException, JSONException {
-		log.info("getDoiResponse(" + url + ")");
+      log.fine("getDoiResponse(" + url + ")");
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 		conn.setRequestMethod("GET");
 		conn.setConnectTimeout(5000);
@@ -363,18 +364,18 @@ public class PDS4Search {
 			br.close();
 
 			JSONArray jsonResponse = new JSONArray(response.toString());
-			log.info("getDoiResponse=" + jsonResponse.toString(2));
+            log.fine("getDoiResponse=" + jsonResponse.toString(2));
 			return jsonResponse;
 		}
 		else {
-			log.info("getDoiResponse's responseCode != 200");
-			return null;
+          log.warning("getDoiResponse's responseCode != 200");
+          return null;
 		}
 
 	}
 
 	public String getDoi(String lid, String vid) throws IOException, JSONException {
-		log.info("\ngetDOI(" + lid + ", " + vid + ")");
+		log.fine("\ngetDOI(" + lid + ", " + vid + ")");
 		String identifier = lid + "::";
 		Boolean withVid = Boolean.FALSE;
 
@@ -388,6 +389,7 @@ public class PDS4Search {
 		
 		// for gamma, comment above (localhost) and uncomment below (pds.nasa.gov) so that data engineers can see actual DOIs instead of test data
 		URL url = new URL(DOI_SERVER_URL + "?ids=" + URLEncoder.encode(identifier, "UTF-8"));
+        log.info("DOI query: " + url);
 		JSONArray doiResponse = getDoiResponse(url);
 
 		if (doiResponse == null) {
