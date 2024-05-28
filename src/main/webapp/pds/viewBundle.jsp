@@ -139,6 +139,14 @@
                }
             } // end if (resourceRefs != null)
          }
+		 else if (tmpValue.equals("api_ref")) {
+			%>
+		   <a href="https://pds.nasa.gov/api/search/1/products/<%=bundleLid%>" target="_new">/products/<%=bundleLid%></a><br>
+		   <a href="https://pds.nasa.gov/api/search/1/products/<%=bundleLid%>/members" target="_new">/products/<%=bundleLid%>/members</a><br>
+		   <a href="https://pds.nasa.gov/api/search/1/products/<%=bundleLid%>/members/members" target="_new">/products/<%=bundleLid%>/members/members</a><br>
+		   <a href="https://nasa-pds.github.io/pds-api/guides/search.html" target="_new">API Documentation</a><br />
+		   <%
+		 }
 		 else {
             //out.println("tmpValue = " + tmpValue + "<br>");
             List<String> values = pds4Search.getValues(doc, tmpValue);
