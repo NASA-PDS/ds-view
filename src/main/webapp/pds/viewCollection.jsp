@@ -140,8 +140,8 @@
             } // end if (resourceRefs != null)
          } else if (tmpValue.equals("api_ref")) {
 		 %>
-		   <a href="https://pds.nasa.gov/api/search/1/products/<%=collectionLid%>" target="_new">/products/<%=collectionLid%></a><br>
-		   <a href="https://pds.nasa.gov/api/search/1/products/<%=collectionLid%>/members" target="_new">/products/<%=collectionLid%>/members</a><br>
+		   <a href="https://pds.nasa.gov/api/search/1/products/<%=collectionLid%>" target="_new">View Collection metadata</a><br>
+		   <a href="https://pds.nasa.gov/api/search/1/products/<%=collectionLid%>/members" target="_new">View Collection's Products metadata</a><br>
 		   <a href="https://nasa-pds.github.io/pds-api/guides/search.html" target="_new">API Documentation</a><br />
 		   <%
 		 }  else {

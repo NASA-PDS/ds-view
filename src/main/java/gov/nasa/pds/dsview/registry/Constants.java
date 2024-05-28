@@ -202,7 +202,7 @@ public class Constants {
 		bundlePds4ToSearch.put("TYPE", "bundle_type");
 		bundlePds4ToSearch.put("DESCRIPTION", "description");
 		bundlePds4ToSearch.put("SEARCH/ACCESS DATA", "resource_ref");
-        bundlePds4ToSearch.put("API ACCESS", "api_ref");
+        bundlePds4ToSearch.put("ACCESS BY API", "api_ref");
 	}
     	      
     public static final Map<String, String> bundleCitationPds4ToRegistry =
@@ -255,7 +255,7 @@ public class Constants {
 		collectionPds4ToSearch.put("TYPE", "collection_type");
 		collectionPds4ToSearch.put("DESCRIPTION", "description");
 		collectionPds4ToSearch.put("SEARCH/ACCESS DATA",  "resource_ref");
-        collectionPds4ToSearch.put("API ACCESS", "api_ref");
+        collectionPds4ToSearch.put("ACCESS BY API", "api_ref");
 	}
 	
   public static final Map<String, String> documentPds4ToSearch = new LinkedHashMap<String, String>();
