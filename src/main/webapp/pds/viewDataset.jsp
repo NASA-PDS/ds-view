@@ -202,36 +202,22 @@ else {
                      <tr bgcolor="#E7EEF9">
                         <td>Search/Access Data</td>
                         <td>
-                           <% 
-                           List<String> rvalues = pds3Search.getValues(doc, "resource_ref");
-                           //List<String> rvalues = pds3Search.getValues(doc, "resource_id");
-                           String resname="", reslink="";
-                           String refLid = "";
-                           if (rvalues !=null) {
-                              for (int i=0; i<rvalues.size(); i++) {
-                                 //out.println(rvalues.get(i) + "<br>");
-                                 refLid = rvalues.get(i);
-                                 if (refLid!=null) {
-                                    if (refLid.indexOf("::")!=-1) {
-                                       refLid = refLid.substring(0, refLid.indexOf("::"));   
-                                    }
-                                    //refLid = refLid.replace("context_pds3", "context");
-                                    SolrDocument refDoc = pds3Search.getResource(refLid);
-                                    if (refDoc!=null) {
-                                       resname = pds3Search.getValues(refDoc, "resource_name").get(0);
-                                       reslink = pds3Search.getValues(refDoc, "resource_url").get(0);
-                                       
-                          %>
+                        <% 
+                           	List<String> resnameList = pds3Search.getValues(doc, "resource_name");
+                           	List<String> reslinkList = pds3Search.getValues(doc, "resource_url");
+
+							String reslink = "";
+							String resname = "";
+                           	if (reslinkList !=null) {
+                              for (int i = 0; i < reslinkList.size(); i++) {
+                                 reslink = reslinkList.get(i);
+								 resname = resnameList.get(i);
+                        %>
                               <li><a href="<%=reslink%>" target="_new"><%=resname%></a><br>
-                         <%   
-                                    }
-                                    else {
-                                       resname = refLid;
-                                       reslink = refLid;
-                                    }                                                             
-                                 } // end if (refLid!=null)
+                        <%                                                       
                               }  // end for
-                           }%>
+                           	} // end if
+						%>
                         </td>
                      </tr>
 
