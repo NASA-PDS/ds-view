@@ -1,8 +1,12 @@
 # Changelog
 
-## [«unknown»](https://github.com/NASA-PDS/ds-view/tree/«unknown») (2024-05-28)
+## [«unknown»](https://github.com/NASA-PDS/ds-view/tree/«unknown») (2024-06-05)
 
 [Full Changelog](https://github.com/NASA-PDS/ds-view/compare/v2.17.0...«unknown»)
+
+**Defects:**
+
+- Not returning latest version of collection/bundle from ds-view pages [\#22](https://github.com/NASA-PDS/ds-view/issues/22) [[s.critical](https://github.com/NASA-PDS/ds-view/labels/s.critical)]
 
 **Other closed issues:**
 
