@@ -1,8 +1,8 @@
 # Changelog
 
-## [release/2.18.0](https://github.com/NASA-PDS/ds-view/tree/release/2.18.0) (2024-06-05)
+## [v2.18.0](https://github.com/NASA-PDS/ds-view/tree/v2.18.0) (2024-07-26)
 
-[Full Changelog](https://github.com/NASA-PDS/ds-view/compare/v2.17.0...release/2.18.0)
+[Full Changelog](https://github.com/NASA-PDS/ds-view/compare/v2.17.0...v2.18.0)
 
 **Defects:**
 
