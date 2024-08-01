@@ -72,7 +72,7 @@ public class PDS4Search {
 		//params.set("fq", "facet_object_type:\"1,product_collection\"");
 		params.set("fq", "facet_type:\"1,collection\"");
 		
-		log.info("params = " + params.toString());
+        log.fine("params = " + params.toString());
 		QueryResponse response = solr.query(params,
 				org.apache.solr.client.solrj.SolrRequest.METHOD.GET);
 
@@ -114,12 +114,12 @@ public class PDS4Search {
 		params.set("fq", "facet_type:\"1,bundle\"");
 		//params.set("start", start);
 		
-		log.info("params = " + params.toString());
+        log.fine("params = " + params.toString());
 		QueryResponse response = solr.query(params,
 				org.apache.solr.client.solrj.SolrRequest.METHOD.GET);
 
 		SolrDocumentList solrResults = response.getResults();
-		log.info("numFound = " + solrResults.getNumFound());
+        log.fine("numFound = " + solrResults.getNumFound());
 		
 		Iterator<SolrDocument> itr = solrResults.iterator();
 		int idx = 0;
@@ -191,7 +191,7 @@ public class PDS4Search {
 		params.set("wt", "xml");
 		params.set("fq", "facet_type:\"1,document\"");
 		
-		log.info("params = " + params.toString());
+        log.fine("params = " + params.toString());
 		QueryResponse response = solr.query(params,
 				org.apache.solr.client.solrj.SolrRequest.METHOD.GET);
 
@@ -231,7 +231,7 @@ public class PDS4Search {
 		params.set("wt", "xml");
         params.set("qt", "archive-filter");
 
-		log.info("params = " + params.toString());
+        log.fine("params = " + params.toString());
         QueryResponse response =
             solr.query(params, org.apache.solr.client.solrj.SolrRequest.METHOD.GET);
 

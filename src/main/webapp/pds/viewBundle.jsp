@@ -433,7 +433,9 @@
                      if (pds4Search.getValues(collDoc, "collection_type")!=null) {
                         collType = pds4Search.getValues(collDoc, "collection_type").get(0);
                      }
-                  }
+                  } else {
+					continue; // data not yet registered, continue
+				  }
            		  String lowCollName = collType.toLowerCase();
            		  
            		  if (lowCollName.contains("browse")) {
