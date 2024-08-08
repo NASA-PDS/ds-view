@@ -17,13 +17,12 @@
 
 package gov.nasa.pds.dsview.servlets;
 
-import java.io.*;
+import java.io.IOException;
 import java.net.URLEncoder;
-import javax.servlet.*;
-import javax.servlet.http.*;
-//import jpl.pds.beans.*;
-
-import gov.nasa.pds.dsview.registry.GetSearchParams;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 public class RegistryQueryServlet extends HttpServlet {
 

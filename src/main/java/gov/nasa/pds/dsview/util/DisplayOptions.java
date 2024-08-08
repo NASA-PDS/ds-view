@@ -14,8 +14,9 @@
 
 package gov.nasa.pds.dsview.util;
 
-import javax.servlet.http.*;
-import java.util.*;
+import java.util.NoSuchElementException;
+import java.util.StringTokenizer;
+import javax.servlet.http.HttpServletRequest;
 
 public class DisplayOptions 
 {
