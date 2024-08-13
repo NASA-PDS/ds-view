@@ -149,6 +149,16 @@
           </execution>
         </executions>
       </plugin>
+      	<!-- Skip site generation -->
+	    <plugin>
+	        <groupId>org.apache.maven.plugins</groupId>
+	        <artifactId>maven-site-plugin</artifactId>
+	        <version>4.0.0-M16</version>
+	        <configuration>
+	            <skip>true</skip>
+	            <skipDeploy>true</skipDeploy>
+	        </configuration>
+	    </plugin>
     </plugins>
   </build>
 
