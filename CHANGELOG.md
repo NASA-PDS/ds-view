@@ -1,8 +1,16 @@
 # Changelog
 
-## [release/2.18.1](https://github.com/NASA-PDS/ds-view/tree/release/2.18.1) (2024-08-01)
+## [«unknown»](https://github.com/NASA-PDS/ds-view/tree/«unknown») (2024-08-13)
 
-[Full Changelog](https://github.com/NASA-PDS/ds-view/compare/v2.18.0...release/2.18.1)
+[Full Changelog](https://github.com/NASA-PDS/ds-view/compare/v2.18.1...«unknown»)
+
+**Other closed issues:**
+
+- Upgrade dependencies per CVEs identified by sonatype [\#32](https://github.com/NASA-PDS/ds-view/issues/32)
+
+## [v2.18.1](https://github.com/NASA-PDS/ds-view/tree/v2.18.1) (2024-08-01)
+
+[Full Changelog](https://github.com/NASA-PDS/ds-view/compare/v2.18.0...v2.18.1)
 
 ## [v2.18.0](https://github.com/NASA-PDS/ds-view/tree/v2.18.0) (2024-07-26)
 
