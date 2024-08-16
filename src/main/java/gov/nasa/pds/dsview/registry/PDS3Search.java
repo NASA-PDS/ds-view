@@ -73,7 +73,7 @@ public class PDS3Search {
 
 		//params.set("start", start);
 		
-		log.info("params = " + params.toString());
+        log.fine("params = " + params.toString());
 		QueryResponse response = solr.query(params,
 				org.apache.solr.client.solrj.SolrRequest.METHOD.GET);
 
@@ -81,17 +81,17 @@ public class PDS3Search {
 			return null;
 		
 		SolrDocumentList solrResults = response.getResults();
-		log.info("numFound = " + solrResults.getNumFound());
+        log.fine("numFound = " + solrResults.getNumFound());
 		
 		Iterator<SolrDocument> itr = solrResults.iterator();
 		int idx = 0;
 		while (itr.hasNext()) {
 			SolrDocument doc = itr.next();
-			log.info("*****************  idx = " + (idx++));
+            log.fine("*****************  idx = " + (idx++));
 			// log.info(doc.toString());
 
 			for (Map.Entry<String, Object> entry : doc.entrySet()) {
-				log.info("Key = " + entry.getKey()
+              log.fine("Key = " + entry.getKey()
 						+ "       Value = " + entry.getValue());
 			}
 		}
@@ -116,12 +116,13 @@ public class PDS3Search {
 		params.set("wt", "xml");
 		params.set("fq", "facet_type:\"1,data_set\"");
 
-		log.info("params = " + params.toString());
+        log.fine("params = " + params.toString());
 		QueryResponse response = solr.query(params,
 				org.apache.solr.client.solrj.SolrRequest.METHOD.GET);
 
 		SolrDocumentList solrResults = response.getResults();
-		log.info("numFound = " + solrResults.getNumFound() + "     maxScores = " + solrResults.getMaxScore());
+        log.fine("numFound = " + solrResults.getNumFound() + "     maxScores = "
+            + solrResults.getMaxScore());
 		
 		Iterator<SolrDocument> itr = solrResults.iterator();
 		SolrDocument doc = null;
@@ -129,11 +130,11 @@ public class PDS3Search {
 		List<SolrDocument> dsDocs = new ArrayList<SolrDocument>();
 		while (itr.hasNext()) {
 			doc = itr.next();
-			log.info("*****************  idx = " + idx);
+            log.fine("*****************  idx = " + idx);
 
 			for (Map.Entry<String, Object> entry : doc.entrySet()) {
 				String key = entry.getKey();
-				log.info("Key = " + key
+                log.fine("Key = " + key
 						+ "       Value = " + entry.getValue());
 				String value = entry.getValue().toString();
 
@@ -170,12 +171,12 @@ public class PDS3Search {
 		params.set("wt", "xml");
 		params.set("fq", "facet_type:\"1,investigation\"");
 
-		log.info("params = " + params.toString());
+        log.fine("params = " + params.toString());
 		QueryResponse response = solr.query(params,
 				org.apache.solr.client.solrj.SolrRequest.METHOD.GET);
 
 		SolrDocumentList solrResults = response.getResults();
-		log.info("numFound = " + solrResults.getNumFound());
+        log.fine("numFound = " + solrResults.getNumFound());
 		
 		Iterator<SolrDocument> itr = solrResults.iterator();
 		SolrDocument doc = null;
@@ -183,11 +184,11 @@ public class PDS3Search {
 		List<SolrDocument> instDocs = new ArrayList<SolrDocument>();
 		while (itr.hasNext()) {
 			doc = itr.next();
-			log.info("*****************  idx = " + (idx++));
+            log.fine("*****************  idx = " + (idx++));
 			// log.info(doc.toString());
 
 			for (Map.Entry<String, Object> entry : doc.entrySet()) {
-				log.info("Key = " + entry.getKey()
+              log.fine("Key = " + entry.getKey()
 						+ "       Value = " + entry.getValue());
 			}
 			instDocs.add(doc);
@@ -214,12 +215,12 @@ public class PDS3Search {
 		params.set("wt", "xml");
 		params.set("fq", "facet_type:\"1,instrument_host\"");
 
-		log.info("params = " + params.toString());
+        log.fine("params = " + params.toString());
 		QueryResponse response = solr.query(params,
 				org.apache.solr.client.solrj.SolrRequest.METHOD.GET);
 
 		SolrDocumentList solrResults = response.getResults();
-		log.info("numFound = " + solrResults.getNumFound());
+        log.fine("numFound = " + solrResults.getNumFound());
 		
 		Iterator<SolrDocument> itr = solrResults.iterator();
 		SolrDocument doc = null;
@@ -227,11 +228,11 @@ public class PDS3Search {
 		List<SolrDocument> instDocs = new ArrayList<SolrDocument>();
 		while (itr.hasNext()) {
 			doc = itr.next();
-			log.info("*****************  idx = " + (idx++));
+            log.fine("*****************  idx = " + (idx++));
 			// log.info(doc.toString());
 
 			for (Map.Entry<String, Object> entry : doc.entrySet()) {
-				log.info("Key = " + entry.getKey()
+              log.fine("Key = " + entry.getKey()
 						+ "       Value = " + entry.getValue());
 			}
 			instDocs.add(doc);
@@ -257,12 +258,12 @@ public class PDS3Search {
 		params.set("wt", "xml");
 		params.set("fq", "facet_type:\"1,instrument\"");
 
-		log.info("params = " + params.toString());
+        log.fine("params = " + params.toString());
 		QueryResponse response = solr.query(params,
 				org.apache.solr.client.solrj.SolrRequest.METHOD.GET);
 
 		SolrDocumentList solrResults = response.getResults();
-		log.info("numFound = " + solrResults.getNumFound());
+        log.fine("numFound = " + solrResults.getNumFound());
 		
 		Iterator<SolrDocument> itr = solrResults.iterator();
 		SolrDocument doc = null;
@@ -270,11 +271,11 @@ public class PDS3Search {
 		int idx = 0;
 		while (itr.hasNext()) {
 			doc = itr.next();
-			log.info("*****************  idx = " + (idx++));
+            log.fine("*****************  idx = " + (idx++));
 			// log.info(doc.toString());
 
 			for (Map.Entry<String, Object> entry : doc.entrySet()) {
-				log.info("Key = " + entry.getKey()
+              log.fine("Key = " + entry.getKey()
 						+ "       Value = " + entry.getValue());
 			}
 			instDocs.add(doc);
@@ -300,23 +301,23 @@ public class PDS3Search {
 		params.set("wt", "xml");
 		params.set("fq", "facet_type:\"1,instrument\"");
 
-		log.info("params = " + params.toString());
+        log.fine("params = " + params.toString());
 		QueryResponse response = solr.query(params,
 				org.apache.solr.client.solrj.SolrRequest.METHOD.GET);
 
 		SolrDocumentList solrResults = response.getResults();
-		log.info("numFound = " + solrResults.getNumFound());
+        log.fine("numFound = " + solrResults.getNumFound());
 		
 		Iterator<SolrDocument> itr = solrResults.iterator();
 		SolrDocument doc = null;
 		int idx = 0;
 		while (itr.hasNext()) {
 			doc = itr.next();
-			log.info("*****************  idx = " + (idx++));
+            log.fine("*****************  idx = " + (idx++));
 			// log.info(doc.toString());
 
 			for (Map.Entry<String, Object> entry : doc.entrySet()) {
-				log.info("Key = " + entry.getKey()
+              log.fine("Key = " + entry.getKey()
 						+ "       Value = " + entry.getValue());
 			}
 		}
@@ -340,12 +341,12 @@ public class PDS3Search {
 		params.set("wt", "xml");
 		params.set("fq", "facet_type:\"1,target\"");
 
-		log.info("params = " + params.toString());
+        log.fine("params = " + params.toString());
 		QueryResponse response = solr.query(params,
 				org.apache.solr.client.solrj.SolrRequest.METHOD.GET);
 
 		SolrDocumentList solrResults = response.getResults();
-		log.info("numFound = " + solrResults.getNumFound());
+        log.fine("numFound = " + solrResults.getNumFound());
 		
 		Iterator<SolrDocument> itr = solrResults.iterator();
 		SolrDocument doc = null;
@@ -353,11 +354,11 @@ public class PDS3Search {
 		List<SolrDocument> instDocs = new ArrayList<SolrDocument>();
 		while (itr.hasNext()) {
 			doc = itr.next();
-			log.info("*****************  idx = " + (idx++));
+            log.fine("*****************  idx = " + (idx++));
 			// log.info(doc.toString());
 
 			for (Map.Entry<String, Object> entry : doc.entrySet()) {
-				log.info("Key = " + entry.getKey()
+              log.fine("Key = " + entry.getKey()
 						+ "       Value = " + entry.getValue());
 			}
 			instDocs.add(doc);
@@ -384,12 +385,12 @@ public class PDS3Search {
 		params.set("wt", "xml");
 		//params.set("fq", "facet_type:\"1,resource\"");
 
-		log.info("params = " + params.toString());
+        log.fine("params = " + params.toString());
 		QueryResponse response = solr.query(params,
 				org.apache.solr.client.solrj.SolrRequest.METHOD.GET);
 
 		SolrDocumentList solrResults = response.getResults();
-		log.info("numFound = " + solrResults.getNumFound());
+        log.fine("numFound = " + solrResults.getNumFound());
 		
 		Iterator<SolrDocument> itr = solrResults.iterator();
 		SolrDocument doc = null;
@@ -397,11 +398,11 @@ public class PDS3Search {
 		//List<SolrDocument> instDocs = new ArrayList<SolrDocument>();
 		while (itr.hasNext()) {
 			doc = itr.next();
-			log.info("*****************  idx = " + (idx++));
+            log.fine("*****************  idx = " + (idx++));
 			// log.info(doc.toString());
 
 			for (Map.Entry<String, Object> entry : doc.entrySet()) {
-				log.info("Key = " + entry.getKey()
+              log.fine("Key = " + entry.getKey()
 						+ "       Value = " + entry.getValue());
 			}
 		}
@@ -430,18 +431,19 @@ public class PDS3Search {
 				} else {
 					results.add(dateValue);
 				}
-				log.info("key = " + key + "   date = " + obj.toString() + "  string date = " + dateValue);
+                log.fine("key = " + key + "   date = " + obj.toString() + "  string date = "
+                    + dateValue);
 			}
 			else {
 				results.add((String)obj);
-				log.info("key = " + key +  "   obj = " + (String)obj);
+                log.fine("key = " + key + "   obj = " + (String) obj);
 			}
 		}
 		return results;		
 	}
 
 	public String getDoi(String identifier) throws IOException, JSONException {
-		log.info("getDOI(" + identifier + ")");
+      log.fine("getDOI(" + identifier + ")");
 		URL url = new URL(DOI_SERVER_URL + "?ids=" + URLEncoder.encode(identifier, "UTF-8"));
 	
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -460,7 +462,7 @@ public class PDS3Search {
 			br.close();
 
 			JSONArray jsonArray = new JSONArray(response.toString());
-			log.info("DOI Service response = " + jsonArray.toString(2));
+            log.fine("DOI Service response = " + jsonArray.toString(2));
 			if (jsonArray.length() == 0) {
 				return null;
 			} else if (jsonArray.length() == 1) {

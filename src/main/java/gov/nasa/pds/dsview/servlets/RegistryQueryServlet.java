@@ -17,15 +17,18 @@
 
 package gov.nasa.pds.dsview.servlets;
 
-import java.io.*;
+import java.io.IOException;
 import java.net.URLEncoder;
-import javax.servlet.*;
-import javax.servlet.http.*;
+import java.util.logging.Logger;
+import javax.servlet.ServletException;
 //import jpl.pds.beans.*;
-
-import gov.nasa.pds.dsview.registry.GetSearchParams;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 public class RegistryQueryServlet extends HttpServlet {
+
+  private static Logger log = Logger.getLogger(RegistryQueryServlet.class.getName());
 
 	private static final long serialVersionUID = 4153494340424955796L;
 
@@ -56,7 +59,7 @@ public class RegistryQueryServlet extends HttpServlet {
 		System.out.println("*****************in the doIt method of RegistryQueryServlet class...");
 		//System.out.println("req = " + req.toString());
 		String queryString = constructKeywordQuery(req);
-		System.out.println("queryString = " + queryString);
+        log.info("queryString = " + queryString);
 
 		/*
 		res.setContentType("text/html");
