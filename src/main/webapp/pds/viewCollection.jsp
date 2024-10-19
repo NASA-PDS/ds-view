@@ -82,7 +82,7 @@
       %>
         <TR>
          <td bgcolor="#F0EFEF" width=200 valign=top> 
-            <b>No Search Service found: <%=searchUrl%></b> to retrieve the Collection Information.
+            <b>The PDS Database is temporarily down for maintenance. Check back later or please contact the <a href="mailto:pds-operator@jpl.nasa.gov">PDS Help Desk</a> for assistance.</b>
          </td>
         </TR>
         <%
@@ -414,7 +414,7 @@
       %>
         <TR>
          <td bgcolor="#F0EFEF" width=200 valign=top> 
-            <b>No Search Service found: <%=searchUrl%></b> to retrieve the Collection Information.
+            <b>The PDS Database is temporarily down for maintenance. Check back later or please contact the <a href="mailto:pds-operator@jpl.nasa.gov">PDS Help Desk</a> for assistance.</b>
          </td>
         </TR>
         <%
