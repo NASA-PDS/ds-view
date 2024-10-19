@@ -348,7 +348,9 @@ public class PDS4Search {
 
 	public JSONArray getDoiResponse(URL url) throws IOException, JSONException {
       log.fine("getDoiResponse(" + url + ")");
-		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+      HttpURLConnection conn = null;
+      try {
+		conn = (HttpURLConnection) url.openConnection();
 		conn.setRequestMethod("GET");
 		conn.setConnectTimeout(5000);
 		conn.setReadTimeout(5000);
@@ -371,6 +373,9 @@ public class PDS4Search {
           log.warning("getDoiResponse's responseCode != 200");
           return null;
 		}
+      } finally {
+        conn.disconnect();
+      }
 
 	}
 

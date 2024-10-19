@@ -57,21 +57,16 @@ public class RegistryQueryServlet extends HttpServlet {
 		String queryString = constructKeywordQuery(req);
 		System.out.println("queryString = " + queryString);
 
-		/*
-		res.setContentType("text/html");
-        PrintWriter out = res.getWriter();
-        out.println("<html>");
-        out.println("<head>");
-        out.println("<title>Testing RegistryQueryServlet!</title>");
-        out.println("</head>");
-        out.println("<body>");
-        out.println("<h1>Testing RegistryQueyrServlet!</h1>");
-        out.println("parameter names = " + req.getParameterMap().toString() + "<br>");
-        //out.println("parameter values = " + req.getParameterValues().toString() + "<br>");
-        //out.println("registryUrl = " + req.getParameterValues("registryUrl")[0]);
-        out.println("</body>");
-        out.println("</html>");
-        */
+        /*
+         * res.setContentType("text/html"); PrintWriter out = res.getWriter();
+         * out.println("<html>"); out.println("<head>");
+         * out.println("<title>Testing RegistryQueryServlet!</title>"); out.println("</head>");
+         * out.println("<body>"); out.println("<h1>Testing RegistryQueyrServlet!</h1>");
+         * out.println("parameter names = " + req.getParameterMap().toString() + "<br>");
+         * //out.println("parameter values = " + req.getParameterValues().toString() + "<br>");
+         * //out.println("registryUrl = " + req.getParameterValues("registryUrl")[0]);
+         * out.println("</body>"); out.println("</html>");
+         */
         req.getSession().setAttribute("queryString", queryString);
         getServletConfig().getServletContext().getRequestDispatcher
 		("/pds/results.jsp").forward(req,res);

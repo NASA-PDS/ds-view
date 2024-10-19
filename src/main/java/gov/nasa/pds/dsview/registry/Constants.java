@@ -14,8 +14,8 @@
 
 package gov.nasa.pds.dsview.registry;
 
-import java.util.Map;
 import java.util.LinkedHashMap;
+import java.util.Map;
 /**
  * Class that holds constants used in ds-view.
  *
@@ -327,5 +327,43 @@ public class Constants {
         observationalPds4ToSearch.put("NAME", "title");
         observationalPds4ToSearch.put("TYPE", "data_class");
         observationalPds4ToSearch.put("FILE(S)", "file_name");
+    }
+
+    public static final Map<String, String> telescopePds4ToRegistry =
+        new LinkedHashMap<String, String>();
+    static {
+      telescopePds4ToRegistry.put("IDENTIFIER", "identifier");
+      telescopePds4ToRegistry.put("NAME", "title");
+      telescopePds4ToRegistry.put("DESCRIPTION", "description");
+      telescopePds4ToRegistry.put("FACILITY", "facility_ref");
+      telescopePds4ToRegistry.put("APERTURE", "telescope_aperture");
+      telescopePds4ToRegistry.put("LONGITUDE", "telescope_longitude");
+      telescopePds4ToRegistry.put("LATITUDE", "telescope_latitude");
+      telescopePds4ToRegistry.put("ALTITUDE", "telescope_altitude");
+      telescopePds4ToRegistry.put("COORIDINATE SOURCE", "telescope_coordinate_source");
+      telescopePds4ToRegistry.put("INVESTIGATION(S)", "investigation_ref");
+      telescopePds4ToRegistry.put("INSTRUMENT(S)", "instrument_ref");
+    }
+
+    public static final Map<String, String> facilityPds4ToRegistry =
+        new LinkedHashMap<String, String>();
+    static {
+      facilityPds4ToRegistry.put("IDENTIFIER", "identifier");
+      facilityPds4ToRegistry.put("NAME", "title");
+      facilityPds4ToRegistry.put("TYPE", "facility_type");
+      facilityPds4ToRegistry.put("DESCRIPTION", "description");
+      facilityPds4ToRegistry.put("ADDRESS", "facility_address");
+      facilityPds4ToRegistry.put("COUNTRY", "facility_country");
+      facilityPds4ToRegistry.put("INVESTIGATION(S)", "investigation_ref");
+      facilityPds4ToRegistry.put("TELESCOPE(S)", "telescope_ref");
+    }
+
+    public static final Map<String, String> airbornePds4ToRegistry =
+        new LinkedHashMap<String, String>();
+    static {
+      airbornePds4ToRegistry.put("IDENTIFIER", "identifier");
+      airbornePds4ToRegistry.put("NAME", "title");
+      airbornePds4ToRegistry.put("TYPE", "airborne_type");
+      airbornePds4ToRegistry.put("DESCRIPTION", "description");
     }
 }
