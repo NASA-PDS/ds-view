@@ -454,7 +454,7 @@ public class PDS3Search {
           conn.setReadTimeout(5000);
 
           int responseCode = conn.getResponseCode();
-          if (responseCode == 200) {
+          if (responseCode == HttpUrlConnection.HTTP_OK) {
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             String line;
             StringBuffer response = new StringBuffer();
