@@ -306,7 +306,7 @@ public class PDS3Search {
 				org.apache.solr.client.solrj.SolrRequest.METHOD.GET);
 
 		SolrDocumentList solrResults = response.getResults();
-		log.info("numFound = " + solrResults.getNumFound());
+        log.fine("numFound = " + solrResults.getNumFound());
 		
 		Iterator<SolrDocument> itr = solrResults.iterator();
 		SolrDocument doc = null;
@@ -341,7 +341,7 @@ public class PDS3Search {
 		params.set("wt", "xml");
 		params.set("fq", "facet_type:\"1,target\"");
 
-		log.info("params = " + params.toString());
+        log.info("params = " + params.toString());
 		QueryResponse response = solr.query(params,
 				org.apache.solr.client.solrj.SolrRequest.METHOD.GET);
 
@@ -446,34 +446,40 @@ public class PDS3Search {
 		log.info("getDOI(" + identifier + ")");
 		URL url = new URL(DOI_SERVER_URL + "?ids=" + URLEncoder.encode(identifier, "UTF-8"));
 	
-		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-		conn.setRequestMethod("GET");
-		conn.setConnectTimeout(5000);
-		conn.setReadTimeout(5000);
+        HttpURLConnection conn = null;
+        try {
+          conn = (HttpURLConnection) url.openConnection();
+          conn.setRequestMethod("GET");
+          conn.setConnectTimeout(5000);
+          conn.setReadTimeout(5000);
 
-		int responseCode = conn.getResponseCode();
-		if (responseCode == 200) {
-			BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-			String line;
-			StringBuffer response = new StringBuffer();
-			while ((line = br.readLine()) != null) {
-				response.append(line);
-			}
-			br.close();
+          int responseCode = conn.getResponseCode();
+          if (responseCode == HttpURLConnection.HTTP_OK) {
+            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            String line;
+            StringBuffer response = new StringBuffer();
+            while ((line = br.readLine()) != null) {
+              response.append(line);
+            }
+            br.close();
 
-			JSONArray jsonArray = new JSONArray(response.toString());
-			log.info("DOI Service response = " + jsonArray.toString(2));
-			if (jsonArray.length() == 0) {
-				return null;
-			} else if (jsonArray.length() == 1) {
-				JSONObject jsonResponse = jsonArray.getJSONObject(0);
-				String doi = jsonResponse.getString("doi");
-				return "<a href=\"https://doi.org/" + doi + "\">" + doi + "</a>";
-			} else {
-				return "Multiple DOIs found. Use <a href=\"/tools/doi/#/search/" + identifier + "\">DOI Search</a> to select the most appropriate.";
-			}
-		} else {
-			return null;
+            JSONArray jsonArray = new JSONArray(response.toString());
+            log.info("DOI Service response = " + jsonArray.toString(2));
+            if (jsonArray.length() == 0) {
+              return null;
+            } else if (jsonArray.length() == 1) {
+              JSONObject jsonResponse = jsonArray.getJSONObject(0);
+              String doi = jsonResponse.getString("doi");
+              return "<a href=\"https://doi.org/" + doi + "\">" + doi + "</a>";
+            } else {
+              return "Multiple DOIs found. Use <a href=\"/tools/doi/#/search/" + identifier
+                  + "\">DOI Search</a> to select the most appropriate.";
+            }
+          } else {
+            return null;
+          }
+        } finally {
+          conn.disconnect();
 		}
 	}
 
