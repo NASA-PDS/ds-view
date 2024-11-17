@@ -69,7 +69,6 @@ public class PDS4Search {
 
 		params.add("q", "*");
 		params.set("wt", "xml");
-		//params.set("fq", "facet_object_type:\"1,product_collection\"");
 		params.set("fq", "facet_type:\"1,collection\"");
 		
         log.fine("params = " + params.toString());
@@ -87,7 +86,6 @@ public class PDS4Search {
 		while (itr.hasNext()) {
 			SolrDocument doc = itr.next();
             log.fine("*****************  idx = " + (idx++));
-			// log.info(doc.toString());
 
 			for (Map.Entry<String, Object> entry : doc.entrySet()) {
               log.fine("Key = " + entry.getKey()
@@ -110,9 +108,7 @@ public class PDS4Search {
 
 		params.add("q", "*");
 		params.set("wt", "xml");
-		//params.set("fq", "facet_object_type:\"1,product_bundle\"");
 		params.set("fq", "facet_type:\"1,bundle\"");
-		//params.set("start", start);
 		
         log.fine("params = " + params.toString());
 		QueryResponse response = solr.query(params,
@@ -126,7 +122,6 @@ public class PDS4Search {
 		while (itr.hasNext()) {
 			SolrDocument doc = itr.next();
             log.fine("*****************  idx = " + (idx++));
-			// log.info(doc.toString());
 
 			for (Map.Entry<String, Object> entry : doc.entrySet()) {
               log.fine("Key = " + entry.getKey()
@@ -148,7 +143,6 @@ public class PDS4Search {
 
 		params.add("q", "*");
 		params.set("wt", "xml");
-		//params.set("fq", "facet_object_type:\"1,product_observational\"");
 		params.set("fq", "facet_type:\"1,observational\"");
 		params.set("start", start);
 
@@ -227,9 +221,7 @@ public class PDS4Search {
         ModifiableSolrParams params = new ModifiableSolrParams();
 
 		params.add("q", "identifier:" + cleanIdentifier(identifier));
-		params.set("indent", "on");
 		params.set("wt", "xml");
-        params.set("qt", "archive-filter");
 
         log.fine("params = " + params.toString());
         QueryResponse response =
@@ -301,7 +293,6 @@ public class PDS4Search {
 
         for (String resourceRef : resourceRefList) {
           params.add("q", "identifier:" + cleanIdentifier(resourceRef));
-          params.set("indent", "on");
           params.set("wt", "xml");
 
           log.info("params = " + params.toString());
@@ -317,7 +308,6 @@ public class PDS4Search {
           while (itr.hasNext()) {
             doc = itr.next();
             log.fine("*****************  idx = " + (idx++));
-            // log.info(doc.toString());
 
             String resourceName = "";
             String resourceURL = "";
