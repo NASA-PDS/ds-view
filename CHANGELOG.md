@@ -1,8 +1,14 @@
 # Changelog
 
-## [2.18.1](https://github.com/NASA-PDS/ds-view/tree/2.18.1) (2024-11-12)
+## [«unknown»](https://github.com/NASA-PDS/ds-view/tree/«unknown») (2024-11-17)
 
-[Full Changelog](https://github.com/NASA-PDS/ds-view/compare/v2.14.5...2.18.1)
+[Full Changelog](https://github.com/NASA-PDS/ds-view/compare/v2.14.5...«unknown»)
+
+**Requirements:**
+
+- As a user, I want a landing page for Telescope context objects [\#39](https://github.com/NASA-PDS/ds-view/issues/39)
+- As a user, I want a landing page for Facility context objects [\#38](https://github.com/NASA-PDS/ds-view/issues/38)
+- As a user, I want a landing page for Airborne context objects [\#37](https://github.com/NASA-PDS/ds-view/issues/37)
 
 **Other closed issues:**
 
@@ -18,19 +24,11 @@
 
 ## [v2.18.1](https://github.com/NASA-PDS/ds-view/tree/v2.18.1) (2024-08-01)
 
-[Full Changelog](https://github.com/NASA-PDS/ds-view/compare/release/2.18.1...v2.18.1)
-
-## [release/2.18.1](https://github.com/NASA-PDS/ds-view/tree/release/2.18.1) (2024-08-01)
-
-[Full Changelog](https://github.com/NASA-PDS/ds-view/compare/v2.18.0...release/2.18.1)
+[Full Changelog](https://github.com/NASA-PDS/ds-view/compare/v2.18.0...v2.18.1)
 
 ## [v2.18.0](https://github.com/NASA-PDS/ds-view/tree/v2.18.0) (2024-07-26)
 
-[Full Changelog](https://github.com/NASA-PDS/ds-view/compare/release/2.18.0...v2.18.0)
-
-## [release/2.18.0](https://github.com/NASA-PDS/ds-view/tree/release/2.18.0) (2024-06-05)
-
-[Full Changelog](https://github.com/NASA-PDS/ds-view/compare/v2.17.0...release/2.18.0)
+[Full Changelog](https://github.com/NASA-PDS/ds-view/compare/v2.17.0...v2.18.0)
 
 **Defects:**
 
@@ -42,11 +40,7 @@
 
 ## [v2.17.0](https://github.com/NASA-PDS/ds-view/tree/v2.17.0) (2023-10-25)
 
-[Full Changelog](https://github.com/NASA-PDS/ds-view/compare/release/2.17.0...v2.17.0)
-
-## [release/2.17.0](https://github.com/NASA-PDS/ds-view/tree/release/2.17.0) (2023-10-19)
-
-[Full Changelog](https://github.com/NASA-PDS/ds-view/compare/v2.14.4...release/2.17.0)
+[Full Changelog](https://github.com/NASA-PDS/ds-view/compare/v2.14.4...v2.17.0)
 
 **Defects:**
 
@@ -74,11 +68,7 @@
 
 ## [v2.14.2](https://github.com/NASA-PDS/ds-view/tree/v2.14.2) (2023-10-06)
 
-[Full Changelog](https://github.com/NASA-PDS/ds-view/compare/release/2.14.2...v2.14.2)
-
-## [release/2.14.2](https://github.com/NASA-PDS/ds-view/tree/release/2.14.2) (2023-10-05)
-
-[Full Changelog](https://github.com/NASA-PDS/ds-view/compare/v2.16.0...release/2.14.2)
+[Full Changelog](https://github.com/NASA-PDS/ds-view/compare/v2.16.0...v2.14.2)
 
 ## [v2.16.0](https://github.com/NASA-PDS/ds-view/tree/v2.16.0) (2023-10-05)
 
@@ -94,11 +84,7 @@
 
 ## [v2.14.1](https://github.com/NASA-PDS/ds-view/tree/v2.14.1) (2023-10-03)
 
-[Full Changelog](https://github.com/NASA-PDS/ds-view/compare/release/2.14.1...v2.14.1)
-
-## [release/2.14.1](https://github.com/NASA-PDS/ds-view/tree/release/2.14.1) (2023-10-03)
-
-[Full Changelog](https://github.com/NASA-PDS/ds-view/compare/v2.14.0...release/2.14.1)
+[Full Changelog](https://github.com/NASA-PDS/ds-view/compare/v2.14.0...v2.14.1)
 
 **Other closed issues:**
 
