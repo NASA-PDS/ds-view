@@ -216,7 +216,29 @@ else {
                               <li><a href="<%=reslink%>" target="_new"><%=resname%></a><br>
                         <%                                                       
                               }  // end for
-                           	} // end if
+                           	} else {
+							 List<String> rvalues = pds3Search.getValues(doc, "resource_ref");
+							 String refLid = "";
+							 if (rvalues !=null) {
+							    for (int i=0; i < rvalues.size(); i++) {
+							       refLid = rvalues.get(i);
+							       if (refLid!=null) {
+							          if (refLid.indexOf("::") != -1) {
+							             refLid = refLid.substring(0, refLid.indexOf("::"));   
+							          }
+
+							          SolrDocument refDoc = pds3Search.getResource(refLid);
+							          if (refDoc!=null) {
+							             resname = pds3Search.getValues(refDoc, "resource_name").get(0);
+							             reslink = pds3Search.getValues(refDoc, "resource_url").get(0);
+						%>
+										       <li><a href="<%=reslink%>" target="_new"><%=resname%></a><br>
+						<%                                                       
+						              } // end if
+								   } // end if
+					            }  // end for
+							  } // end if  
+							} // end if
 						%>
                         </td>
                      </tr>
