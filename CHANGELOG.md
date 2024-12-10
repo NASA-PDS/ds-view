@@ -1,8 +1,8 @@
 # Changelog
 
-## [release/2.19.0](https://github.com/NASA-PDS/ds-view/tree/release/2.19.0) (2024-11-25)
+## [v2.19.0](https://github.com/NASA-PDS/ds-view/tree/v2.19.0) (2024-11-25)
 
-[Full Changelog](https://github.com/NASA-PDS/ds-view/compare/v2.14.5...release/2.19.0)
+[Full Changelog](https://github.com/NASA-PDS/ds-view/compare/v2.14.5...v2.19.0)
 
 **Requirements:**
 
@@ -41,10 +41,6 @@
 ## [v2.17.0](https://github.com/NASA-PDS/ds-view/tree/v2.17.0) (2023-10-25)
 
 [Full Changelog](https://github.com/NASA-PDS/ds-view/compare/v2.14.4...v2.17.0)
-
-**Defects:**
-
-- Memory leak in Solr connections leading to Tomcat crash [\#14](https://github.com/NASA-PDS/ds-view/issues/14) [[s.critical](https://github.com/NASA-PDS/ds-view/labels/s.critical)]
 
 ## [v2.14.4](https://github.com/NASA-PDS/ds-view/tree/v2.14.4) (2023-10-19)
 
