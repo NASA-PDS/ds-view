@@ -1,5 +1,13 @@
 # Changelog
 
+## [release/2.20.0](https://github.com/NASA-PDS/ds-view/tree/release/2.20.0) (2025-01-14)
+
+[Full Changelog](https://github.com/NASA-PDS/ds-view/compare/v2.19.0...release/2.20.0)
+
+**Defects:**
+
+- Products with multiple resources are not appearing on landing pages [\#40](https://github.com/NASA-PDS/ds-view/issues/40) [[s.high](https://github.com/NASA-PDS/ds-view/labels/s.high)]
+
 ## [v2.19.0](https://github.com/NASA-PDS/ds-view/tree/v2.19.0) (2024-11-25)
 
 [Full Changelog](https://github.com/NASA-PDS/ds-view/compare/v2.14.5...v2.19.0)
