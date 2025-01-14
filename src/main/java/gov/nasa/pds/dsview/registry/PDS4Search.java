@@ -283,7 +283,7 @@ public class PDS4Search {
       Http2SolrClient solr = null;
       try {
         solr = new Http2SolrClient.Builder(solrServerUrl).build();
-        ModifiableSolrParams params = new ModifiableSolrParams();
+        ModifiableSolrParams params = null;
 
         Map<String, String> resourceMap = new HashMap<String, String>();
 
@@ -292,6 +292,7 @@ public class PDS4Search {
         }
 
         for (String resourceRef : resourceRefList) {
+          params = new ModifiableSolrParams();
           params.add("q", "identifier:" + cleanIdentifier(resourceRef));
           params.set("wt", "xml");
 
