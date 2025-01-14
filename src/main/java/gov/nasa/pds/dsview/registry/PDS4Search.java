@@ -24,8 +24,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
@@ -285,7 +285,7 @@ public class PDS4Search {
         solr = new Http2SolrClient.Builder(solrServerUrl).build();
         ModifiableSolrParams params = null;
 
-        Map<String, String> resourceMap = new HashMap<String, String>();
+        Map<String, String> resourceMap = new LinkedHashMap<String, String>();
 
         if (resourceRefList == null) {
           return resourceMap;
