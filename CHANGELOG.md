@@ -1,8 +1,16 @@
 # Changelog
 
-## [release/2.20.1](https://github.com/NASA-PDS/ds-view/tree/release/2.20.1) (2025-01-14)
+## [«unknown»](https://github.com/NASA-PDS/ds-view/tree/«unknown») (2025-01-14)
 
-[Full Changelog](https://github.com/NASA-PDS/ds-view/compare/v2.19.0...release/2.20.1)
+[Full Changelog](https://github.com/NASA-PDS/ds-view/compare/v2.20.1...«unknown»)
+
+**Improvements:**
+
+- Update to improve ordering based upon indexed order [\#42](https://github.com/NASA-PDS/ds-view/issues/42)
+
+## [v2.20.1](https://github.com/NASA-PDS/ds-view/tree/v2.20.1) (2025-01-14)
+
+[Full Changelog](https://github.com/NASA-PDS/ds-view/compare/v2.19.0...v2.20.1)
 
 **Defects:**
 
