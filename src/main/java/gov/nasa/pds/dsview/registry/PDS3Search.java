@@ -93,7 +93,8 @@ public class PDS3Search {
 		}
 		return solrResults;
       } finally {
-        solr.close();
+        if (solr != null)
+          solr.close();
       }
 	}
 	
@@ -147,7 +148,8 @@ public class PDS3Search {
 		}
 		return doc;
       } finally {
-        solr.close();
+        if (solr != null)
+          solr.close();
       }
 	}
 	
@@ -188,7 +190,8 @@ public class PDS3Search {
 		return doc;
 
       } finally {
-        solr.close();
+        if (solr != null)
+          solr.close();
       }
 	}
 
@@ -229,7 +232,8 @@ public class PDS3Search {
         return doc;
 
       } finally {
-        solr.close();
+        if (solr != null)
+          solr.close();
       }
 	}
 	
@@ -271,7 +275,8 @@ public class PDS3Search {
 		return instDocs;
 
       } finally {
-        solr.close();
+        if (solr != null)
+          solr.close();
       }
 	}
 	
@@ -312,7 +317,8 @@ public class PDS3Search {
 		return doc;
 
       } finally {
-        solr.close();
+        if (solr != null)
+          solr.close();
       }
 	}
 	
@@ -355,7 +361,8 @@ public class PDS3Search {
 		return doc;
 
       } finally {
-        solr.close();
+        if (solr != null)
+          solr.close();
       }
 	}
 	
@@ -394,7 +401,8 @@ public class PDS3Search {
 		return doc;
 
       } finally {
-        solr.close();
+        if (solr != null)
+          solr.close();
       }
 	}
 	
@@ -464,7 +472,8 @@ public class PDS3Search {
             return null;
           }
         } finally {
-          conn.disconnect();
+          if (conn != null)
+            conn.disconnect();
 		}
 	}
 
