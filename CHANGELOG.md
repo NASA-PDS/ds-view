@@ -1,8 +1,16 @@
 # Changelog
 
-## [release/2.20.2](https://github.com/NASA-PDS/ds-view/tree/release/2.20.2) (2025-01-14)
+## [«unknown»](https://github.com/NASA-PDS/ds-view/tree/«unknown») (2025-02-08)
 
-[Full Changelog](https://github.com/NASA-PDS/ds-view/compare/v2.20.1...release/2.20.2)
+[Full Changelog](https://github.com/NASA-PDS/ds-view/compare/v2.20.2...«unknown»)
+
+**Defects:**
+
+- `viewProfile.jsp` not grabbing latest metadata when data set is updated [\#43](https://github.com/NASA-PDS/ds-view/issues/43) [[s.medium](https://github.com/NASA-PDS/ds-view/labels/s.medium)]
+
+## [v2.20.2](https://github.com/NASA-PDS/ds-view/tree/v2.20.2) (2025-01-14)
+
+[Full Changelog](https://github.com/NASA-PDS/ds-view/compare/v2.20.1...v2.20.2)
 
 **Improvements:**
 
