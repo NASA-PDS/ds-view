@@ -54,17 +54,7 @@ else {
    PDS3Search pds3Search = new PDS3Search(searchUrl);
    
    String tmpDsid = dsid.toLowerCase();
-   /*
-   //dsid = tmpDsid.replaceAll("%2F", "/");
-   tmpDsid = tmpDsid.replaceAll("%2F", "-");
-   tmpDsid = tmpDsid.replaceAll("/", "-");
-   tmpDsid = tmpDsid.replaceAll(" ", "_");
-   tmpDsid = tmpDsid.replaceAll("\\(", "");
-   tmpDsid = tmpDsid.replaceAll("\\)", "");
-   */
-   
-   //out.println("dsid = " + dsid + "    dsid_lower = " + dsid_lower);
-   
+
    try {
    	SolrDocument doc = pds3Search.getDataSet(tmpDsid.toLowerCase());
    	//SolrDocument doc = pds3Search.getDataSet("urn:nasa:pds:context_pds3:data_set:data_set."+tmpDsid.toLowerCase());
@@ -72,7 +62,7 @@ else {
    if (doc==null) { 
    %>
             <tr valign="TOP">
-               <td bgcolor="#F0EFEF" width=200 valign=top>
+               <td bgcolor="#E7EEF9" width=200 valign=top>
                   Information not found for dsid <b><%=dsid%></b>. Please verify the value.
                </td> 
             </tr>
@@ -82,11 +72,10 @@ else {
        for (java.util.Map.Entry<String, String> entry: Constants.dsPds3ToSearch.entrySet()) {
           String key = entry.getKey();
 	      String tmpValue = entry.getValue();
-	      //out.println("key = " + key + "   tmpValue = " + tmpValue);
           %>
             <TR>
-               <td bgcolor="#F0EFEF" width=200 valign=top><%=key%></td> 
-               <td bgcolor="#F0EFEF" valign=top>
+               <td bgcolor="#E7EEF9" width=200 valign=top><%=key%></td> 
+               <td bgcolor="#E7EEF9" valign=top>
           <% 
           String val = "";
           List<String> slotValues = pds3Search.getValues(doc, tmpValue);         
@@ -123,7 +112,6 @@ else {
     	    	   <%
     	        }
              }
-             //else if (tmpValue.equals("instrument_id") && !tmpValue.startsWith("instrument_host_")) {
              else if (tmpValue.equals("instrument_id")) {
                 List<String> svalues = pds3Search.getValues(doc, tmpValue);      	 
     	 		for (int j=0; j<svalues.size(); j++) {
@@ -152,42 +140,13 @@ else {
     	    	         // need to pass target_type, how to make sure the order with the target_name and target_type????
     	    	     %>
     	    	         <a href="/ds-view/pds/viewTargetProfile.jsp?TARGET_NAME=<%=val%>" target="_blank"><%=val%></a><br>
-    	            <%} // end for
+    	            <%
+					   } // end for
     	           } // end if
     	           else 
     	              out.println(val);
     	        }
              }
-             else if (tmpValue.equals("resource_ref")) {
-                List<String> rvalues = pds3Search.getValues(doc, tmpValue);           
-                String resname="", reslink="";
-                String refLid = "";
-                if (rvalues != null) {
-     	           for (int i=0; i<rvalues.size(); i++) {
-                      //out.println(rvalues.get(i) + "<br>");
-                      refLid = rvalues.get(i);
-                      if (refLid!=null) {
-                         if (refLid.indexOf("::")!=-1) {
-                            refLid = refLid.substring(0, refLid.indexOf("::"));   
-                         }
-                         //refLid = refLid.replace("context_pds3", "context");
-                         SolrDocument refDoc = pds3Search.getResource(refLid);
-                         if (refDoc!=null) {
-                            resname = pds3Search.getValues(refDoc, "resource_name").get(0);
-                            reslink = pds3Search.getValues(refDoc, "resource_url").get(0);
-                            
-                 %>
-                         <li><a href="<%=reslink%>" target="_new"><%=resname%></a><br>
-                 <% 
-                         }
-                         else {
-                            resname = refLid;
-                            reslink = refLid;
-                         }                                                            
-                      } // end if (refLid!=null)
-                   } // end for
-         	    }  // end if (rvalues!=null)  	
-             } // end resoure_id
              else if (tmpValue.startsWith("node_id")) {
                 List<String> svalues = pds3Search.getValues(doc, tmpValue);
                 if (svalues!=null) { 	 
@@ -213,6 +172,51 @@ else {
             </TR>     
       <%        
        } // for loop
+	  %>
+	   <tr bgcolor="#E7EEF9">
+	       <td>SEARCH/ACCESS DATA</td>
+	       <td>
+	       <% 
+	        List<String> resnameList = pds3Search.getValues(doc, "resource_name");
+	        List<String> reslinkList = pds3Search.getValues(doc, "resource_url");
+	
+			String reslink = "";
+			String resname = "";
+	        if (reslinkList !=null) {
+	           for (int i = 0; i < reslinkList.size(); i++) {
+	              reslink = reslinkList.get(i);
+				  resname = resnameList.get(i);
+	       %>
+	             <li><a href="<%=reslink%>" target="_new"><%=resname%></a><br>
+	       <%                                                       
+	           }  // end for
+	        } else {
+			List<String> rvalues = pds3Search.getValues(doc, "resource_ref");
+			 String refLid = "";
+			 if (rvalues !=null) {
+			    for (int i=0; i < rvalues.size(); i++) {
+			       refLid = rvalues.get(i);
+			       if (refLid!=null) {
+			          if (refLid.indexOf("::") != -1) {
+			             refLid = refLid.substring(0, refLid.indexOf("::"));   
+			          }
+	
+			          SolrDocument refDoc = pds3Search.getResource(refLid);
+			          if (refDoc!=null) {
+			             resname = pds3Search.getValues(refDoc, "resource_name").get(0);
+			             reslink = pds3Search.getValues(refDoc, "resource_url").get(0);
+		%>
+				<li><a href="<%=reslink%>" target="_new"><%=resname%></a><br>
+		<%                                                       
+		              } // end if
+				   } // end if
+	            }  // end for
+			  } // end if  
+			} // end if reslinkList !=null
+		%>
+	       </td>
+	    </tr>
+		<% 
    } // else
    } catch (Exception e) {
    }

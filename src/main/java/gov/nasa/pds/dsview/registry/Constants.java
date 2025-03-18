@@ -130,7 +130,6 @@ public class Constants {
           dsPds3ToSearch.put("CITATION_DESCRIPTION", "citation_description");
           dsPds3ToSearch.put("ABSTRACT_TEXT", "abstract_text");
           dsPds3ToSearch.put("PRODUCER_FULL_NAME", "full_name"); // node_to_data_archivist reference????? person_name
-          dsPds3ToSearch.put("SEARCH/ACCESS DATA", "resource_ref");
     }
       
     public static final Map<String, String> instPds3ToRegistry = 
