@@ -30,7 +30,7 @@
 <!-- Main content -->
 <div id="content">
    <div style="border-top: 1px solid white;">
-   <table align="center" bgColor="#FFFFFF" BORDER="0" CELLPADDING="10" CELLSPACING="0">
+   <table width="760" align="center" bgColor="#FFFFFF" BORDER="0" CELLPADDING="10" CELLSPACING="0">
    <tr>
       <td>
          <table width="760" border="0" cellspacing="3" cellpadding="2">
@@ -68,23 +68,23 @@ else {
             </tr>
    <% 
    }  // end if (doc==null)
-   else {         
+   else {
        for (java.util.Map.Entry<String, String> entry: Constants.dsPds3ToSearch.entrySet()) {
           String key = entry.getKey();
 	      String tmpValue = entry.getValue();
           %>
             <TR>
                <td bgcolor="#E7EEF9" width=200 valign=top><%=key%></td> 
-               <td bgcolor="#E7EEF9" valign=top>
+               <td bgcolor="#E7EEF9" width=560 valign=top>
           <% 
           String val = "";
-          List<String> slotValues = pds3Search.getValues(doc, tmpValue);         
-          if (slotValues!=null) {
+          List<String> slotValues = pds3Search.getValues(doc, tmpValue);
+          if (slotValues != null) {
              if (tmpValue.equals("data_set_description") ||
                  tmpValue.equals("confidence_level_note")) {                      
                 val = slotValues.get(0);
              %>
-                  <pre><tt><%=val%></tt></pre>
+                  <%=val%>
              <%
              }
              else if (tmpValue.equals("investigation_name")) {
@@ -96,56 +96,11 @@ else {
                          lid = lid.substring(0, lid.indexOf("::"));
     	      	      val = lid;
     	      %>
-    	           <a href="/ds-view/pds/viewMissionProfile.jsp?MISSION_NAME=<%=val%>" target="_blank"><%=val%></a><br>  	       	
+    	           <%=val%><br>  	       	
               <%   } // end for
                 } // end if
                 else 
                    out.println(val);
-             } 
-             else if (tmpValue.equals("instrument_host_id")) {
-                List<String> svalues = pds3Search.getValues(doc, tmpValue);     	 
-    	 		for (int j=0; j<svalues.size(); j++) {
-    	 		   String aValue = (String) svalues.get(j);
-    	   	       val = aValue;
-    	    	   %>
-    	    	   <a href="/ds-view/pds/viewHostProfile.jsp?INSTRUMENT_HOST_ID=<%=val%>" target="_blank"><%=val%></a><br> 
-    	    	   <%
-    	        }
-             }
-             else if (tmpValue.equals("instrument_id")) {
-                List<String> svalues = pds3Search.getValues(doc, tmpValue);      	 
-    	 		for (int j=0; j<svalues.size(); j++) {
-    	 		   String aValue = (String) svalues.get(j);
-    	    	   val = aValue;
-    	    	   
-    	    	   String instHostId = pds3Search.getValues(doc, "instrument_host_id").get(0);
-    	   		   if (instHostId!=null) {
-    	      %>
-    	              <a href="/ds-view/pds/viewInstrumentProfile.jsp?INSTRUMENT_ID=<%=val%>&INSTRUMENT_HOST_ID=<%=instHostId%>" target="_blank"><%=val%></a><br>  	       	
-              <%   }
-    	   		   else {              
-    	      %>
-    	              <a href="/ds-view/pds/viewInstrumentProfile.jsp?INSTRUMENT_ID=<%=val%>" target="_blank"><%=val%></a><br>  	       	
-              <%   }
-    	        }
-             }
-             else if (tmpValue.equals("target_name")) {
-                if (pds3Search.getValues(doc, tmpValue)!=null) {                   
-                   List<String> targetValues = pds3Search.getValues(doc, tmpValue);
-    		       val = "";
-    		       if (targetValues!=null && targetValues.size()>0) {
-    	 	          for (int i=0; i<targetValues.size(); i++) {
-    	 		         val = (String) targetValues.get(i);
-    	 		               	    	              
-    	    	         // need to pass target_type, how to make sure the order with the target_name and target_type????
-    	    	     %>
-    	    	         <a href="/ds-view/pds/viewTargetProfile.jsp?TARGET_NAME=<%=val%>" target="_blank"><%=val%></a><br>
-    	            <%
-					   } // end for
-    	           } // end if
-    	           else 
-    	              out.println(val);
-    	        }
              }
              else if (tmpValue.startsWith("node_id")) {
                 List<String> svalues = pds3Search.getValues(doc, tmpValue);
@@ -160,8 +115,14 @@ else {
     	        }
              }
              else {
+				List<String> tmpList = new ArrayList();
+				String value;
                 for (int j=0; j<slotValues.size(); j++) {
-                   out.println(slotValues.get(j) + "<br>");
+				   value = slotValues.get(j);
+				   if (!tmpList.contains(value)) {
+                   		out.println(value + "<br>");
+						tmpList.add(value);
+				   }
                 }
              }
              
