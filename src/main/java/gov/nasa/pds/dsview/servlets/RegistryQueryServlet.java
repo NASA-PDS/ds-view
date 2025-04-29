@@ -45,17 +45,6 @@ public class RegistryQueryServlet extends HttpServlet {
 
 	public void doIt(HttpServletRequest req, HttpServletResponse res) {
 		try {
-			String errorMessage = validateUserInputs(res);
-			if (! errorMessage.equals(""))
-			{
-				// Take the user back to the search specification page
-				// because not all parameters are validated.
-				req.setAttribute("message",errorMessage);
-				getServletConfig().getServletContext().getRequestDispatcher
-					("/pds/index.jsp").forward(req,res);
-				return;
-			}
-			
 			logger.info("Processing request in RegistryQueryServlet");
 			String queryString = constructKeywordQuery(req);
 			logger.debug("Query string: {}", queryString);
@@ -67,13 +56,6 @@ public class RegistryQueryServlet extends HttpServlet {
 			// Log the error and rethrow to be handled by the container
 			logger.error("Error in RegistryQueryServlet: " + e.getMessage(), e);
 		}
-	}
-
-	String validateUserInputs(HttpServletResponse res)
-                        throws ServletException, IOException
-	{
-		// assume the user knows what he's doing for now.
-		return "";
 	}
 
 	static String[] singleValueCriteria = {"targname", "targtype", "dataobjtype", "dsname",
