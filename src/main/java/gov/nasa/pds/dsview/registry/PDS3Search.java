@@ -38,6 +38,7 @@ import org.apache.solr.common.params.ModifiableSolrParams;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * This class is used by the PDS data set view web interface to retrieve values
@@ -48,13 +49,23 @@ import org.codehaus.jettison.json.JSONObject;
 public class PDS3Search {
 
 	private static Logger log = Logger.getLogger(PDS3Search.class.getName());
-    static String solrServerUrl = "http://pdsdev.jpl.nasa.gov:8080/search-service/";
+    private static String solrServerUrl;
 	public static final String DOI_SERVER_URL = "https://pds.nasa.gov/api/doi/0.2/dois";
 	/**
 	 * Constructor.
 	 */
 	public PDS3Search(String url) {
       solrServerUrl = url;
+	}
+
+	// Add a singleton Http2SolrClient
+	private static final AtomicReference<Http2SolrClient> solrClient = new AtomicReference<>();
+
+	public void cleanup() {
+		Http2SolrClient client = solrClient.getAndSet(null);
+		if (client != null) {
+			client.close();
+		}
 	}
 
 	public SolrDocumentList getDataSetList() throws SolrServerException, IOException {
@@ -439,41 +450,58 @@ public class PDS3Search {
 		log.info("getDOI(" + identifier + ")");
 		URL url = new URL(DOI_SERVER_URL + "?ids=" + URLEncoder.encode(identifier, "UTF-8"));
 	
-        HttpURLConnection conn = null;
-        try {
-          conn = (HttpURLConnection) url.openConnection();
-          conn.setRequestMethod("GET");
-          conn.setConnectTimeout(5000);
-          conn.setReadTimeout(5000);
+		HttpURLConnection conn = null;
+		BufferedReader br = null;
+		InputStreamReader isr = null;
+		try {
+			conn = (HttpURLConnection) url.openConnection();
+			conn.setRequestMethod("GET");
+			conn.setConnectTimeout(5000);
+			conn.setReadTimeout(5000);
 
-          int responseCode = conn.getResponseCode();
-          if (responseCode == HttpURLConnection.HTTP_OK) {
-            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-            String line;
-            StringBuffer response = new StringBuffer();
-            while ((line = br.readLine()) != null) {
-              response.append(line);
-            }
-            br.close();
+			int responseCode = conn.getResponseCode();
+			if (responseCode == HttpURLConnection.HTTP_OK) {
+				isr = new InputStreamReader(conn.getInputStream());
+				br = new BufferedReader(isr);
+				String line;
+				StringBuffer response = new StringBuffer();
+				while ((line = br.readLine()) != null) {
+					response.append(line);
+				}
 
-            JSONArray jsonArray = new JSONArray(response.toString());
-            log.info("DOI Service response = " + jsonArray.toString(2));
-            if (jsonArray.length() == 0) {
-              return null;
-            } else if (jsonArray.length() == 1) {
-              JSONObject jsonResponse = jsonArray.getJSONObject(0);
-              String doi = jsonResponse.getString("doi");
-              return "<a href=\"https://doi.org/" + doi + "\">" + doi + "</a>";
-            } else {
-              return "Multiple DOIs found. Use <a href=\"/tools/doi/#/search/" + identifier
-                  + "\">DOI Search</a> to select the most appropriate.";
-            }
-          } else {
-            return null;
-          }
-        } finally {
-          if (conn != null)
-            conn.disconnect();
+				JSONArray jsonArray = new JSONArray(response.toString());
+				log.info("DOI Service response = " + jsonArray.toString(2));
+				if (jsonArray.length() == 0) {
+					return null;
+				} else if (jsonArray.length() == 1) {
+					JSONObject jsonResponse = jsonArray.getJSONObject(0);
+					String doi = jsonResponse.getString("doi");
+					return "<a href=\"https://doi.org/" + doi + "\">" + doi + "</a>";
+				} else {
+					return "Multiple DOIs found. Use <a href=\"/tools/doi/#/search/" + identifier
+						+ "\">DOI Search</a> to select the most appropriate.";
+				}
+			} else {
+				return null;
+			}
+		} finally {
+			if (br != null) {
+				try {
+					br.close();
+				} catch (IOException e) {
+					log.warning("Error closing BufferedReader: " + e.getMessage());
+				}
+			}
+			if (isr != null) {
+				try {
+					isr.close();
+				} catch (IOException e) {
+					log.warning("Error closing InputStreamReader: " + e.getMessage());
+				}
+			}
+			if (conn != null) {
+				conn.disconnect();
+			}
 		}
 	}
 
@@ -494,9 +522,7 @@ public class PDS3Search {
 						"http://pdsbeta.jpl.nasa.gov:8080/search-service");
 
 			pds3Search.getDataSetList();
-			//pds3Search.getContext("urn:nasa:pds:context:investigation:investigation.PHOENIX");
 
-			// sparms.getSearchResult("mission:cassini-huygens and target:Callisto");
 		} catch (Exception ex) {
 			System.err.println("Exception " + ex.getClass().getName() + ": "
 					+ ex.getMessage());
