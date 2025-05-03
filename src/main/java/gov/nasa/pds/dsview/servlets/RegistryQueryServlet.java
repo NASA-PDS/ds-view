@@ -23,61 +23,39 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class RegistryQueryServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 4153494340424955796L;
+	private static final Logger logger = LoggerFactory.getLogger(RegistryQueryServlet.class);
 
+	@Override
 	public void doGet(HttpServletRequest req, HttpServletResponse res) 
 			throws ServletException, IOException {
 		doIt(req, res);
 	}
+
+	@Override
 	public void doPost(HttpServletRequest req, HttpServletResponse res) 
 			throws ServletException, IOException {
 		doIt(req, res);
 	}
 
-	public void doIt(HttpServletRequest req, HttpServletResponse res) 
-			throws ServletException, IOException 
-	{
-		
-		String errorMessage = validateUserInputs(req, res);
-		if (! errorMessage.equals(""))
-		{
-			// Take the user back to the search specification page
-			// because not all parameters are validated.
-			req.setAttribute("message",errorMessage);
+	public void doIt(HttpServletRequest req, HttpServletResponse res) {
+		try {
+			logger.info("Processing request in RegistryQueryServlet");
+			String queryString = constructKeywordQuery(req);
+			logger.debug("Query string: {}", queryString);
+
+			req.getSession().setAttribute("queryString", queryString);
 			getServletConfig().getServletContext().getRequestDispatcher
-				("/pds/index.jsp").forward(req,res);
-			return;
+				("/pds/results.jsp").forward(req,res);
+		} catch (ServletException | IOException e) {
+			// Log the error and rethrow to be handled by the container
+			logger.error("Error in RegistryQueryServlet: " + e.getMessage(), e);
 		}
-		
-		System.out.println("*****************in the doIt method of RegistryQueryServlet class...");
-		//System.out.println("req = " + req.toString());
-		String queryString = constructKeywordQuery(req);
-		System.out.println("queryString = " + queryString);
-
-        /*
-         * res.setContentType("text/html"); PrintWriter out = res.getWriter();
-         * out.println("<html>"); out.println("<head>");
-         * out.println("<title>Testing RegistryQueryServlet!</title>"); out.println("</head>");
-         * out.println("<body>"); out.println("<h1>Testing RegistryQueyrServlet!</h1>");
-         * out.println("parameter names = " + req.getParameterMap().toString() + "<br>");
-         * //out.println("parameter values = " + req.getParameterValues().toString() + "<br>");
-         * //out.println("registryUrl = " + req.getParameterValues("registryUrl")[0]);
-         * out.println("</body>"); out.println("</html>");
-         */
-        req.getSession().setAttribute("queryString", queryString);
-        getServletConfig().getServletContext().getRequestDispatcher
-		("/pds/results.jsp").forward(req,res);
-
-	}
-
-	String validateUserInputs(HttpServletRequest req, HttpServletResponse res)
-                        throws ServletException, IOException
-	{
-		// assume the user knows what he's doing for now.
-		return "";
 	}
 
 	static String[] singleValueCriteria = {"targname", "targtype", "dataobjtype", "dsname",
@@ -114,94 +92,7 @@ public class RegistryQueryServlet extends HttpServlet {
 			return " AND ";
 		}
 	}
-/*
-	String getMultiValues(HttpServletRequest req, String param, int len) {
-		//jpl.pds.beans.SearchBean searchBean, boolean getPDSkeyword) {
-		StringBuffer query = new StringBuffer("");
-		//String keyword = (getPDSkeyword ? searchBean.getPDSKeyword(param) : param);
-		String keyword;
-		if (param.equals("msnname"))
-	        keyword = "mission";
-	    else if (param.equals("instname"))
-	        keyword = "instrument";
-	    else if (param.equals("insthostname"))
-	    	keyword = "instrument_host_name";
-	    else 
-	    	keyword = param;
-		
-		if (req.getParameterValues(param) != null &&
-		    ! req.getParameterValues(param)[0].equalsIgnoreCase("ALL")) {
-			String[] list = req.getParameterValues(param);
-			if (len > 0) { query.append(" AND "); }
-			query.append(" (");
-			for (int i=0; i<list.length; i++) {
-				if (i>0) {
-					query.append(" OR "); 
-				}
-				query.append(keyword + "=\"" + list[i] + "\"");
-			}
-			query.append(") ");
-		}
-		return query.toString();
-	}
 
-	String getSingleValue(HttpServletRequest req, String param, int len) {
-		//jpl.pds.beans.SearchBean searchBean, boolean getPDSkeyword) {
-		String connector = "";
-		//String keyword = (getPDSkeyword ? searchBean.getPDSKeyword(param) : param);
-		String keyword;
-		if (param.equalsIgnoreCase("targname"))
-			keyword = "target";
-		else if (param.equalsIgnoreCase("targtype"))
-			keyword = "target_type";
-		else if (param.equalsIgnoreCase("insttype"))
-			keyword = "instrument_type";
-		else if (param.equalsIgnoreCase("dsid")) 
-		    keyword = "data_set_id";
-		else if (param.equalsIgnoreCase("dsname"))
-		    keyword = "data_set_name";
-		else if (param.equals("insthosttype"))
-		    keyword = "instrument_host_type";
-		else 
-			keyword = param;
-				
-		if (req.getParameterValues(param) != null &&
-                    ! req.getParameterValues(param)[0].equals("") &&
-		    ! req.getParameterValues(param)[0].equalsIgnoreCase("ALL") &&
-		    ! req.getParameterValues(param)[0].trim().equalsIgnoreCase("YYYY-MM-DD")) {
-
-			if (len > 0) { connector = " AND "; }
-                        return(connector + keyword +":\"" + req.getParameterValues(param)[0] + "\"");
-		/*
-		** since we're allowing querying of all datasets, no need
-		** to treat "targname" differently than other params.
-                } else if (param.equals("targname") &&
-				req.getParameterValues("targname") != null &&
-				 req.getParameterValues("targname")[0].equalsIgnoreCase("ALL") &&
-				! getPDSkeyword) {
-			if (len > 0) { connector = " AND "; }
-			return (connector + "targname=Mars OR targname=Phobos OR targname=Deimos");
-		***
-		} else
-			return "";
-	}
-*/
-/*
-	String getRangeValue(HttpServletRequest req, String param,
-				String element, String operator, int len)
-	{
-		String connector = "";
-		if (req.getParameterValues(param) != null &&
-		    ! req.getParameterValues(param)[0].equals("")) {
-
-			if (len > 0) { connector = " AND "; }
-			return (connector + element + " " + operator + " \"" + 
-				req.getParameterValues(param)[0]) + "\"";
-		}
-		else
-			return "";
-	}
-*/
 	String getKeywordValue (HttpServletRequest req, String param, 
 			int len) 
 	{

@@ -27,6 +27,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The switching servlet dispatches an incoming request to a specific web resource
@@ -46,6 +48,8 @@ import javax.servlet.http.HttpServletResponse;
  * @version $Revision$
  */
 public class SwitchingQueryServlet extends HttpServlet {
+  private static final Logger logger = LoggerFactory.getLogger(SwitchingQueryServlet.class);
+
   /**
    * Initialize the resource mappings.
    *
@@ -62,10 +66,12 @@ public class SwitchingQueryServlet extends HttpServlet {
     }
   }
 
+  @Override
   public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
     doIt(req, res);
   }
 
+  @Override
   public void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
     doIt(req, res);
   }
@@ -78,10 +84,10 @@ public class SwitchingQueryServlet extends HttpServlet {
    * @throws ServletException if an error occurs.
    * @throws IOException if an error occurs.
    */
-  public void doIt(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+  public void doIt(HttpServletRequest req, HttpServletResponse res) {
     try {
       String resClass = req.getParameter("resclass");
-      if (resClass == null || resClass.length() == 0)
+      if (resClass == null || resClass.isEmpty())
         throw new Ex(HttpServletResponse.SC_BAD_REQUEST, "Required \"resclass\" parameter missing");
       String path = (String) resources.get(resClass);
       if (path == null) throw new Ex(HttpServletResponse.SC_BAD_REQUEST, "Unknown \"resclass\" parameter");
@@ -89,8 +95,9 @@ public class SwitchingQueryServlet extends HttpServlet {
       if (rd == null) throw new Ex(HttpServletResponse.SC_NOT_FOUND, "Path for resclass \"" + path
         + "\" unknown in web context");
       rd.forward(new SwitchedRequest(req), res);
-    } catch (Ex ex) {
-      res.sendError(ex.code, ex.msg);
+    } catch (ServletException | IOException | Ex e) {
+      // Log the error and rethrow to be handled by the container
+      logger.error("Error in SwitchingQueryServlet: " + e.getMessage(), e);
     }
   }
 
