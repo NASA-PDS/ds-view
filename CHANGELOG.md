@@ -1,12 +1,17 @@
 # Changelog
 
-## [«unknown»](https://github.com/NASA-PDS/ds-view/tree/«unknown») (2025-03-26)
+## [«unknown»](https://github.com/NASA-PDS/ds-view/tree/«unknown») (2025-05-03)
 
 [Full Changelog](https://github.com/NASA-PDS/ds-view/compare/v2.20.2...«unknown»)
 
 **Defects:**
 
+- `ds-view` is unexpectedly replacing `=` with `:` in resource URLs [\#45](https://github.com/NASA-PDS/ds-view/issues/45) [[s.medium](https://github.com/NASA-PDS/ds-view/labels/s.medium)]
 - `viewProfile.jsp` not grabbing latest metadata when data set is updated [\#43](https://github.com/NASA-PDS/ds-view/issues/43) [[s.medium](https://github.com/NASA-PDS/ds-view/labels/s.medium)]
+
+**Other closed issues:**
+
+- Prevent potential DoS attack by handling exceptions in ds-view [\#47](https://github.com/NASA-PDS/ds-view/issues/47)
 
 ## [v2.20.2](https://github.com/NASA-PDS/ds-view/tree/v2.20.2) (2025-01-14)
 
@@ -32,7 +37,6 @@
 
 - As a user, I want a landing page for Telescope context objects [\#39](https://github.com/NASA-PDS/ds-view/issues/39)
 - As a user, I want a landing page for Facility context objects [\#38](https://github.com/NASA-PDS/ds-view/issues/38)
-- As a user, I want a landing page for Airborne context objects [\#37](https://github.com/NASA-PDS/ds-view/issues/37)
 
 **Other closed issues:**
 
