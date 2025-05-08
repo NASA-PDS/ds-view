@@ -29,7 +29,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.Http2SolrClient;
 import org.apache.solr.client.solrj.response.QueryResponse;
@@ -49,7 +50,7 @@ import java.util.concurrent.atomic.AtomicReference;
  */
 public class PDS4Search {
 
-	private static Logger log = Logger.getLogger(PDS4Search.class.getName());
+	private static final Logger logger = LoggerFactory.getLogger(PDS4Search.class);
 	private static String solrServerUrl;
 
 	public static final String DOI_SERVER_URL = "https://pds.nasa.gov/api/doi/0.2/dois";
@@ -88,7 +89,7 @@ public class PDS4Search {
 			params.set("wt", "xml");
 			params.set("fq", "facet_type:\"1,collection\"");
 			
-			log.fine("params = " + params.toString());
+			logger.info("params = " + params.toString());
 			QueryResponse response = solr.query(params,
 					org.apache.solr.client.solrj.SolrRequest.METHOD.GET);
 
@@ -96,23 +97,23 @@ public class PDS4Search {
 				return null;
 			
 			SolrDocumentList solrResults = response.getResults();
-			log.fine("numFound = " + solrResults.getNumFound());
+			logger.info("numFound = " + solrResults.getNumFound());
 			
 			Iterator<SolrDocument> itr = solrResults.iterator();
 			int idx = 0;
 			while (itr.hasNext()) {
 				SolrDocument doc = itr.next();
-				log.fine("*****************  idx = " + (idx++));
+				logger.info("*****************  idx = " + (idx++));
 
 				for (Map.Entry<String, Object> entry : doc.entrySet()) {
-					log.fine("Key = " + entry.getKey()
+					logger.info("Key = " + entry.getKey()
 							+ "       Value = " + entry.getValue());
 				}
 			}
 
 			return solrResults;
 		} catch (Exception e) {
-			log.severe("Error in getCollections: " + e.getMessage());
+			logger.error("Error in getCollections: " + e.getMessage());
 			throw e;
 		}
 	}
@@ -128,21 +129,21 @@ public class PDS4Search {
 			params.set("wt", "xml");
 			params.set("fq", "facet_type:\"1,bundle\"");
 			
-			log.fine("params = " + params.toString());
+			logger.info("params = " + params.toString());
 			QueryResponse response = solr.query(params,
 					org.apache.solr.client.solrj.SolrRequest.METHOD.GET);
 
 			SolrDocumentList solrResults = response.getResults();
-			log.fine("numFound = " + solrResults.getNumFound());
+			logger.info("numFound = " + solrResults.getNumFound());
 			
 			Iterator<SolrDocument> itr = solrResults.iterator();
 			int idx = 0;
 			while (itr.hasNext()) {
 				SolrDocument doc = itr.next();
-				log.fine("*****************  idx = " + (idx++));
+				logger.info("*****************  idx = " + (idx++));
 
 				for (Map.Entry<String, Object> entry : doc.entrySet()) {
-					log.fine("Key = " + entry.getKey()
+					logger.info("Key = " + entry.getKey()
 							+ "       Value = " + entry.getValue());
 				}
 			}
@@ -164,7 +165,7 @@ public class PDS4Search {
 			params.set("fq", "facet_type:\"1,observational\"");
 			params.set("start", start);
 
-			log.info("params = " + params.toString());
+			logger.info("params = " + params.toString());
 			QueryResponse response = solr.query(params,
 					org.apache.solr.client.solrj.SolrRequest.METHOD.GET);
 
@@ -172,17 +173,17 @@ public class PDS4Search {
 				return null;
 
 			SolrDocumentList solrResults = response.getResults();
-			log.fine("numFound = " + solrResults.getNumFound());
+			logger.info("numFound = " + solrResults.getNumFound());
 
 			Iterator<SolrDocument> itr = solrResults.iterator();
 			int idx = 0;
 			while (itr.hasNext()) {
 				SolrDocument doc = itr.next();
-				log.fine("*****************  idx = " + (idx++));
+				logger.info("*****************  idx = " + (idx++));
 				// log.info(doc.toString());
 
 				for (Map.Entry<String, Object> entry : doc.entrySet()) {
-					log.fine("Key = " + entry.getKey()
+					logger.info("Key = " + entry.getKey()
 							+ "       Value = " + entry.getValue());
 				}
 			}
@@ -203,7 +204,7 @@ public class PDS4Search {
 			params.set("wt", "xml");
 			params.set("fq", "facet_type:\"1,document\"");
 			
-			log.fine("params = " + params.toString());
+			logger.info("params = " + params.toString());
 			QueryResponse response = solr.query(params,
 					org.apache.solr.client.solrj.SolrRequest.METHOD.GET);
 
@@ -211,17 +212,17 @@ public class PDS4Search {
 				return null;
 			
 			SolrDocumentList solrResults = response.getResults();
-			log.fine("numFound = " + solrResults.getNumFound());
+			logger.info("numFound = " + solrResults.getNumFound());
 			
 			Iterator<SolrDocument> itr = solrResults.iterator();
 			int idx = 0;
 			while (itr.hasNext()) {
 				SolrDocument doc = itr.next();
-				log.fine("*****************  idx = " + (idx++));
+				logger.info("*****************  idx = " + (idx++));
 				// log.info(doc.toString());
 
 				for (Map.Entry<String, Object> entry : doc.entrySet()) {
-					log.fine("Key = " + entry.getKey()
+					logger.info("Key = " + entry.getKey()
 							+ "       Value = " + entry.getValue());
 				}
 			}
@@ -241,23 +242,23 @@ public class PDS4Search {
 			params.add("q", "identifier:" + cleanIdentifier(identifier));
 			params.set("wt", "xml");
 
-			log.fine("params = " + params.toString());
+			logger.debug("params = " + params.toString());
 			QueryResponse response =
 					solr.query(params, org.apache.solr.client.solrj.SolrRequest.METHOD.GET);
 
 			SolrDocumentList solrResults = response.getResults();
-			log.fine("numFound = " + solrResults.getNumFound());
+			logger.debug("numFound = " + solrResults.getNumFound());
 			
 			Iterator<SolrDocument> itr = solrResults.iterator();
 			SolrDocument doc = null;
 			int idx = 0;
 			while (itr.hasNext()) {
 				doc = itr.next();
-				log.fine("*****************  idx = " + (idx++));
+				logger.debug("*****************  idx = " + (idx++));
 				// log.info(doc.toString());
 
 				for (Map.Entry<String, Object> entry : doc.entrySet()) {
-					log.fine("Key = " + entry.getKey()
+					logger.debug("Key = " + entry.getKey()
 							+ "       Value = " + entry.getValue());
 				}
 			}
@@ -286,11 +287,11 @@ public class PDS4Search {
 				} else {
 					results.add(dateValue);
 				}
-				log.fine("date = " + obj.toString() + "  string date = " + dateValue);
+				logger.debug("date = " + obj.toString() + "  string date = " + dateValue);
 			}
 			else {
 				results.add(obj.toString());
-				log.fine("k = " + key + "\tv = " + obj.toString());
+				logger.debug("k = " + key + "\tv = " + obj.toString());
 			}
 		}
 		return results;		
@@ -314,19 +315,19 @@ public class PDS4Search {
 				params.add("q", "identifier:" + cleanIdentifier(resourceRef));
 				params.set("wt", "xml");
 
-				log.info("params = " + params.toString());
+				logger.info("params = " + params.toString());
 				QueryResponse response =
 						solr.query(params, org.apache.solr.client.solrj.SolrRequest.METHOD.GET);
 
 				SolrDocumentList solrResults = response.getResults();
-				log.fine("numFound = " + solrResults.getNumFound());
+				logger.debug("numFound = " + solrResults.getNumFound());
 
 				Iterator<SolrDocument> itr = solrResults.iterator();
 				SolrDocument doc = null;
 				int idx = 0;
 				while (itr.hasNext()) {
 					doc = itr.next();
-					log.fine("*****************  idx = " + (idx++));
+					logger.debug("*****************  idx = " + (idx++));
 
 					String resourceName = "";
 					String resourceURL = "";
@@ -337,7 +338,7 @@ public class PDS4Search {
 							resourceURL = getValue(entry);
 						}
 					}
-					log.fine("resname = " + resourceName + "       reslink = " + resourceURL);
+					logger.debug("resname = " + resourceName + "       reslink = " + resourceURL);
 					resourceMap.put(resourceName, resourceURL);
 				}
 			}
@@ -356,7 +357,7 @@ public class PDS4Search {
 	}
 
 	public JSONArray getDoiResponse(URL url) throws IOException, JSONException {
-		log.fine("getDoiResponse(" + url + ")");
+		logger.debug("getDoiResponse(" + url + ")");
 		HttpURLConnection conn = null;
 		BufferedReader br = null;
 		InputStreamReader isr = null;
@@ -377,10 +378,10 @@ public class PDS4Search {
 				}
 
 				JSONArray jsonResponse = new JSONArray(response.toString());
-				log.fine("getDoiResponse=" + jsonResponse.toString(2));
+				logger.debug("getDoiResponse=" + jsonResponse.toString(2));
 				return jsonResponse;
 			} else {
-				log.warning("getDoiResponse's responseCode != 200");
+				logger.warn("getDoiResponse's responseCode != 200");
 				return null;
 			}
 		} finally {
@@ -388,14 +389,14 @@ public class PDS4Search {
 				try {
 					br.close();
 				} catch (IOException e) {
-					log.warning("Error closing BufferedReader: " + e.getMessage());
+					logger.warn("Error closing BufferedReader: " + e.getMessage());
 				}
 			}
 			if (isr != null) {
 				try {
 					isr.close();
 				} catch (IOException e) {
-					log.warning("Error closing InputStreamReader: " + e.getMessage());
+					logger.warn("Error closing InputStreamReader: " + e.getMessage());
 				}
 			}
 			if (conn != null) {
@@ -405,7 +406,7 @@ public class PDS4Search {
 	}
 
 	public String getDoi(String lid, String vid) throws IOException, JSONException {
-		log.fine("\ngetDOI(" + lid + ", " + vid + ")");
+		logger.debug("\ngetDOI(" + lid + ", " + vid + ")");
 		String identifier = lid + "::";
 		Boolean withVid = Boolean.FALSE;
 
@@ -419,7 +420,7 @@ public class PDS4Search {
 		
 		// for gamma, comment above (localhost) and uncomment below (pds.nasa.gov) so that data engineers can see actual DOIs instead of test data
 		URL url = new URL(DOI_SERVER_URL + "?ids=" + URLEncoder.encode(identifier, "UTF-8"));
-		log.info("DOI query: " + url);
+		logger.info("DOI query: " + url);
 		JSONArray doiResponse = getDoiResponse(url);
 
 		if (doiResponse == null) {
