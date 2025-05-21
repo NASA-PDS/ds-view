@@ -439,6 +439,72 @@ public class PDS4Search {
 			}
 		}
 	}
+
+	public String getAuthorsEditors(SolrDocument doc, String key) {
+		if (key.equals("AUTHORS")) {
+			return getAuthors(doc);
+		} else if (key.equals("EDITORS")) {
+			return getEditors(doc);
+		}
+		return null;
+	}
+	
+	private String getAuthors(SolrDocument doc) {
+		StringBuilder sb = new StringBuilder();
+		
+		getAuthorEditorBlock(doc, Constants.authorOrganizationFields, sb);
+		getAuthorEditorBlock(doc, Constants.authorPersonFields, sb);
+
+		log.fine("getAuthors: " + sb);
+		return sb.toString();
+	}
+	
+	private String getEditors(SolrDocument doc) {
+		StringBuilder sb = new StringBuilder();
+		
+		getAuthorEditorBlock(doc, Constants.editorOrganizationFields, sb);
+		getAuthorEditorBlock(doc, Constants.editorPersonFields, sb);
+
+		log.fine("getEditors: " + sb);
+		return sb.toString();
+	}
+
+	private void getAuthorEditorBlock(SolrDocument doc, List<String> fields, StringBuilder sb) {
+		log.fine("Processing fields: " + fields);
+		
+		// First, collect all values for each field
+		Map<String, List<Object>> fieldValues = new LinkedHashMap<>();
+		int maxSize = 0;
+		
+		for (String field : fields) {
+			Collection<Object> values = doc.getFieldValues(field);
+			if (values != null) {
+				List<Object> valueList = new ArrayList<>(values);
+				fieldValues.put(field, valueList);
+				maxSize = Math.max(maxSize, valueList.size());
+				log.fine("Found " + valueList.size() + " values for field: " + field);
+			} else {
+				log.fine("No values found for field: " + field);
+			}
+		}
+		
+		// Now transpose the data - iterate by index
+		for (int i = 0; i < maxSize; i++) {
+			log.fine("Processing group " + (i+1) + " of " + maxSize);
+			for (String field : fields) {
+				List<Object> values = fieldValues.get(field);
+				if (values != null && i < values.size()) {
+					String value = values.get(i).toString();
+					log.fine("Adding value for " + field + ": " + value);
+					sb.append(value + " ");
+					if (!field.contains("given_name")) {
+						sb.append("<br />");
+					}
+				}
+			}
+			sb.append("<br />");
+		}
+	}
 	
 	private String cleanIdentifier(String identifier) {
 		return identifier.replace(":", "\\:").replace("\\\\", "\\");

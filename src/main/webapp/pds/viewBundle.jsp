@@ -231,6 +231,10 @@
                             out.println("<br>");
                     } // end for
                 } // end if (values!=null)
+
+               if ((key.equals("AUTHORS") || key.equals("EDITORS")) && (values == null || values.size() == 0)) {
+                  out.println(pds4Search.getAuthorsEditors(doc, key));
+               }
             } // end if (key.equals("DOI"))
              %>
              </td>

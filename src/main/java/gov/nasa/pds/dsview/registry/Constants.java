@@ -16,6 +16,9 @@ package gov.nasa.pds.dsview.registry;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.List;
+import java.util.ArrayList;
+
 /**
  * Class that holds constants used in ds-view.
  *
@@ -206,13 +209,43 @@ public class Constants {
     public static final Map<String, String> bundleCitationPds4ToRegistry =
       new LinkedHashMap<String, String>();
       static {
-				bundleCitationPds4ToRegistry.put("DIGITAL OBJECT IDENTIFIER (DOI)", "citation_doi");
-          bundleCitationPds4ToRegistry.put("AUTHOR LIST", "citation_author_list");
-	      bundleCitationPds4ToRegistry.put("EDITOR LIST", "citation_editor_list");
+		  bundleCitationPds4ToRegistry.put("DIGITAL OBJECT IDENTIFIER (DOI)", "citation_doi");
+          bundleCitationPds4ToRegistry.put("AUTHORS", "citation_author_list");
+	      bundleCitationPds4ToRegistry.put("EDITORS", "citation_editor_list");
 	      bundleCitationPds4ToRegistry.put("PUBLICATION YEAR", "citation_publication_year");
 	      bundleCitationPds4ToRegistry.put("DESCRIPTION", "citation_description");
       }
+
+	  public static final List<String> authorOrganizationFields =
+		new ArrayList<String>();
+		static {
+			authorOrganizationFields.add("citation_author_organization_name");
+		}
        
+	public static final List<String> authorPersonFields =
+		new ArrayList<String>();
+		static {
+			authorPersonFields.add("citation_author_person_given_name");
+			authorPersonFields.add("citation_author_person_family_name");
+			authorPersonFields.add("citation_author_person_orcid");
+			authorPersonFields.add("citation_author_person_affiliation_organization_name");
+		}
+
+	public static final List<String> editorOrganizationFields =
+		new ArrayList<String>();
+		static {
+			editorOrganizationFields.add("citation_editor_organization_name");
+		}
+		
+	public static final List<String> editorPersonFields =
+		new ArrayList<String>();
+		static {
+			editorPersonFields.add("citation_editor_person_given_name");
+			editorPersonFields.add("citation_editor_person_family_name");
+			editorPersonFields.add("citation_editor_person_orcid");
+			editorPersonFields.add("citation_editor_person_affiliation_organization_name");
+		}
+
 	public static final Map<String, String> bundleContextPds4ToRegistry = 
 	  new LinkedHashMap<String, String>();
 	  static {
