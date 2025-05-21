@@ -1,6 +1,6 @@
 # Changelog
 
-## [«unknown»](https://github.com/NASA-PDS/ds-view/tree/«unknown») (2025-05-03)
+## [«unknown»](https://github.com/NASA-PDS/ds-view/tree/«unknown») (2025-05-21)
 
 [Full Changelog](https://github.com/NASA-PDS/ds-view/compare/v2.20.2...«unknown»)
 
@@ -8,9 +8,11 @@
 
 - `ds-view` is unexpectedly replacing `=` with `:` in resource URLs [\#45](https://github.com/NASA-PDS/ds-view/issues/45) [[s.medium](https://github.com/NASA-PDS/ds-view/labels/s.medium)]
 - `viewProfile.jsp` not grabbing latest metadata when data set is updated [\#43](https://github.com/NASA-PDS/ds-view/issues/43) [[s.medium](https://github.com/NASA-PDS/ds-view/labels/s.medium)]
+- Memory leak in Solr connections leading to Tomcat crash [\#14](https://github.com/NASA-PDS/ds-view/issues/14) [[s.high](https://github.com/NASA-PDS/ds-view/labels/s.high)]
 
 **Other closed issues:**
 
+- Cleanup and standardize logging across classes [\#49](https://github.com/NASA-PDS/ds-view/issues/49)
 - Prevent potential DoS attack by handling exceptions in ds-view [\#47](https://github.com/NASA-PDS/ds-view/issues/47)
 
 ## [v2.20.2](https://github.com/NASA-PDS/ds-view/tree/v2.20.2) (2025-01-14)
