@@ -53,8 +53,7 @@ public class RegistryQueryServlet extends HttpServlet {
 			getServletConfig().getServletContext().getRequestDispatcher
 				("/pds/results.jsp").forward(req,res);
 		} catch (ServletException | IOException e) {
-			// Log the error and rethrow to be handled by the container
-			logger.error("Error in RegistryQueryServlet: " + e.getMessage(), e);
+			logger.error("Error processing registry query", e);
 		}
 	}
 
@@ -137,7 +136,7 @@ public class RegistryQueryServlet extends HttpServlet {
 					
 					query.append(keyword+ ":" + URLEncoder.encode(list[i],"UTF-8"));
 				} catch (java.io.UnsupportedEncodingException e) {
-					e.printStackTrace();
+					logger.error("Error encoding URL parameter", e);
 				}
 			}
 		}
