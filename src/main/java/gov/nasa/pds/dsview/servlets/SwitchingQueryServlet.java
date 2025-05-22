@@ -31,18 +31,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * The switching servlet dispatches an incoming request to a specific web resource
- * depending on the <code>reslcass</code> parameter.
+ * The switching servlet dispatches an incoming request to a specific web resource depending on the
+ * <code>reslcass</code> parameter.
  *
- * At initialization time, the servlet reads each initialization parameter and treats it
- * as a <code>resclass</code>-to-web resource (by path) mapping.  It saves each mapping.
- * Then, for any GET or POST request, it looks for the <code>resclass</code> parameter and
- * finds the corresponding web resource path.  It then fowards the request to that
- * resource, but without the <code>resclass</code> parameter.
+ * At initialization time, the servlet reads each initialization parameter and treats it as a
+ * <code>resclass</code>-to-web resource (by path) mapping. It saves each mapping. Then, for any GET
+ * or POST request, it looks for the <code>resclass</code> parameter and finds the corresponding web
+ * resource path. It then fowards the request to that resource, but without the
+ * <code>resclass</code> parameter.
  *
- * <p>If the <code>resclass</code> parameter is missing or is empty, the result is a 400
- * (bad request).  If the web resource is missing from the web server, the result is a 404
- * (not found).
+ * <p>
+ * If the <code>resclass</code> parameter is missing or is empty, the result is a 400 (bad request).
+ * If the web resource is missing from the web server, the result is a 404 (not found).
  *
  * @author Kelly
  * @version $Revision$
@@ -67,12 +67,14 @@ public class SwitchingQueryServlet extends HttpServlet {
   }
 
   @Override
-  public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+  public void doGet(HttpServletRequest req, HttpServletResponse res)
+      throws ServletException, IOException {
     doIt(req, res);
   }
 
   @Override
-  public void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+  public void doPost(HttpServletRequest req, HttpServletResponse res)
+      throws ServletException, IOException {
     doIt(req, res);
   }
 
@@ -90,10 +92,12 @@ public class SwitchingQueryServlet extends HttpServlet {
       if (resClass == null || resClass.isEmpty())
         throw new Ex(HttpServletResponse.SC_BAD_REQUEST, "Required \"resclass\" parameter missing");
       String path = (String) resources.get(resClass);
-      if (path == null) throw new Ex(HttpServletResponse.SC_BAD_REQUEST, "Unknown \"resclass\" parameter");
+      if (path == null)
+        throw new Ex(HttpServletResponse.SC_BAD_REQUEST, "Unknown \"resclass\" parameter");
       RequestDispatcher rd = req.getRequestDispatcher(path);
-      if (rd == null) throw new Ex(HttpServletResponse.SC_NOT_FOUND, "Path for resclass \"" + path
-        + "\" unknown in web context");
+      if (rd == null)
+        throw new Ex(HttpServletResponse.SC_NOT_FOUND,
+            "Path for resclass \"" + path + "\" unknown in web context");
       rd.forward(new SwitchedRequest(req), res);
     } catch (ServletException | IOException | Ex e) {
       // Log the error and rethrow to be handled by the container
@@ -133,8 +137,8 @@ public class SwitchingQueryServlet extends HttpServlet {
     /**
      * Creates a new <code>SwitchedRequest</code> instance.
      *
-     * Parameters from the request are copied, and any <code>resclass</code>
-     * parameter is removed.  Parameter retrieval happens on this copy.
+     * Parameters from the request are copied, and any <code>resclass</code> parameter is removed.
+     * Parameter retrieval happens on this copy.
      *
      * @param req Wrapped {@link ServletRequest} value.
      */
@@ -147,7 +151,7 @@ public class SwitchingQueryServlet extends HttpServlet {
     /** {@inheritDoc} */
     public String getParameter(String name) {
       String[] array = (String[]) params.get(name);
-      return array == null? null : array[0];
+      return array == null ? null : array[0];
     }
 
     /** {@inheritDoc} */
