@@ -224,17 +224,21 @@
                    } // end if (values != null)
                  } // end if nothing from DOI search
              } else {
-                 List<String> values = pds4Search.getValues(doc, tmpValue);
-                 if (values != null) {
-                     for (int j = 0; j < values.size(); j++) {
+               List<String> values = pds4Search.getValues(doc, tmpValue);
+               if (values != null) {
+                  for (int j = 0; j < values.size(); j++) {
 
-                         out.println(values.get(j) + "<br>");
+                        out.println(values.get(j) + "<br>");
 
-                         if (values.size() > 1) {
-                             out.println("<br>");
-                         }
-                     } // end for
-                 } // end if (values!=null)
+                        if (values.size() > 1) {
+                           out.println("<br>");
+                        }
+                  } // end for
+               } // end if (values!=null)
+
+               if ((key.equals("AUTHORS") || key.equals("EDITORS")) && (values == null || values.size() == 0)) {
+                  out.println(pds4Search.getAuthorsEditors(doc, key));
+               }
              } // end if (key.equals("DOI"))
              %>
              </td>
