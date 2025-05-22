@@ -29,8 +29,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.concurrent.atomic.AtomicReference;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.Http2SolrClient;
 import org.apache.solr.client.solrj.response.QueryResponse;
@@ -40,7 +39,8 @@ import org.apache.solr.common.params.ModifiableSolrParams;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
-import java.util.concurrent.atomic.AtomicReference;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This class is used by the PDS data set view web interface to retrieve values
@@ -456,7 +456,7 @@ public class PDS4Search {
 		getAuthorEditorBlock(doc, Constants.authorOrganizationFields, sb);
 		getAuthorEditorBlock(doc, Constants.authorPersonFields, sb);
 
-		log.fine("getAuthors: " + sb);
+        logger.debug("getAuthors: " + sb);
 		return sb.toString();
 	}
 	
@@ -466,12 +466,12 @@ public class PDS4Search {
 		getAuthorEditorBlock(doc, Constants.editorOrganizationFields, sb);
 		getAuthorEditorBlock(doc, Constants.editorPersonFields, sb);
 
-		log.fine("getEditors: " + sb);
+        logger.debug("getEditors: " + sb);
 		return sb.toString();
 	}
 
 	private void getAuthorEditorBlock(SolrDocument doc, List<String> fields, StringBuilder sb) {
-		log.fine("Processing fields: " + fields);
+        logger.debug("Processing fields: " + fields);
 		
 		// First, collect all values for each field
 		Map<String, List<Object>> fieldValues = new LinkedHashMap<>();
@@ -483,20 +483,20 @@ public class PDS4Search {
 				List<Object> valueList = new ArrayList<>(values);
 				fieldValues.put(field, valueList);
 				maxSize = Math.max(maxSize, valueList.size());
-				log.fine("Found " + valueList.size() + " values for field: " + field);
+                logger.debug("Found " + valueList.size() + " values for field: " + field);
 			} else {
-				log.fine("No values found for field: " + field);
+                logger.debug("No values found for field: " + field);
 			}
 		}
 		
 		// Now transpose the data - iterate by index
 		for (int i = 0; i < maxSize; i++) {
-			log.fine("Processing group " + (i+1) + " of " + maxSize);
+			logger.debug("Processing group " + (i+1) + " of " + maxSize);
 			for (String field : fields) {
 				List<Object> values = fieldValues.get(field);
 				if (values != null && i < values.size()) {
 					String value = values.get(i).toString();
-					log.fine("Adding value for " + field + ": " + value);
+					logger.debug("Adding value for " + field + ": " + value);
 					sb.append(value + " ");
 					if (!field.contains("given_name")) {
 						sb.append("<br />");
