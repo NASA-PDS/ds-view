@@ -1,8 +1,8 @@
 # Changelog
 
-## [«unknown»](https://github.com/NASA-PDS/ds-view/tree/«unknown») (2025-05-22)
+## [release/2.21.0](https://github.com/NASA-PDS/ds-view/tree/release/2.21.0) (2025-05-22)
 
-[Full Changelog](https://github.com/NASA-PDS/ds-view/compare/v2.20.2...«unknown»)
+[Full Changelog](https://github.com/NASA-PDS/ds-view/compare/v2.20.2...release/2.21.0)
 
 **Defects:**
 
