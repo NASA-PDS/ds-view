@@ -1,8 +1,16 @@
 # Changelog
 
-## [release/2.21.0](https://github.com/NASA-PDS/ds-view/tree/release/2.21.0) (2025-05-22)
+## [release/2.21.1](https://github.com/NASA-PDS/ds-view/tree/release/2.21.1) (2025-05-28)
 
-[Full Changelog](https://github.com/NASA-PDS/ds-view/compare/v2.20.2...release/2.21.0)
+[Full Changelog](https://github.com/NASA-PDS/ds-view/compare/v2.21.0...release/2.21.1)
+
+## [v2.21.0](https://github.com/NASA-PDS/ds-view/tree/v2.21.0) (2025-05-27)
+
+[Full Changelog](https://github.com/NASA-PDS/ds-view/compare/v2.20.2...v2.21.0)
+
+**Improvements:**
+
+- Prevent potential DoS attack by handling exceptions in ds-view [\#47](https://github.com/NASA-PDS/ds-view/issues/47)
 
 **Defects:**
 
@@ -13,7 +21,6 @@
 **Other closed issues:**
 
 - Cleanup and standardize logging across classes [\#49](https://github.com/NASA-PDS/ds-view/issues/49)
-- Prevent potential DoS attack by handling exceptions in ds-view [\#47](https://github.com/NASA-PDS/ds-view/issues/47)
 
 ## [v2.20.2](https://github.com/NASA-PDS/ds-view/tree/v2.20.2) (2025-01-14)
 
