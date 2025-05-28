@@ -222,7 +222,6 @@ public class Constants {
   static {
     authorPersonFields.add("citation_author_person_given_name");
     authorPersonFields.add("citation_author_person_family_name");
-    authorPersonFields.add("citation_author_person_orcid");
     authorPersonFields.add("citation_author_person_affiliation_organization_name");
   }
 
@@ -235,7 +234,6 @@ public class Constants {
   static {
     editorPersonFields.add("citation_editor_person_given_name");
     editorPersonFields.add("citation_editor_person_family_name");
-    editorPersonFields.add("citation_editor_person_orcid");
     editorPersonFields.add("citation_editor_person_affiliation_organization_name");
   }
 
