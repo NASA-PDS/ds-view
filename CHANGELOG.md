@@ -1,8 +1,16 @@
 # Changelog
 
-## [release/2.21.1](https://github.com/NASA-PDS/ds-view/tree/release/2.21.1) (2025-05-28)
+## [«unknown»](https://github.com/NASA-PDS/ds-view/tree/«unknown») (2025-06-27)
 
-[Full Changelog](https://github.com/NASA-PDS/ds-view/compare/v2.21.0...release/2.21.1)
+[Full Changelog](https://github.com/NASA-PDS/ds-view/compare/v2.21.1...«unknown»)
+
+**Defects:**
+
+- \[ds-view\]  viewBundle.jsp ends prematurely [\#25](https://github.com/NASA-PDS/ds-view/issues/25) [[s.low](https://github.com/NASA-PDS/ds-view/labels/s.low)]
+
+## [v2.21.1](https://github.com/NASA-PDS/ds-view/tree/v2.21.1) (2025-05-28)
+
+[Full Changelog](https://github.com/NASA-PDS/ds-view/compare/v2.21.0...v2.21.1)
 
 ## [v2.21.0](https://github.com/NASA-PDS/ds-view/tree/v2.21.0) (2025-05-27)
 
