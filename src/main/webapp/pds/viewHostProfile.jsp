@@ -14,7 +14,7 @@
             isErrorPage="false" contentType="text/html; charset=ISO-8859-1" 
             import="gov.nasa.pds.dsview.registry.PDS3Search, gov.nasa.pds.dsview.registry.Constants, 
                     org.apache.solr.common.SolrDocument,
-                    java.util.*,java.net.*,java.io.*, java.lang.*"
+                    java.util.*,java.net.*,java.io.*, java.lang.*, gov.nasa.pds.dsview.util.XssUtils"
    %>
 </head>
 
@@ -54,7 +54,7 @@ if ((hostId == null) || (hostId == "")) {
 <%
 }
 else {
-   String hostLid = hostId;
+   String hostLid = XssUtils.sanitize(hostId);
    PDS3Search pds3Search = new PDS3Search(searchUrl);
    
    try {
