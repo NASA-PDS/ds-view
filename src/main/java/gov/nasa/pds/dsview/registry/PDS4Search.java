@@ -89,7 +89,7 @@ public class PDS4Search {
       params.set("wt", "xml");
       params.set("fq", "facet_type:\"1,collection\"");
 
-      logger.info("params = " + params.toString());
+      logger.debug("params = " + params.toString());
       QueryResponse response =
           solr.query(params, org.apache.solr.client.solrj.SolrRequest.METHOD.GET);
 
@@ -97,16 +97,16 @@ public class PDS4Search {
         return null;
 
       SolrDocumentList solrResults = response.getResults();
-      logger.info("numFound = " + solrResults.getNumFound());
+      logger.debug("numFound = " + solrResults.getNumFound());
 
       Iterator<SolrDocument> itr = solrResults.iterator();
       int idx = 0;
       while (itr.hasNext()) {
         SolrDocument doc = itr.next();
-        logger.info("*****************  idx = " + (idx++));
+        logger.debug("*****************  idx = " + (idx++));
 
         for (Map.Entry<String, Object> entry : doc.entrySet()) {
-          logger.info("Key = " + entry.getKey() + "       Value = " + entry.getValue());
+          logger.debug("Key = " + entry.getKey() + "       Value = " + entry.getValue());
         }
       }
 
@@ -128,21 +128,21 @@ public class PDS4Search {
       params.set("wt", "xml");
       params.set("fq", "facet_type:\"1,bundle\"");
 
-      logger.info("params = " + params.toString());
+      logger.debug("params = " + params.toString());
       QueryResponse response =
           solr.query(params, org.apache.solr.client.solrj.SolrRequest.METHOD.GET);
 
       SolrDocumentList solrResults = response.getResults();
-      logger.info("numFound = " + solrResults.getNumFound());
+      logger.debug("numFound = " + solrResults.getNumFound());
 
       Iterator<SolrDocument> itr = solrResults.iterator();
       int idx = 0;
       while (itr.hasNext()) {
         SolrDocument doc = itr.next();
-        logger.info("*****************  idx = " + (idx++));
+        logger.debug("*****************  idx = " + (idx++));
 
         for (Map.Entry<String, Object> entry : doc.entrySet()) {
-          logger.info("Key = " + entry.getKey() + "       Value = " + entry.getValue());
+          logger.debug("Key = " + entry.getKey() + "       Value = " + entry.getValue());
         }
       }
       return solrResults;
@@ -163,7 +163,7 @@ public class PDS4Search {
       params.set("fq", "facet_type:\"1,observational\"");
       params.set("start", start);
 
-      logger.info("params = " + params.toString());
+      logger.debug("params = " + params.toString());
       QueryResponse response =
           solr.query(params, org.apache.solr.client.solrj.SolrRequest.METHOD.GET);
 
@@ -171,17 +171,17 @@ public class PDS4Search {
         return null;
 
       SolrDocumentList solrResults = response.getResults();
-      logger.info("numFound = " + solrResults.getNumFound());
+      logger.debug("numFound = " + solrResults.getNumFound());
 
       Iterator<SolrDocument> itr = solrResults.iterator();
       int idx = 0;
       while (itr.hasNext()) {
         SolrDocument doc = itr.next();
-        logger.info("*****************  idx = " + (idx++));
+        logger.debug("*****************  idx = " + (idx++));
         // log.info(doc.toString());
 
         for (Map.Entry<String, Object> entry : doc.entrySet()) {
-          logger.info("Key = " + entry.getKey() + "       Value = " + entry.getValue());
+          logger.debug("Key = " + entry.getKey() + "       Value = " + entry.getValue());
         }
       }
       return solrResults;
@@ -201,7 +201,7 @@ public class PDS4Search {
       params.set("wt", "xml");
       params.set("fq", "facet_type:\"1,document\"");
 
-      logger.info("params = " + params.toString());
+      logger.debug("params = " + params.toString());
       QueryResponse response =
           solr.query(params, org.apache.solr.client.solrj.SolrRequest.METHOD.GET);
 
@@ -209,17 +209,17 @@ public class PDS4Search {
         return null;
 
       SolrDocumentList solrResults = response.getResults();
-      logger.info("numFound = " + solrResults.getNumFound());
+      logger.debug("numFound = " + solrResults.getNumFound());
 
       Iterator<SolrDocument> itr = solrResults.iterator();
       int idx = 0;
       while (itr.hasNext()) {
         SolrDocument doc = itr.next();
-        logger.info("*****************  idx = " + (idx++));
+        logger.debug("*****************  idx = " + (idx++));
         // log.info(doc.toString());
 
         for (Map.Entry<String, Object> entry : doc.entrySet()) {
-          logger.info("Key = " + entry.getKey() + "       Value = " + entry.getValue());
+          logger.debug("Key = " + entry.getKey() + "       Value = " + entry.getValue());
         }
       }
       return solrResults;
@@ -404,7 +404,7 @@ public class PDS4Search {
   }
 
   private String getDoiWithIdentifier(String lid, String vid, boolean fuzzyMatch) throws IOException, JSONException {
-    logger.info("getDoiWithIdentifier(" + lid + ", " + vid + ", " + fuzzyMatch + ")");
+    logger.debug("getDoiWithIdentifier(" + lid + ", " + vid + ", " + fuzzyMatch + ")");
     String identifier;
     if (fuzzyMatch) {
       identifier = lid + "::*";
@@ -415,19 +415,9 @@ public class PDS4Search {
         identifier = lid;
       }
     }
-    // Boolean withVid = Boolean.FALSE;
 
-    // if (vid != null) {
-    //   identifier += vid;
-    //   withVid = Boolean.TRUE;
-    // } else {
-    //   identifier += "*";
-    // }
-
-    // for gamma, comment above (localhost) and uncomment below (pds.nasa.gov) so that data
-    // engineers can see actual DOIs instead of test data
     URL url = new URL(DOI_SERVER_URL + "?ids=" + URLEncoder.encode(identifier, "UTF-8"));
-    logger.info("DOI query: " + url);
+    logger.debug("DOI query: " + url);
     JSONArray doiResponse = getDoiResponse(url);
 
     if (doiResponse == null) {
@@ -549,7 +539,7 @@ public class PDS4Search {
         if (doiResponse.length() > 0) {
             JSONObject jsonObj = doiResponse.getJSONObject(0);
             bestMatchDoi = jsonObj.getString("doi");
-            logger.info("No target version specified, returning first DOI: " + bestMatchDoi);
+            logger.debug("No target version specified, returning first DOI: " + bestMatchDoi);
         }
         return bestMatchDoi;
     }
@@ -558,33 +548,33 @@ public class PDS4Search {
     for (int i = 0; i < doiResponse.length(); i++) {
         JSONObject jsonObj = doiResponse.getJSONObject(i);
         String doiIdentifier = jsonObj.getString("identifier");
-        logger.info("doiIdentifier = " + doiIdentifier);
+        logger.debug("doiIdentifier = " + doiIdentifier);
         
         // Extract version from identifier (after last ::)
         int lastColonIndex = doiIdentifier.lastIndexOf("::");
         if (lastColonIndex == -1 || lastColonIndex == doiIdentifier.length() - 2) {
-            logger.info("Skipping identifier without version: " + doiIdentifier);
+            logger.debug("Skipping identifier without version: " + doiIdentifier);
             continue;
         }
         String version = doiIdentifier.substring(lastColonIndex + 2);
-        logger.info("version = " + version + ", target = " + targetVersion);
+        logger.debug("version = " + version + ", target = " + targetVersion);
         
         // Skip if this version is higher than target
         if (compareVersions(version, targetVersion) > 0) {
-            logger.info("Skipping version " + version + " (higher than target " + targetVersion + ")");
+            logger.debug("Skipping version " + version + " (higher than target " + targetVersion + ")");
             continue;
         }
         
         // This version is <= target, check if it's better than current best
         if (bestMatchVersion == null || compareVersions(version, bestMatchVersion) > 0) {
-            logger.info("New best match: " + version + " (was: " + bestMatchVersion + ")");
+            logger.debug("New best match: " + version + " (was: " + bestMatchVersion + ")");
             bestMatchVersion = version;
             bestMatchDoi = jsonObj.getString("doi");
         }
         
         // If we found an exact match, we can stop here
         if (compareVersions(version, targetVersion) == 0) {
-            logger.info("Found exact match: " + version);
+            logger.debug("Found exact match: " + version);
             bestMatchVersion = version;
             bestMatchDoi = jsonObj.getString("doi");
             break;
