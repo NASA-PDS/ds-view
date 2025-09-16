@@ -1,7 +1,6 @@
 package gov.nasa.pds.dsview.registry;
 
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
 
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
