@@ -1,11 +1,12 @@
 # Changelog
 
-## [«unknown»](https://github.com/NASA-PDS/ds-view/tree/«unknown») (2025-06-27)
+## [«unknown»](https://github.com/NASA-PDS/ds-view/tree/«unknown») (2025-09-16)
 
 [Full Changelog](https://github.com/NASA-PDS/ds-view/compare/v2.21.1...«unknown»)
 
 **Defects:**
 
+- Fix potential XSS security vulnerability on ds-view [\#56](https://github.com/NASA-PDS/ds-view/issues/56) [[s.high](https://github.com/NASA-PDS/ds-view/labels/s.high)]
 - \[ds-view\]  viewBundle.jsp ends prematurely [\#25](https://github.com/NASA-PDS/ds-view/issues/25) [[s.low](https://github.com/NASA-PDS/ds-view/labels/s.low)]
 
 ## [v2.21.1](https://github.com/NASA-PDS/ds-view/tree/v2.21.1) (2025-05-28)
