@@ -14,7 +14,7 @@
             contentType="text/html; charset=ISO-8859-1" 
             import="gov.nasa.pds.dsview.registry.PDS3Search, gov.nasa.pds.dsview.registry.Constants, 
                     org.apache.solr.common.SolrDocument, gov.nasa.pds.registry.model.ExtrinsicObject,
-                    java.util.*, java.net.*, java.io.*, java.lang.*"
+                    java.util.*, java.net.*, java.io.*, java.lang.*, gov.nasa.pds.dsview.util.XssUtils"
    %>
 </head>
 
@@ -56,7 +56,7 @@ if ((instrumentId == null) || (instrumentId == "")) {
 // Instrument id specified. Check if received instrument host id. 
 else {
    String instrumentHostId = null;
-   instrumentId = instrumentId.toUpperCase();
+   instrumentId = XssUtils.sanitize(instrumentId).toUpperCase();
    boolean instFlag = false;
    
    //String instLid = "urn:nasa:pds:context_pds3:instrument:instrument." + instrumentId;

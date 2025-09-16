@@ -13,7 +13,7 @@
    <%@ page language="java" session="true" isThreadSafe="true" info="PDS Search" 
             isErrorPage="false" contentType="text/html; charset=ISO-8859-1" 
             import="gov.nasa.pds.dsview.registry.PDS3Search, gov.nasa.pds.dsview.registry.Constants,
-                    org.apache.solr.common.SolrDocument,  
+                    org.apache.solr.common.SolrDocument, gov.nasa.pds.dsview.util.XssUtils,
                     java.util.*, java.net.*, java.io.*, java.lang.*"
    %>
 </head>
@@ -64,7 +64,7 @@ else {
    */
    
    PDS3Search pds3Search = new PDS3Search(searchUrl);
-   targetId = targetId.toLowerCase();
+   targetId = XssUtils.sanitize(targetId).toLowerCase();
    //out.println("targetId = " + targetId);
       
    try {

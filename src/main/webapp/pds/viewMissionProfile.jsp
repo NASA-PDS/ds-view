@@ -13,7 +13,7 @@
             isErrorPage="false" contentType="text/html; charset=ISO-8859-1" 
             import="gov.nasa.pds.dsview.registry.PDS3Search, gov.nasa.pds.dsview.registry.Constants, 
                     org.apache.solr.common.SolrDocument,
-                    java.util.*, java.net.*, java.io.*, java.lang.*"
+                    java.util.*, java.net.*, java.io.*, java.lang.*, gov.nasa.pds.dsview.util.XssUtils"
    %>
 </head>
 
@@ -54,7 +54,7 @@ if ((missionName == null) || (missionName == "")) {
 }
 else {
    
-   String missionLid = missionName.toLowerCase();   
+   String missionLid = XssUtils.sanitize(missionName).toLowerCase();   
    //String missionLid = "urn:nasa:pds:context_pds3:investigation:mission." + missionName.toLowerCase();
    //missionLid = missionLid.replace(' ', '_');
    
