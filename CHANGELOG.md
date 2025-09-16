@@ -7,6 +7,7 @@
 **Defects:**
 
 - Fix potential XSS security vulnerability on ds-view [\#56](https://github.com/NASA-PDS/ds-view/issues/56) [[s.high](https://github.com/NASA-PDS/ds-view/labels/s.high)]
+- DOIs are not properly resolving on some landing pages [\#53](https://github.com/NASA-PDS/ds-view/issues/53) [[s.medium](https://github.com/NASA-PDS/ds-view/labels/s.medium)]
 - \[ds-view\]  viewBundle.jsp ends prematurely [\#25](https://github.com/NASA-PDS/ds-view/issues/25) [[s.low](https://github.com/NASA-PDS/ds-view/labels/s.low)]
 
 ## [v2.21.1](https://github.com/NASA-PDS/ds-view/tree/v2.21.1) (2025-05-28)
