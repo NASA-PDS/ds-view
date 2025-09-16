@@ -400,16 +400,29 @@ public class PDS4Search {
   }
 
   public String getDoi(String lid, String vid) throws IOException, JSONException {
-    logger.debug("\ngetDOI(" + lid + ", " + vid + ")");
-    String identifier = lid + "::";
-    Boolean withVid = Boolean.FALSE;
+    return getDoiWithIdentifier(lid, vid, false);
+  }
 
-    if (vid != null) {
-      identifier += vid;
-      withVid = Boolean.TRUE;
+  private String getDoiWithIdentifier(String lid, String vid, boolean fuzzyMatch) throws IOException, JSONException {
+    logger.info("getDoiWithIdentifier(" + lid + ", " + vid + ", " + fuzzyMatch + ")");
+    String identifier;
+    if (fuzzyMatch) {
+      identifier = lid + "::*";
     } else {
-      identifier += "*";
+      if (vid != null) {
+        identifier = lid + "::" + vid;
+      } else {
+        identifier = lid;
+      }
     }
+    // Boolean withVid = Boolean.FALSE;
+
+    // if (vid != null) {
+    //   identifier += vid;
+    //   withVid = Boolean.TRUE;
+    // } else {
+    //   identifier += "*";
+    // }
 
     // for gamma, comment above (localhost) and uncomment below (pds.nasa.gov) so that data
     // engineers can see actual DOIs instead of test data
@@ -421,15 +434,28 @@ public class PDS4Search {
       return null;
     } else {
       if (doiResponse.length() == 0) {
-        if (withVid)
-          return getDoi(lid, null);
-        else
+        if (fuzzyMatch) {
           return "No DOI found.";
+        } else {
+          // if not fuzzymatch, and vid exists, try without the vid
+          if (vid != null) {
+            return getDoiWithIdentifier(lid, null, false);
+          } else {
+            // otherwise try fuzzy match
+            return getDoiWithIdentifier(lid, vid, true);
+          }
+        }
       } else if (doiResponse.length() == 1) {
         JSONObject jsonResponse = doiResponse.getJSONObject(0);
         String doi = jsonResponse.getString("doi");
         return "<a href=\"https://doi.org/" + doi + "\">" + doi + "</a>";
       } else {
+        String bestMatchDoi = selectBestMatchingDoi(doiResponse, vid);
+        
+        if (bestMatchDoi != null) {
+            return "<a href=\"https://doi.org/" + bestMatchDoi + "\">" + bestMatchDoi + "</a>";
+        }
+        
         return "Multiple DOIs found. Use <a href=\"/tools/doi/#/search/" + identifier
             + "\">DOI Search</a> to select the most appropriate.";
       }
@@ -504,6 +530,90 @@ public class PDS4Search {
 
   private String cleanIdentifier(String identifier) {
     return identifier.replace(":", "\\:").replace("\\\\", "\\");
+  }
+
+  /**
+   * Select the best matching DOI from multiple responses.
+   * Prioritizes exact version matches, then falls back to highest version <= target.
+   * 
+   * @param doiResponse JSON array of DOI responses
+   * @param targetVersion Target version to match against
+   * @return DOI string of best match, or null if no suitable match found
+   */
+  private String selectBestMatchingDoi(JSONArray doiResponse, String targetVersion) throws JSONException {
+    String bestMatchDoi = null;
+    String bestMatchVersion = null;
+
+    // If targetVersion is null, just return the first DOI (no version filtering)
+    if (targetVersion == null) {
+        if (doiResponse.length() > 0) {
+            JSONObject jsonObj = doiResponse.getJSONObject(0);
+            bestMatchDoi = jsonObj.getString("doi");
+            logger.info("No target version specified, returning first DOI: " + bestMatchDoi);
+        }
+        return bestMatchDoi;
+    }
+
+    // Find the highest version that is <= target version
+    for (int i = 0; i < doiResponse.length(); i++) {
+        JSONObject jsonObj = doiResponse.getJSONObject(i);
+        String doiIdentifier = jsonObj.getString("identifier");
+        logger.info("doiIdentifier = " + doiIdentifier);
+        
+        // Extract version from identifier (after last ::)
+        int lastColonIndex = doiIdentifier.lastIndexOf("::");
+        if (lastColonIndex == -1 || lastColonIndex == doiIdentifier.length() - 2) {
+            logger.info("Skipping identifier without version: " + doiIdentifier);
+            continue;
+        }
+        String version = doiIdentifier.substring(lastColonIndex + 2);
+        logger.info("version = " + version + ", target = " + targetVersion);
+        
+        // Skip if this version is higher than target
+        if (compareVersions(version, targetVersion) > 0) {
+            logger.info("Skipping version " + version + " (higher than target " + targetVersion + ")");
+            continue;
+        }
+        
+        // This version is <= target, check if it's better than current best
+        if (bestMatchVersion == null || compareVersions(version, bestMatchVersion) > 0) {
+            logger.info("New best match: " + version + " (was: " + bestMatchVersion + ")");
+            bestMatchVersion = version;
+            bestMatchDoi = jsonObj.getString("doi");
+        }
+        
+        // If we found an exact match, we can stop here
+        if (compareVersions(version, targetVersion) == 0) {
+            logger.info("Found exact match: " + version);
+            bestMatchVersion = version;
+            bestMatchDoi = jsonObj.getString("doi");
+            break;
+        }
+    }
+
+    return bestMatchDoi;
+  }
+
+  /**
+   * Compare two version strings (e.g., "4.10" vs "4.9").
+   * Returns negative if v1 < v2, 0 if equal, positive if v1 > v2.
+   */
+  private int compareVersions(String v1, String v2) {
+    String[] parts1 = v1.split("\\.");
+    String[] parts2 = v2.split("\\.");
+    
+    int maxLength = Math.max(parts1.length, parts2.length);
+    
+    for (int i = 0; i < maxLength; i++) {
+      int num1 = i < parts1.length ? Integer.parseInt(parts1[i]) : 0;
+      int num2 = i < parts2.length ? Integer.parseInt(parts2[i]) : 0;
+      
+      if (num1 != num2) {
+        return Integer.compare(num1, num2);
+      }
+    }
+    
+    return 0;
   }
 
   /**
