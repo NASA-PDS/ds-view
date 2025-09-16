@@ -55,12 +55,12 @@ public class XssUtils {
 			// if any of the offending characters are present that facilitate
 			// Cross-Site Scripting and Blind SQL Injection.
 			// We normally exclude () but they often show up in queries.
-            char badChars[] = {'\0', '|', ';', '$', '@', '\'', '"', '<', '>', '\\', /* CR */ '\r',
+            char[] badChars = {'\0', '|', ';', '$', '@', '\'', '"', '<', '>', '\\', /* CR */ '\r',
                 /* LF */ '\n',
 					/* Backspace */ '\b' };
 			try {
               for (char badChar : badChars) {
-                value.replace(Character.toString(badChar), "");
+                value = value.replace(Character.toString(badChar), "");
 			  }
 			} catch (IllegalArgumentException e) {
 				value = "";
