@@ -39,7 +39,11 @@ src/test/temp/
 *.sublime-*
 *.DS_Store
 pom.xml.versionsBackup
+<<<<<<< Updated upstream
 *.vscode
+=======
+.vscode
+>>>>>>> Stashed changes
 
 # Java stuff
 *.javac
