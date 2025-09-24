@@ -1,4 +1,4 @@
-package gov.nasa.pds.search.util;
+package gov.nasa.pds.dsview.util;
 
 import static org.junit.Assert.*;
 

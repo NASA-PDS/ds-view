@@ -11,47 +11,47 @@ public class XssUtils {
 
 	// Patterns for Cross-Site Scripting filter.
 	private static Pattern[] xssPatterns = new Pattern[] {
-			// script fragments - complete tags
-			Pattern.compile("<script[^>]*>.*?</script>", Pattern.CASE_INSENSITIVE | Pattern.DOTALL),
+			// script fragments - complete tags (fixed ReDoS vulnerability)
+			Pattern.compile("<script[^>]*>[^<]*</script>", Pattern.CASE_INSENSITIVE),
 			Pattern.compile("</script>", Pattern.CASE_INSENSITIVE),
 			Pattern.compile("<script[^>]*>", Pattern.CASE_INSENSITIVE),
-			// src='...' and src="..."
-			Pattern.compile("src\\s*=\\s*['\"][^'\"]*['\"]", Pattern.CASE_INSENSITIVE),
-			// eval(...) and expression(...) - more aggressive patterns
-			Pattern.compile("eval\\s*\\([^)]*\\)", Pattern.CASE_INSENSITIVE),
-			Pattern.compile("expression\\s*\\([^)]*\\)", Pattern.CASE_INSENSITIVE),
+			// src='...' and src="..." (fixed ReDoS vulnerability)
+			Pattern.compile("src\\s*=\\s*['\"][^'\"]{0,1000}['\"]", Pattern.CASE_INSENSITIVE),
+			// eval(...) and expression(...) - more aggressive patterns (fixed ReDoS vulnerability)
+			Pattern.compile("eval\\s*\\([^)]{0,1000}\\)", Pattern.CASE_INSENSITIVE),
+			Pattern.compile("expression\\s*\\([^)]{0,1000}\\)", Pattern.CASE_INSENSITIVE),
 			Pattern.compile("eval\\s*\\(", Pattern.CASE_INSENSITIVE),
 			Pattern.compile("expression\\s*\\(", Pattern.CASE_INSENSITIVE),
 			// javascript: and vbscript:
 			Pattern.compile("javascript:", Pattern.CASE_INSENSITIVE),
 			Pattern.compile("vbscript:", Pattern.CASE_INSENSITIVE),
-			// Event handlers - comprehensive pattern
-			Pattern.compile("on[a-z]+\\s*=\\s*['\"][^'\"]*['\"]", Pattern.CASE_INSENSITIVE),
-			Pattern.compile("on[a-z]+\\s*=\\s*[^\\s>]+", Pattern.CASE_INSENSITIVE),
+			// Event handlers - comprehensive pattern (fixed ReDoS vulnerability)
+			Pattern.compile("on[a-z]+\\s*=\\s*['\"][^'\"]{0,1000}['\"]", Pattern.CASE_INSENSITIVE),
+			Pattern.compile("on[a-z]+\\s*=\\s*[^\\s>]{0,1000}", Pattern.CASE_INSENSITIVE),
 			Pattern.compile("on[a-z]+\\s*=", Pattern.CASE_INSENSITIVE),
-			// Combined event handlers (like onerroronload)
-			Pattern.compile("on[a-z]+on[a-z]+\\s*=\\s*['\"][^'\"]*['\"]", Pattern.CASE_INSENSITIVE),
-			Pattern.compile("on[a-z]+on[a-z]+\\s*=\\s*[^\\s>]+", Pattern.CASE_INSENSITIVE),
+			// Combined event handlers (like onerroronload) (fixed ReDoS vulnerability)
+			Pattern.compile("on[a-z]+on[a-z]+\\s*=\\s*['\"][^'\"]{0,1000}['\"]", Pattern.CASE_INSENSITIVE),
+			Pattern.compile("on[a-z]+on[a-z]+\\s*=\\s*[^\\s>]{0,1000}", Pattern.CASE_INSENSITIVE),
 			Pattern.compile("on[a-z]+on[a-z]+\\s*=", Pattern.CASE_INSENSITIVE),
-			// JavaScript functions
-			Pattern.compile("alert\\s*\\([^)]*\\)", Pattern.CASE_INSENSITIVE),
-			Pattern.compile("confirm\\s*\\([^)]*\\)", Pattern.CASE_INSENSITIVE),
-			Pattern.compile("prompt\\s*\\([^)]*\\)", Pattern.CASE_INSENSITIVE),
-			// HTML tags - complete tags including closing tags
+			// JavaScript functions (fixed ReDoS vulnerability)
+			Pattern.compile("alert\\s*\\([^)]{0,1000}\\)", Pattern.CASE_INSENSITIVE),
+			Pattern.compile("confirm\\s*\\([^)]{0,1000}\\)", Pattern.CASE_INSENSITIVE),
+			Pattern.compile("prompt\\s*\\([^)]{0,1000}\\)", Pattern.CASE_INSENSITIVE),
+			// HTML tags - complete tags including closing tags (fixed ReDoS vulnerability)
 			Pattern.compile("<img[^>]*>", Pattern.CASE_INSENSITIVE),
-			Pattern.compile("<iframe[^>]*>.*?</iframe>", Pattern.CASE_INSENSITIVE | Pattern.DOTALL),
+			Pattern.compile("<iframe[^>]*>[^<]*</iframe>", Pattern.CASE_INSENSITIVE),
 			Pattern.compile("<iframe[^>]*>", Pattern.CASE_INSENSITIVE),
 			Pattern.compile("</iframe>", Pattern.CASE_INSENSITIVE),
-			Pattern.compile("<object[^>]*>.*?</object>", Pattern.CASE_INSENSITIVE | Pattern.DOTALL),
+			Pattern.compile("<object[^>]*>[^<]*</object>", Pattern.CASE_INSENSITIVE),
 			Pattern.compile("<object[^>]*>", Pattern.CASE_INSENSITIVE),
 			Pattern.compile("</object>", Pattern.CASE_INSENSITIVE),
 			Pattern.compile("<embed[^>]*>", Pattern.CASE_INSENSITIVE),
 			Pattern.compile("<link[^>]*>", Pattern.CASE_INSENSITIVE),
 			Pattern.compile("<meta[^>]*>", Pattern.CASE_INSENSITIVE),
-			Pattern.compile("<style[^>]*>.*?</style>", Pattern.CASE_INSENSITIVE | Pattern.DOTALL),
+			Pattern.compile("<style[^>]*>[^<]*</style>", Pattern.CASE_INSENSITIVE),
 			Pattern.compile("<style[^>]*>", Pattern.CASE_INSENSITIVE),
 			Pattern.compile("</style>", Pattern.CASE_INSENSITIVE),
-			Pattern.compile("<form[^>]*>.*?</form>", Pattern.CASE_INSENSITIVE | Pattern.DOTALL),
+			Pattern.compile("<form[^>]*>[^<]*</form>", Pattern.CASE_INSENSITIVE),
 			Pattern.compile("<form[^>]*>", Pattern.CASE_INSENSITIVE),
 			Pattern.compile("</form>", Pattern.CASE_INSENSITIVE) };
 
