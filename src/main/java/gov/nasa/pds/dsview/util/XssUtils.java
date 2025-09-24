@@ -26,13 +26,13 @@ public class XssUtils {
 			Pattern.compile("javascript:", Pattern.CASE_INSENSITIVE),
 			Pattern.compile("vbscript:", Pattern.CASE_INSENSITIVE),
 			// Event handlers - comprehensive pattern (fixed ReDoS vulnerability)
-			Pattern.compile("on[a-z]+\\s*=\\s*['\"][^'\"]{0,1000}['\"]", Pattern.CASE_INSENSITIVE),
-			Pattern.compile("on[a-z]+\\s*=\\s*[^\\s>]{0,1000}", Pattern.CASE_INSENSITIVE),
-			Pattern.compile("on[a-z]+\\s*=", Pattern.CASE_INSENSITIVE),
+			Pattern.compile("on[a-z]{1,20}\\s*=\\s*['\"][^'\"]{0,1000}['\"]", Pattern.CASE_INSENSITIVE),
+			Pattern.compile("on[a-z]{1,20}\\s*=\\s*[^\\s>]{0,1000}", Pattern.CASE_INSENSITIVE),
+			Pattern.compile("on[a-z]{1,20}\\s*=", Pattern.CASE_INSENSITIVE),
 			// Combined event handlers (like onerroronload) (fixed ReDoS vulnerability)
-			Pattern.compile("on[a-z]+on[a-z]+\\s*=\\s*['\"][^'\"]{0,1000}['\"]", Pattern.CASE_INSENSITIVE),
-			Pattern.compile("on[a-z]+on[a-z]+\\s*=\\s*[^\\s>]{0,1000}", Pattern.CASE_INSENSITIVE),
-			Pattern.compile("on[a-z]+on[a-z]+\\s*=", Pattern.CASE_INSENSITIVE),
+			Pattern.compile("on[a-z]{1,20}on[a-z]{1,20}\\s*=\\s*['\"][^'\"]{0,1000}['\"]", Pattern.CASE_INSENSITIVE),
+			Pattern.compile("on[a-z]{1,20}on[a-z]{1,20}\\s*=\\s*[^\\s>]{0,1000}", Pattern.CASE_INSENSITIVE),
+			Pattern.compile("on[a-z]{1,20}on[a-z]{1,20}\\s*=", Pattern.CASE_INSENSITIVE),
 			// JavaScript functions (fixed ReDoS vulnerability)
 			Pattern.compile("alert\\s*\\([^)]{0,1000}\\)", Pattern.CASE_INSENSITIVE),
 			Pattern.compile("confirm\\s*\\([^)]{0,1000}\\)", Pattern.CASE_INSENSITIVE),
@@ -76,7 +76,7 @@ public class XssUtils {
 			// if any of the offending characters are present that facilitate
 			// Cross-Site Scripting and Blind SQL Injection.
 			// We normally exclude () but they often show up in queries.
-            char badChars[] = {'\0', '|', ';', '$', '@', '\'', '"', '<', '>', '\\', /* CR */ '\r',
+            char[] badChars = {'\0', '|', ';', '$', '@', '\'', '"', '<', '>', '\\', /* CR */ '\r',
                 /* LF */ '\n',
 					/* Backspace */ '\b' };
 			try {
