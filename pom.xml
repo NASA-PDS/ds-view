@@ -1,20 +1,3 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
-
-<!-- 
-  Copyright 2012-2018, by the California Institute of Technology.
-  ALL RIGHTS RESERVED. United States Government Sponsorship acknowledged.
-  Any commercial use must be negotiated with the Office of Technology 
-  Transfer at the California Institute of Technology.
-
-  This software may be subject to U.S. export control laws. By accepting 
-  this software, the user agrees to comply with all applicable U.S. export 
-  laws and regulations. User has the responsibility to obtain export licenses, 
-  or other export authority as may be required before exporting such 
-  information to foreign countries or providing access to foreign persons.
-
-  $Id$
--->
-
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">  
   <modelVersion>4.0.0</modelVersion>
@@ -26,7 +9,7 @@
 
   <groupId>gov.nasa.pds.2010.portal</groupId>
   <artifactId>ds-view</artifactId>
-  <version>2.23.0-SNAPSHOT</version>
+  <version>2.22.11</version>
   <packaging>war</packaging>
 
   <name>Data Set View</name>
@@ -47,74 +30,6 @@
     <jersey-version>1.18.3</jersey-version>
   </properties>
 
-  <developers>
-    <developer>
-      <name>Sean Hardman</name>
-      <id>shardman</id>
-      <email>Sean.Hardman@jpl.nasa.gov</email>
-      <organization>NASA Jet Propulsion Laboratory</organization>
-      <roles>
-        <role>Development Lead</role>
-      </roles>
-    </developer>
-    <developer>
-      <name>Hyun Lee</name>
-      <id>hyunlee</id>
-      <email>Hyun.Lee@jpl.nasa.gov</email>
-      <organization>NASA Jet Propulsion Laboratory</organization>
-      <roles>
-        <role>Developer</role>
-      </roles>
-    </developer>
-    <developer>
-      <name>Jerry Crichton</name>
-      <id>jerry</id>
-      <email>Gerald.A.Crichton@jpl.nasa.gov</email>
-      <organization>NASA Jet Propulsion Laboratory</organization>
-      <roles>
-        <role>Former Developer</role>
-      </roles>
-    </developer>
-    <developer>
-      <name>Sean Kelly</name>
-      <id>kelly</id>
-      <email>Sean.Kelly@jpl.nasa.gov</email>
-      <organization>Independent Consultant</organization>
-      <roles>
-        <role>Former Developer</role>
-      </roles>
-    </developer>
-    <developer>
-      <name>Thuy Tran</name>
-      <id>thuytran</id>
-      <email>Thuy.Tran@jpl.nasa.gov</email>
-      <organization>NASA Jet Propulsion Laboratory</organization>
-      <roles>
-        <role>Former Developer</role>
-      </roles>
-    </developer>
-  </developers>
-
-  <contributors>
-    <contributor>
-      <name>Dan Crichton</name>
-      <email>Dan.Crichton@jpl.nasa.gov</email>
-      <organization>NASA Jet Propulsion Laboratory</organization>
-      <roles>
-        <role>OODT Principal Investigator</role>
-      </roles>
-    </contributor>
-    <contributor>
-      <name>Steve Hughes</name>
-      <email>John.S.Hughes@jpl.nasa.gov</email>
-      <organization>NASA Jet Propulsion Laboratory</organization>
-      <roles>
-        <role>OODT Co-Investigator</role>
-        <role>System Engineering Lead</role>
-      </roles>
-    </contributor>
-  </contributors>
-
   <build>
     <plugins>
       <plugin>
@@ -133,6 +48,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-assembly-plugin</artifactId>
+        <version>3.7.1</version>
         <executions>
           <execution>
             <id>bin-release</id>

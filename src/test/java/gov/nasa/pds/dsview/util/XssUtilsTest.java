@@ -1,4 +1,4 @@
-package gov.nasa.pds.search.util;
+package gov.nasa.pds.dsview.util;
 
 import static org.junit.Assert.*;
 
@@ -185,5 +185,57 @@ public class XssUtilsTest {
         String malicious = "<img src='x' onerror='javascript:eval(confirm(1))' onclick='alert(1)'>";
         String result = XssUtils.sanitize(malicious);
         assertEquals("", result);
+    }
+
+    @Test
+    public void testSolrIdentifierQuery() throws Exception {
+        // Test the specific identifier query that was failing
+        String query = "identifier:\"urn:nasa:pds:context:resource:resource.a15hfe_calibrated_arcsav_online\"";
+        String result = XssUtils.sanitize(query);
+        
+        // Should preserve quotes and colons for Solr queries
+        assertTrue("Should preserve quotes", result.contains("\""));
+        assertTrue("Should preserve colons", result.contains(":"));
+        assertTrue("Should preserve identifier", result.contains("identifier"));
+        assertTrue("Should preserve urn", result.contains("urn"));
+        assertTrue("Should preserve nasa", result.contains("nasa"));
+        assertTrue("Should preserve pds", result.contains("pds"));
+        assertTrue("Should preserve context", result.contains("context"));
+        assertTrue("Should preserve resource", result.contains("resource"));
+        assertTrue("Should preserve a15hfe", result.contains("a15hfe"));
+        assertTrue("Should preserve calibrated", result.contains("calibrated"));
+        assertTrue("Should preserve arcsav", result.contains("arcsav"));
+        assertTrue("Should preserve online", result.contains("online"));
+        
+        // Should be exactly the same since it's a legitimate query
+        assertEquals("Legitimate Solr query should be unchanged", query, result);
+    }
+
+    @Test
+    public void testSolrWildcardQuery() throws Exception {
+        // Test Solr wildcard queries
+        String query = "q=*:*";
+        String result = XssUtils.sanitize(query);
+        
+        // Should preserve wildcards and colons for Solr queries
+        assertEquals("Wildcard query should be unchanged", query, result);
+    }
+
+    @Test
+    public void testSolrQueryWithXssAttempt() throws Exception {
+        // Test Solr query with XSS attempt embedded
+        String query = "identifier:\"<script>alert('xss')</script>urn:nasa:pds:test\"";
+        String result = XssUtils.sanitize(query);
+        
+        // Should remove XSS but preserve legitimate query structure
+        assertFalse("Should remove script tags", result.contains("<script>"));
+        assertFalse("Should remove alert", result.contains("alert"));
+        assertTrue("Should preserve quotes", result.contains("\""));
+        assertTrue("Should preserve colons", result.contains(":"));
+        assertTrue("Should preserve identifier", result.contains("identifier"));
+        assertTrue("Should preserve urn", result.contains("urn"));
+        assertTrue("Should preserve nasa", result.contains("nasa"));
+        assertTrue("Should preserve pds", result.contains("pds"));
+        assertTrue("Should preserve test", result.contains("test"));
     }
 }
