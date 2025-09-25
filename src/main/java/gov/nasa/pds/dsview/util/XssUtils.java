@@ -1,4 +1,4 @@
-package gov.nasa.pds.dsview.util;
+package gov.nasa.pds.search.util;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -12,7 +12,7 @@ public class XssUtils {
 	// Patterns for Cross-Site Scripting filter.
 	private static Pattern[] xssPatterns = new Pattern[] {
 			// script fragments - complete tags (fixed ReDoS vulnerability)
-			Pattern.compile("<script[^>]*>[^<]*</script>", Pattern.CASE_INSENSITIVE),
+			Pattern.compile("<script[^>]*>[^<]{0,1000}</script>", Pattern.CASE_INSENSITIVE),
 			Pattern.compile("</script>", Pattern.CASE_INSENSITIVE),
 			Pattern.compile("<script[^>]*>", Pattern.CASE_INSENSITIVE),
 			// src='...' and src="..." (fixed ReDoS vulnerability)
@@ -39,19 +39,19 @@ public class XssUtils {
 			Pattern.compile("prompt\\s*\\([^)]{0,1000}\\)", Pattern.CASE_INSENSITIVE),
 			// HTML tags - complete tags including closing tags (fixed ReDoS vulnerability)
 			Pattern.compile("<img[^>]*>", Pattern.CASE_INSENSITIVE),
-			Pattern.compile("<iframe[^>]*>[^<]*</iframe>", Pattern.CASE_INSENSITIVE),
+			Pattern.compile("<iframe[^>]*>[^<]{0,1000}</iframe>", Pattern.CASE_INSENSITIVE),
 			Pattern.compile("<iframe[^>]*>", Pattern.CASE_INSENSITIVE),
 			Pattern.compile("</iframe>", Pattern.CASE_INSENSITIVE),
-			Pattern.compile("<object[^>]*>[^<]*</object>", Pattern.CASE_INSENSITIVE),
+			Pattern.compile("<object[^>]*>[^<]{0,1000}</object>", Pattern.CASE_INSENSITIVE),
 			Pattern.compile("<object[^>]*>", Pattern.CASE_INSENSITIVE),
 			Pattern.compile("</object>", Pattern.CASE_INSENSITIVE),
 			Pattern.compile("<embed[^>]*>", Pattern.CASE_INSENSITIVE),
 			Pattern.compile("<link[^>]*>", Pattern.CASE_INSENSITIVE),
 			Pattern.compile("<meta[^>]*>", Pattern.CASE_INSENSITIVE),
-			Pattern.compile("<style[^>]*>[^<]*</style>", Pattern.CASE_INSENSITIVE),
+			Pattern.compile("<style[^>]*>[^<]{0,1000}</style>", Pattern.CASE_INSENSITIVE),
 			Pattern.compile("<style[^>]*>", Pattern.CASE_INSENSITIVE),
 			Pattern.compile("</style>", Pattern.CASE_INSENSITIVE),
-			Pattern.compile("<form[^>]*>[^<]*</form>", Pattern.CASE_INSENSITIVE),
+			Pattern.compile("<form[^>]*>[^<]{0,1000}</form>", Pattern.CASE_INSENSITIVE),
 			Pattern.compile("<form[^>]*>", Pattern.CASE_INSENSITIVE),
 			Pattern.compile("</form>", Pattern.CASE_INSENSITIVE) };
 
