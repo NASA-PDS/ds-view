@@ -1,5 +1,9 @@
 # Changelog
 
+## [release/2.23.0](https://github.com/NASA-PDS/ds-view/tree/release/2.23.0) (2025-12-16)
+
+[Full Changelog](https://github.com/NASA-PDS/ds-view/compare/v2.22.12...release/2.23.0)
+
 ## [v2.22.12](https://github.com/NASA-PDS/ds-view/tree/v2.22.12) (2025-09-25)
 
 [Full Changelog](https://github.com/NASA-PDS/ds-view/compare/v2.22.9...v2.22.12)
