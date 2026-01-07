@@ -464,8 +464,11 @@ public class PDS4Search {
   private String getAuthors(SolrDocument doc) {
     StringBuilder sb = new StringBuilder();
 
-    getAuthorEditorBlock(doc, Constants.authorOrganizationFields, sb);
-    getAuthorEditorBlock(doc, Constants.authorPersonFields, sb);
+    // Process organization authors
+    processJsonField(doc, Constants.CITATION_AUTHOR_ORGANIZATION_JSON, true, sb);
+
+    // Process person authors
+    processJsonField(doc, Constants.CITATION_AUTHOR_PERSON_JSON, false, sb);
 
     logger.debug("getAuthors: " + sb);
     return sb.toString();
@@ -474,48 +477,148 @@ public class PDS4Search {
   private String getEditors(SolrDocument doc) {
     StringBuilder sb = new StringBuilder();
 
-    getAuthorEditorBlock(doc, Constants.editorOrganizationFields, sb);
-    getAuthorEditorBlock(doc, Constants.editorPersonFields, sb);
+    // Process organization editors
+    processJsonField(doc, Constants.CITATION_EDITOR_ORGANIZATION_JSON, true, sb);
+
+    // Process person editors
+    processJsonField(doc, Constants.CITATION_EDITOR_PERSON_JSON, false, sb);
 
     logger.debug("getEditors: " + sb);
     return sb.toString();
   }
 
-  private void getAuthorEditorBlock(SolrDocument doc, List<String> fields, StringBuilder sb) {
-    logger.debug("Processing fields: " + fields);
-
-    // First, collect all values for each field
-    Map<String, List<Object>> fieldValues = new LinkedHashMap<>();
-    int maxSize = 0;
-
-    for (String field : fields) {
-      Collection<Object> values = doc.getFieldValues(field);
-      if (values != null) {
-        List<Object> valueList = new ArrayList<>(values);
-        fieldValues.put(field, valueList);
-        maxSize = Math.max(maxSize, valueList.size());
-        logger.debug("Found " + valueList.size() + " values for field: " + field);
-      } else {
-        logger.debug("No values found for field: " + field);
-      }
+  /**
+   * Process JSON field containing author/editor information.
+   *
+   * @param doc Solr document
+   * @param fieldName Name of the JSON field to process
+   * @param isOrganization true if processing Organization, false if processing Person
+   * @param sb StringBuilder to append formatted output
+   */
+  private void processJsonField(SolrDocument doc, String fieldName, boolean isOrganization, StringBuilder sb) {
+    Collection<Object> values = doc.getFieldValues(fieldName);
+    if (values == null || values.isEmpty()) {
+      logger.debug("No values found for field: " + fieldName);
+      return;
     }
 
-    // Now transpose the data - iterate by index
-    for (int i = 0; i < maxSize; i++) {
-      logger.debug("Processing group " + (i + 1) + " of " + maxSize);
-      for (String field : fields) {
-        List<Object> values = fieldValues.get(field);
-        if (values != null && i < values.size()) {
-          String value = values.get(i).toString();
-          logger.debug("Adding value for " + field + ": " + value);
-          sb.append(value + " ");
-          if (!field.contains("given_name")) {
-            sb.append("<br />");
-          }
+    logger.debug("Processing " + values.size() + " JSON entries for field: " + fieldName);
+
+    for (Object value : values) {
+      try {
+        String jsonString = value.toString();
+        JSONObject jsonObj = new JSONObject(jsonString);
+
+        if (isOrganization) {
+          formatOrganization(jsonObj, sb);
+        } else {
+          formatPerson(jsonObj, sb);
         }
+
+      } catch (JSONException e) {
+        logger.error("Error parsing JSON for field " + fieldName + ": " + e.getMessage(), e);
+      }
+    }
+  }
+
+  /**
+   * Format Organization JSON object for display.
+   */
+  private void formatOrganization(JSONObject jsonObj, StringBuilder sb) throws JSONException {
+    if (!jsonObj.has("Organization")) {
+      return;
+    }
+
+    JSONObject org = jsonObj.getJSONObject("Organization");
+
+    if (org.has("organization_name")) {
+      String orgName = org.getString("organization_name");
+
+      // Add organization name with ROR link if available
+      if (org.has("organization_rorid")) {
+        String rorUrl = org.getString("organization_rorid");
+        sb.append("<a href=\"").append(rorUrl).append("\" target=\"_blank\">");
+        sb.append(orgName);
+        sb.append("</a>");
+      } else {
+        sb.append(orgName);
       }
       sb.append("<br />");
     }
+  }
+
+  /**
+   * Format Person JSON object for display.
+   */
+  private void formatPerson(JSONObject jsonObj, StringBuilder sb) throws JSONException {
+    if (!jsonObj.has("Person")) {
+      return;
+    }
+
+    JSONObject person = jsonObj.getJSONObject("Person");
+
+    // Determine the person's name
+    String personName = null;
+    if (person.has("given_name") && person.has("family_name")) {
+      personName = person.getString("given_name") + " " + person.getString("family_name");
+    } else if (person.has("display_full_name")) {
+      personName = person.getString("display_full_name");
+    }
+
+    // Add name with ORCID link if available
+    if (personName != null) {
+      if (person.has("person_orcid")) {
+        String orcidUrl = person.getString("person_orcid");
+        sb.append("<a href=\"").append(orcidUrl).append("\" target=\"_blank\">");
+        sb.append(personName);
+        sb.append("</a>");
+      } else {
+        sb.append(personName);
+      }
+      sb.append("<br />");
+    }
+
+    // Add affiliations
+    if (person.has("Affiliation")) {
+      Object affiliation = person.get("Affiliation");
+
+      if (affiliation instanceof JSONArray) {
+        JSONArray affiliations = (JSONArray) affiliation;
+        for (int i = 0; i < affiliations.length(); i++) {
+          JSONObject aff = affiliations.getJSONObject(i);
+          if (aff.has("organization_name")) {
+            String affOrgName = aff.getString("organization_name");
+            // Add affiliation with ROR link if available
+            if (aff.has("organization_rorid")) {
+              String rorUrl = aff.getString("organization_rorid");
+              sb.append("<a href=\"").append(rorUrl).append("\" target=\"_blank\">");
+              sb.append(affOrgName);
+              sb.append("</a>");
+            } else {
+              sb.append(affOrgName);
+            }
+            sb.append("<br />");
+          }
+        }
+      } else if (affiliation instanceof JSONObject) {
+        JSONObject aff = (JSONObject) affiliation;
+        if (aff.has("organization_name")) {
+          String affOrgName = aff.getString("organization_name");
+          // Add affiliation with ROR link if available
+          if (aff.has("organization_rorid")) {
+            String rorUrl = aff.getString("organization_rorid");
+            sb.append("<a href=\"").append(rorUrl).append("\" target=\"_blank\">");
+            sb.append(affOrgName);
+            sb.append("</a>");
+          } else {
+            sb.append(affOrgName);
+          }
+          sb.append("<br />");
+        }
+      }
+    }
+
+    sb.append("<br />");
   }
 
   private String cleanIdentifier(String identifier) {
