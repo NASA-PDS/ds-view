@@ -41,6 +41,7 @@ import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import gov.nasa.pds.dsview.util.HtmlUtils;
 
 /**
  * This class is used by the PDS data set view web interface to retrieve values for building the
@@ -438,12 +439,12 @@ public class PDS4Search {
       } else if (doiResponse.length() == 1) {
         JSONObject jsonResponse = doiResponse.getJSONObject(0);
         String doi = jsonResponse.getString("doi");
-        return "<a href=\"https://doi.org/" + doi + "\">" + doi + "</a>";
+        return HtmlUtils.buildLink("https://doi.org/" + doi, doi, null);
       } else {
         String bestMatchDoi = selectBestMatchingDoi(doiResponse, vid);
-        
+
         if (bestMatchDoi != null) {
-            return "<a href=\"https://doi.org/" + bestMatchDoi + "\">" + bestMatchDoi + "</a>";
+            return HtmlUtils.buildLink("https://doi.org/" + bestMatchDoi, bestMatchDoi, null);
         }
         
         return "Multiple DOIs found. Use <a href=\"/tools/doi/#/search/" + identifier
@@ -537,11 +538,9 @@ public class PDS4Search {
       // Add organization name with ROR link if available
       if (org.has("organization_rorid")) {
         String rorUrl = org.getString("organization_rorid");
-        sb.append("<a href=\"").append(rorUrl).append("\" target=\"_blank\">");
-        sb.append(orgName);
-        sb.append("</a>");
+        sb.append(HtmlUtils.buildLink(rorUrl, orgName, "_blank"));
       } else {
-        sb.append(orgName);
+        sb.append(HtmlUtils.escapeHtml(orgName));
       }
       sb.append("<br />");
     }
@@ -569,11 +568,9 @@ public class PDS4Search {
     if (personName != null) {
       if (person.has("person_orcid")) {
         String orcidUrl = person.getString("person_orcid");
-        sb.append("<a href=\"").append(orcidUrl).append("\" target=\"_blank\">");
-        sb.append(personName);
-        sb.append("</a>");
+        sb.append(HtmlUtils.buildLink(orcidUrl, personName, "_blank"));
       } else {
-        sb.append(personName);
+        sb.append(HtmlUtils.escapeHtml(personName));
       }
       sb.append("<br />");
     }
@@ -591,11 +588,9 @@ public class PDS4Search {
             // Add affiliation with ROR link if available
             if (aff.has("organization_rorid")) {
               String rorUrl = aff.getString("organization_rorid");
-              sb.append("<a href=\"").append(rorUrl).append("\" target=\"_blank\">");
-              sb.append(affOrgName);
-              sb.append("</a>");
+              sb.append(HtmlUtils.buildLink(rorUrl, affOrgName, "_blank"));
             } else {
-              sb.append(affOrgName);
+              sb.append(HtmlUtils.escapeHtml(affOrgName));
             }
             sb.append("<br />");
           }
@@ -607,11 +602,9 @@ public class PDS4Search {
           // Add affiliation with ROR link if available
           if (aff.has("organization_rorid")) {
             String rorUrl = aff.getString("organization_rorid");
-            sb.append("<a href=\"").append(rorUrl).append("\" target=\"_blank\">");
-            sb.append(affOrgName);
-            sb.append("</a>");
+            sb.append(HtmlUtils.buildLink(rorUrl, affOrgName, "_blank"));
           } else {
-            sb.append(affOrgName);
+            sb.append(HtmlUtils.escapeHtml(affOrgName));
           }
           sb.append("<br />");
         }

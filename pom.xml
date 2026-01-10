@@ -37,7 +37,7 @@
         <artifactId>maven-war-plugin</artifactId>
         <version>3.4.0</version>
         <configuration>
-          <warName>${artifactId}</warName>
+          <warName>${project.artifactId}</warName>
           <archive>
             <manifest>
               <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
@@ -134,6 +134,11 @@
 		<artifactId>mockito-junit-jupiter</artifactId>
 		<version>4.11.0</version>
 		<scope>test</scope>
+	</dependency>
+	<dependency>
+		<groupId>org.apache.commons</groupId>
+		<artifactId>commons-text</artifactId>
+		<version>1.11.0</version>
 	</dependency>
   </dependencies>
 
