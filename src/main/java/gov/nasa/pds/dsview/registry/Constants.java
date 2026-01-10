@@ -213,29 +213,11 @@ public class Constants {
     bundleCitationPds4ToRegistry.put("DESCRIPTION", "citation_description");
   }
 
-  public static final List<String> authorOrganizationFields = new ArrayList<String>();
-  static {
-    authorOrganizationFields.add("citation_author_organization_name");
-  }
-
-  public static final List<String> authorPersonFields = new ArrayList<String>();
-  static {
-    authorPersonFields.add("citation_author_person_given_name");
-    authorPersonFields.add("citation_author_person_family_name");
-    authorPersonFields.add("citation_author_person_affiliation_organization_name");
-  }
-
-  public static final List<String> editorOrganizationFields = new ArrayList<String>();
-  static {
-    editorOrganizationFields.add("citation_editor_organization_name");
-  }
-
-  public static final List<String> editorPersonFields = new ArrayList<String>();
-  static {
-    editorPersonFields.add("citation_editor_person_given_name");
-    editorPersonFields.add("citation_editor_person_family_name");
-    editorPersonFields.add("citation_editor_person_affiliation_organization_name");
-  }
+  // JSON-based citation fields (replaces flattened fields)
+  public static final String CITATION_AUTHOR_PERSON_JSON = "citation_author_person_json";
+  public static final String CITATION_AUTHOR_ORGANIZATION_JSON = "citation_author_organization_json";
+  public static final String CITATION_EDITOR_PERSON_JSON = "citation_editor_person_json";
+  public static final String CITATION_EDITOR_ORGANIZATION_JSON = "citation_editor_organization_json";
 
   public static final Map<String, String> bundleContextPds4ToRegistry =
       new LinkedHashMap<String, String>();
