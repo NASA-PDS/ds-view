@@ -63,7 +63,7 @@ else {
    %>
             <tr valign="TOP">
                <td bgcolor="#E7EEF9" width=200 valign=top>
-                  Information not found for dsid <b><%=dsid%></b>. Please verify the value.
+                  Information not found for dsid <b><%=tmpDsid%></b>. Please verify the value.
                </td> 
             </tr>
    <% 
