@@ -1,8 +1,16 @@
 # Changelog
 
-## [release/2.24.0](https://github.com/NASA-PDS/ds-view/tree/release/2.24.0) (2026-01-10)
+## [«unknown»](https://github.com/NASA-PDS/ds-view/tree/«unknown») (2026-02-26)
 
-[Full Changelog](https://github.com/NASA-PDS/ds-view/compare/v2.23.0...release/2.24.0)
+[Full Changelog](https://github.com/NASA-PDS/ds-view/compare/v2.24.0...«unknown»)
+
+**Defects:**
+
+- JSP view pages are vulnerable to HTML/link injection via unsanitized parameter output [\#60](https://github.com/NASA-PDS/ds-view/issues/60)
+
+## [v2.24.0](https://github.com/NASA-PDS/ds-view/tree/v2.24.0) (2026-01-10)
+
+[Full Changelog](https://github.com/NASA-PDS/ds-view/compare/v2.23.0...v2.24.0)
 
 ## [v2.23.0](https://github.com/NASA-PDS/ds-view/tree/v2.23.0) (2025-12-16)
 
