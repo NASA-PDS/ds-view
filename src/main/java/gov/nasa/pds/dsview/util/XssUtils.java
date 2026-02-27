@@ -60,7 +60,9 @@ public class XssUtils {
      * applications. What it basically does is remove all suspicious strings from request parameters
      * before returning them to the application.
      * 
-     * @throws UnsupportedEncodingException
+     * @param value The string to sanitize.
+     * @return The sanitized string.
+     * @throws UnsupportedEncodingException if the encoding is not supported.
      */
     public static String sanitize(String value) throws UnsupportedEncodingException {
 		if (value != null) {

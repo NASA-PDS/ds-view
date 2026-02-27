@@ -61,6 +61,7 @@ public class PDS4Search {
 
   /**
    * Constructor.
+   * @param url The registry URL to connect to.
    */
   public PDS4Search(String url) {
     solrServerUrl = url;
