@@ -86,7 +86,7 @@ public class SwitchingQueryServlet extends HttpServlet {
    * @throws ServletException if an error occurs.
    * @throws IOException if an error occurs.
    */
-  public void doIt(HttpServletRequest req, HttpServletResponse res) {
+  public void doIt(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
     try {
       String resClass = req.getParameter("resclass");
       if (resClass == null || resClass.isEmpty())
