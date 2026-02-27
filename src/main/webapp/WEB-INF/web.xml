@@ -33,10 +33,6 @@
     <servlet-name>switcher</servlet-name>
     <servlet-class>gov.nasa.pds.dsview.servlets.SwitchingQueryServlet</servlet-class>
     <init-param>
-      <param-name>data.product</param-name>
-      <param-value>/pds/viewProductProfile.jsp</param-value>
-    </init-param>
-    <init-param>
       <param-name>data.dataset</param-name>
       <param-value>/pds/viewDataset.jsp</param-value>
     </init-param>
