@@ -1,6 +1,6 @@
 # Changelog
 
-## [«unknown»](https://github.com/NASA-PDS/ds-view/tree/«unknown») (2026-02-26)
+## [«unknown»](https://github.com/NASA-PDS/ds-view/tree/«unknown») (2026-02-27)
 
 [Full Changelog](https://github.com/NASA-PDS/ds-view/compare/v2.24.0...«unknown»)
 
