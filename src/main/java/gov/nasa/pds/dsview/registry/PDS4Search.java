@@ -120,149 +120,129 @@ public class PDS4Search {
   }
 
   public SolrDocumentList getBundles() throws SolrServerException, IOException {
-    Http2SolrClient solr = null;
-    try {
-      solr = new Http2SolrClient.Builder(solrServerUrl).build();
+    Http2SolrClient solr = getSolrClient();
 
-      ModifiableSolrParams params = new ModifiableSolrParams();
+    ModifiableSolrParams params = new ModifiableSolrParams();
 
-      params.add("q", "*");
-      params.set("wt", "xml");
-      params.set("fq", "facet_type:\"1,bundle\"");
+    params.add("q", "*");
+    params.set("wt", "xml");
+    params.set("fq", "facet_type:\"1,bundle\"");
 
-      logger.debug("params = " + params.toString());
-      QueryResponse response =
-          solr.query(params, org.apache.solr.client.solrj.SolrRequest.METHOD.GET);
+    logger.debug("params = " + params.toString());
+    QueryResponse response =
+        solr.query(params, org.apache.solr.client.solrj.SolrRequest.METHOD.GET);
 
-      SolrDocumentList solrResults = response.getResults();
-      logger.debug("numFound = " + solrResults.getNumFound());
+    SolrDocumentList solrResults = response.getResults();
+    logger.debug("numFound = " + solrResults.getNumFound());
 
-      Iterator<SolrDocument> itr = solrResults.iterator();
-      int idx = 0;
-      while (itr.hasNext()) {
-        SolrDocument doc = itr.next();
-        logger.debug("*****************  idx = " + (idx++));
+    Iterator<SolrDocument> itr = solrResults.iterator();
+    int idx = 0;
+    while (itr.hasNext()) {
+      SolrDocument doc = itr.next();
+      logger.debug("*****************  idx = " + (idx++));
 
-        for (Map.Entry<String, Object> entry : doc.entrySet()) {
-          logger.debug("Key = " + entry.getKey() + "       Value = " + entry.getValue());
-        }
+      for (Map.Entry<String, Object> entry : doc.entrySet()) {
+        logger.debug("Key = " + entry.getKey() + "       Value = " + entry.getValue());
       }
-      return solrResults;
-    } finally {
-      solr.close();
     }
+    return solrResults;
   }
 
   public SolrDocumentList getObservationals(int start) throws SolrServerException, IOException {
-    Http2SolrClient solr = null;
-    try {
-      solr = new Http2SolrClient.Builder(solrServerUrl).build();
+    Http2SolrClient solr = getSolrClient();
 
-      ModifiableSolrParams params = new ModifiableSolrParams();
+    ModifiableSolrParams params = new ModifiableSolrParams();
 
-      params.add("q", "*");
-      params.set("wt", "xml");
-      params.set("fq", "facet_type:\"1,observational\"");
-      params.set("start", start);
+    params.add("q", "*");
+    params.set("wt", "xml");
+    params.set("fq", "facet_type:\"1,observational\"");
+    params.set("start", start);
 
-      logger.debug("params = " + params.toString());
-      QueryResponse response =
-          solr.query(params, org.apache.solr.client.solrj.SolrRequest.METHOD.GET);
+    logger.debug("params = " + params.toString());
+    QueryResponse response =
+        solr.query(params, org.apache.solr.client.solrj.SolrRequest.METHOD.GET);
 
-      if (response == null)
-        return null;
+    if (response == null)
+      return null;
 
-      SolrDocumentList solrResults = response.getResults();
-      logger.debug("numFound = " + solrResults.getNumFound());
+    SolrDocumentList solrResults = response.getResults();
+    logger.debug("numFound = " + solrResults.getNumFound());
 
-      Iterator<SolrDocument> itr = solrResults.iterator();
-      int idx = 0;
-      while (itr.hasNext()) {
-        SolrDocument doc = itr.next();
-        logger.debug("*****************  idx = " + (idx++));
-        // log.info(doc.toString());
+    Iterator<SolrDocument> itr = solrResults.iterator();
+    int idx = 0;
+    while (itr.hasNext()) {
+      SolrDocument doc = itr.next();
+      logger.debug("*****************  idx = " + (idx++));
+      // log.info(doc.toString());
 
-        for (Map.Entry<String, Object> entry : doc.entrySet()) {
-          logger.debug("Key = " + entry.getKey() + "       Value = " + entry.getValue());
-        }
+      for (Map.Entry<String, Object> entry : doc.entrySet()) {
+        logger.debug("Key = " + entry.getKey() + "       Value = " + entry.getValue());
       }
-      return solrResults;
-    } finally {
-      solr.close();
     }
+    return solrResults;
   }
 
   public SolrDocumentList getDocuments() throws SolrServerException, IOException {
-    Http2SolrClient solr = null;
-    try {
-      solr = new Http2SolrClient.Builder(solrServerUrl).build();
+    Http2SolrClient solr = getSolrClient();
 
-      ModifiableSolrParams params = new ModifiableSolrParams();
+    ModifiableSolrParams params = new ModifiableSolrParams();
 
-      params.add("q", "*");
-      params.set("wt", "xml");
-      params.set("fq", "facet_type:\"1,document\"");
+    params.add("q", "*");
+    params.set("wt", "xml");
+    params.set("fq", "facet_type:\"1,document\"");
 
-      logger.debug("params = " + params.toString());
-      QueryResponse response =
-          solr.query(params, org.apache.solr.client.solrj.SolrRequest.METHOD.GET);
+    logger.debug("params = " + params.toString());
+    QueryResponse response =
+        solr.query(params, org.apache.solr.client.solrj.SolrRequest.METHOD.GET);
 
-      if (response == null)
-        return null;
+    if (response == null)
+      return null;
 
-      SolrDocumentList solrResults = response.getResults();
-      logger.debug("numFound = " + solrResults.getNumFound());
+    SolrDocumentList solrResults = response.getResults();
+    logger.debug("numFound = " + solrResults.getNumFound());
 
-      Iterator<SolrDocument> itr = solrResults.iterator();
-      int idx = 0;
-      while (itr.hasNext()) {
-        SolrDocument doc = itr.next();
-        logger.debug("*****************  idx = " + (idx++));
-        // log.info(doc.toString());
+    Iterator<SolrDocument> itr = solrResults.iterator();
+    int idx = 0;
+    while (itr.hasNext()) {
+      SolrDocument doc = itr.next();
+      logger.debug("*****************  idx = " + (idx++));
+      // log.info(doc.toString());
 
-        for (Map.Entry<String, Object> entry : doc.entrySet()) {
-          logger.debug("Key = " + entry.getKey() + "       Value = " + entry.getValue());
-        }
+      for (Map.Entry<String, Object> entry : doc.entrySet()) {
+        logger.debug("Key = " + entry.getKey() + "       Value = " + entry.getValue());
       }
-      return solrResults;
-    } finally {
-      solr.close();
     }
+    return solrResults;
   }
 
   public SolrDocument getContext(String identifier) throws SolrServerException, IOException {
-    Http2SolrClient solr = null;
-    try {
-      solr = new Http2SolrClient.Builder(solrServerUrl).build();
+    Http2SolrClient solr = getSolrClient();
 
-      ModifiableSolrParams params = new ModifiableSolrParams();
+    ModifiableSolrParams params = new ModifiableSolrParams();
 
-      params.add("q", "identifier:" + cleanIdentifier(identifier));
-      params.set("wt", "xml");
+    params.add("q", "identifier:" + cleanIdentifier(identifier));
+    params.set("wt", "xml");
 
-      logger.debug("params = " + params.toString());
-      QueryResponse response =
-          solr.query(params, org.apache.solr.client.solrj.SolrRequest.METHOD.GET);
+    logger.debug("params = " + params.toString());
+    QueryResponse response =
+        solr.query(params, org.apache.solr.client.solrj.SolrRequest.METHOD.GET);
 
-      SolrDocumentList solrResults = response.getResults();
-      logger.debug("numFound = " + solrResults.getNumFound());
+    SolrDocumentList solrResults = response.getResults();
+    logger.debug("numFound = " + solrResults.getNumFound());
 
-      Iterator<SolrDocument> itr = solrResults.iterator();
-      SolrDocument doc = null;
-      int idx = 0;
-      while (itr.hasNext()) {
-        doc = itr.next();
-        logger.debug("*****************  idx = " + (idx++));
-        // log.info(doc.toString());
+    Iterator<SolrDocument> itr = solrResults.iterator();
+    SolrDocument doc = null;
+    int idx = 0;
+    while (itr.hasNext()) {
+      doc = itr.next();
+      logger.debug("*****************  idx = " + (idx++));
+      // log.info(doc.toString());
 
-        for (Map.Entry<String, Object> entry : doc.entrySet()) {
-          logger.debug("Key = " + entry.getKey() + "       Value = " + entry.getValue());
-        }
+      for (Map.Entry<String, Object> entry : doc.entrySet()) {
+        logger.debug("Key = " + entry.getKey() + "       Value = " + entry.getValue());
       }
-      return doc;
-    } finally {
-      solr.close();
     }
+    return doc;
   }
 
   public List<String> getValues(SolrDocument doc, String key) {
@@ -295,10 +275,8 @@ public class PDS4Search {
 
   public Map<String, String> getResourceLinks(List<String> resourceRefList)
       throws SolrServerException, IOException {
-    Http2SolrClient solr = null;
-    try {
-      solr = new Http2SolrClient.Builder(solrServerUrl).build();
-      ModifiableSolrParams params = null;
+    Http2SolrClient solr = getSolrClient();
+    ModifiableSolrParams params = null;
 
       Map<String, String> resourceMap = new LinkedHashMap<String, String>();
 
@@ -339,9 +317,6 @@ public class PDS4Search {
         }
       }
       return resourceMap;
-    } finally {
-      solr.close();
-    }
   }
 
   private String getValue(Map.Entry<String, Object> entry) {
