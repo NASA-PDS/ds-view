@@ -64,6 +64,15 @@ public class PDS3Search {
   // Add a singleton Http2SolrClient
   private static final AtomicReference<Http2SolrClient> solrClient = new AtomicReference<>();
 
+  private Http2SolrClient getSolrClient() {
+    return solrClient.updateAndGet(client -> {
+      if (client == null) {
+        return new Http2SolrClient.Builder(solrServerUrl).build();
+      }
+      return client;
+    });
+  }
+
   public void cleanup() {
     Http2SolrClient client = solrClient.getAndSet(null);
     if (client != null) {
@@ -72,11 +81,8 @@ public class PDS3Search {
   }
 
   public SolrDocumentList getDataSetList() throws SolrServerException, IOException {
-    Http2SolrClient solr = null;
-
     try {
-      solr = new Http2SolrClient.Builder(solrServerUrl).build();
-
+      Http2SolrClient solr = getSolrClient();
       ModifiableSolrParams params = new ModifiableSolrParams();
 
       params.add("q", "pds_model_version:pds3");
@@ -108,18 +114,12 @@ public class PDS3Search {
     } catch (Exception ex) {
       logger.error("Error during PDS3 search", ex);
       return null;
-    } finally {
-      if (solr != null)
-        solr.close();
     }
   }
 
   public SolrDocument getDataSet(String identifier) throws SolrServerException, IOException {
-    Http2SolrClient solr = null;
-
     try {
-      solr = new Http2SolrClient.Builder(solrServerUrl).build();
-
+      Http2SolrClient solr = getSolrClient();
       ModifiableSolrParams params = new ModifiableSolrParams();
 
       params.add("q", "pds_model_version:pds3 AND data_set_id:\"" + identifier + "\"");
@@ -165,18 +165,12 @@ public class PDS3Search {
     } catch (Exception ex) {
       logger.error("Error during PDS3 search", ex);
       return null;
-    } finally {
-      if (solr != null)
-        solr.close();
     }
   }
 
   public SolrDocument getMission(String identifier) throws SolrServerException, IOException {
-    Http2SolrClient solr = null;
-
     try {
-      solr = new Http2SolrClient.Builder(solrServerUrl).build();
-
+      Http2SolrClient solr = getSolrClient();
       ModifiableSolrParams params = new ModifiableSolrParams();
 
       params.add("q", "pds_model_version:pds3 AND investigation_name:\"" + identifier + "\"");
@@ -209,18 +203,12 @@ public class PDS3Search {
     } catch (Exception ex) {
       logger.error("Error during PDS3 search", ex);
       return null;
-    } finally {
-      if (solr != null)
-        solr.close();
     }
   }
 
   public SolrDocument getInstHost(String identifier) throws SolrServerException, IOException {
-    Http2SolrClient solr = null;
-
     try {
-      solr = new Http2SolrClient.Builder(solrServerUrl).build();
-
+      Http2SolrClient solr = getSolrClient();
       ModifiableSolrParams params = new ModifiableSolrParams();
 
       params.add("q", "pds_model_version:pds3 AND instrument_host_id:\"" + identifier + "\"");
@@ -253,18 +241,12 @@ public class PDS3Search {
     } catch (Exception ex) {
       logger.error("Error during PDS3 search", ex);
       return null;
-    } finally {
-      if (solr != null)
-        solr.close();
     }
   }
 
   public List<SolrDocument> getInst(String identifier) throws SolrServerException, IOException {
-    Http2SolrClient solr = null;
-
     try {
-      solr = new Http2SolrClient.Builder(solrServerUrl).build();
-
+      Http2SolrClient solr = getSolrClient();
       ModifiableSolrParams params = new ModifiableSolrParams();
 
       params.add("q", "pds_model_version:pds3 AND instrument_id:\"" + identifier + "\"");
@@ -298,18 +280,13 @@ public class PDS3Search {
     } catch (Exception ex) {
       logger.error("Error during PDS3 search", ex);
       return null;
-    } finally {
-      if (solr != null)
-        solr.close();
     }
   }
 
   public SolrDocument getInst(String instId, String instHostId)
       throws SolrServerException, IOException {
-    Http2SolrClient solr = null;
-
     try {
-      solr = new Http2SolrClient.Builder(solrServerUrl).build();
+      Http2SolrClient solr = getSolrClient();
 
       ModifiableSolrParams params = new ModifiableSolrParams();
 
@@ -343,17 +320,12 @@ public class PDS3Search {
     } catch (Exception ex) {
       logger.error("Error during PDS3 search", ex);
       return null;
-    } finally {
-      if (solr != null)
-        solr.close();
     }
   }
 
   public SolrDocument getTarget(String identifier) throws SolrServerException, IOException {
-    Http2SolrClient solr = null;
-
     try {
-      solr = new Http2SolrClient.Builder(solrServerUrl).build();
+      Http2SolrClient solr = getSolrClient();
 
       ModifiableSolrParams params = new ModifiableSolrParams();
 
@@ -389,17 +361,12 @@ public class PDS3Search {
     } catch (Exception ex) {
       logger.error("Error during PDS3 search", ex);
       return null;
-    } finally {
-      if (solr != null)
-        solr.close();
     }
   }
 
   public SolrDocument getResource(String identifier) throws SolrServerException, IOException {
-    Http2SolrClient solr = null;
-
     try {
-      solr = new Http2SolrClient.Builder(solrServerUrl).build();
+      Http2SolrClient solr = getSolrClient();
 
       ModifiableSolrParams params = new ModifiableSolrParams();
 
@@ -431,9 +398,6 @@ public class PDS3Search {
     } catch (Exception ex) {
       logger.error("Error during PDS3 search", ex);
       return null;
-    } finally {
-      if (solr != null)
-        solr.close();
     }
   }
 
